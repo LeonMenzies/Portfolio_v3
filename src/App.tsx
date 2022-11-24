@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import GlobalStyles from "utils/GlobalStyles";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ThemeProvider } from "styled-components";
 
-function App() {
+import About from "pages/about/About";
+import Awards from "pages/awards/Awards";
+import Contact from "pages/contact/Contact";
+import Home from "pages/home/Home";
+import News from "pages/news/News";
+import People from "pages/people/People";
+import Upcoming from "pages/upcoming/Upcoming";
+import NoPage from "pages/no-page/NoPage";
+
+const StyledApp = styled.div``;
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<div />}>
+            <Route index element={<Home />} />
+            <Route path="awards" element={<Awards />} />
+            <Route path="news" element={<News />} />
+            <Route path="people" element={<People />} />
+            <Route path="upcoming" element={<Upcoming />} />
+            <Route path="about" element={<About />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="*" element={<NoPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
-}
+};
 
 export default App;
