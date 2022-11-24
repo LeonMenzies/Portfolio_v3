@@ -1,7 +1,9 @@
 import GlobalStyles from "utils/GlobalStyles";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
+import styled, { ThemeProvider } from "styled-components";
+import { theme } from "utils/Theme";
 
+import TopNav from "components/TopNav";
 import About from "pages/about/About";
 import Awards from "pages/awards/Awards";
 import Contact from "pages/contact/Contact";
@@ -15,19 +17,19 @@ const StyledApp = styled.div``;
 
 const App = () => {
   return (
-    <ThemeProvider>
+    <ThemeProvider theme={theme("dark")}>
+      <GlobalStyles />
       <BrowserRouter>
+        <TopNav />
         <Routes>
-          <Route path="/" element={<div />}>
-            <Route index element={<Home />} />
-            <Route path="awards" element={<Awards />} />
-            <Route path="news" element={<News />} />
-            <Route path="people" element={<People />} />
-            <Route path="upcoming" element={<Upcoming />} />
-            <Route path="about" element={<About />} />
-            <Route path="contact" element={<Contact />} />
-            <Route path="*" element={<NoPage />} />
-          </Route>
+          <Route index element={<Home />} />
+          <Route path="awards" element={<Awards />} />
+          <Route path="news" element={<News />} />
+          <Route path="people" element={<People />} />
+          <Route path="upcoming" element={<Upcoming />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="*" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
