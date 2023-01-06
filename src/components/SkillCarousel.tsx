@@ -26,7 +26,6 @@ const StyledCarousel = styled.div`
     background-color: ${({ theme }) => theme.background};
     position: absolute;
     z-index: 85;
-    
   }
 `;
 
@@ -65,7 +64,7 @@ const SkillCarousel = () => {
           <div>{item}</div>
         ))}
       </Carousel>
-      <div className={"carousel-cover"}>Skills</div>
+      <div className={"carousel-cover"} />
     </StyledCarousel>
   );
 };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { AiFillCaretLeft, AiFillCaretDown } from "react-icons/ai";
 
@@ -11,7 +11,7 @@ const StyledSection = styled.div<StyleTypes>`
   padding: 1rem;
   background: ${({ theme }) => theme.clear};
   .more-info {
-    height: ${({ height }) => height};
+    max-height: ${({ height }) => height};
     transition: 0.5s;
   }
 `;
@@ -25,21 +25,18 @@ const WorkComponent = ({ title, location, details }: Types) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <StyledSection height={open ? "0px" : "240px"}>
+    <StyledSection height={open ? "300px" : "0px"}>
       <div className="title">{title}</div>
       <div className="location">{location}</div>
+      <ul>
+        {details.map((val) => (
+          <li>{val}</li>
+        ))}
+      </ul>
       <div onClick={() => setOpen(!open)}>
         Show More {open ? <AiFillCaretLeft /> : <AiFillCaretDown />}
       </div>
-      <div className="more-info">
-        {!open && (
-          <ul>
-            {details.map((val) => (
-              <li>{val}</li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <div className="more-info">{open && <div>More information</div>}</div>
     </StyledSection>
   );
 };
