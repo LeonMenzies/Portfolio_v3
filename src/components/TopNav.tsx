@@ -1,102 +1,36 @@
-import { NavLink } from "react-router-dom";
 import styled from "styled-components";
-import { AiFillHome, AiFillInfoCircle } from "react-icons/ai";
-import { BsAwardFill, BsFillPeopleFill } from "react-icons/bs";
-import { BiNews } from "react-icons/bi";
-import { MdUpcoming } from "react-icons/md";
-import { IoIosContact } from "react-icons/io";
+import NavItem from "components/Navitem";
+
+import { BiMoon, BiSun } from "react-icons/bi";
+import { themeAtom } from "recoil/theme";
+import { useRecoilState } from "recoil";
 
 const StyledNav = styled.nav`
+  background: ${({ theme }) => theme.clear};
+
   ul {
+    margin: 0;
     list-style-type: none;
     display: flex;
     justify-content: center;
-
-    li {
-      margin: 10px;
-      padding: 5px 5px;
-      display: inline-block;
-      position: relative;
-      color: ${({ theme }) => theme.background};
-
-      ::after {
-        content: "";
-        position: absolute;
-        width: 100%;
-        transform: scaleX(0);
-        height: 2px;
-        bottom: 0;
-        left: 0;
-        background-color: #0087ca;
-        transform-origin: bottom right;
-        transition: transform 0.25s ease-out;
-      }
-
-      :hover::after {
-        transform: scaleX(1);
-        transform-origin: bottom left;
-      }
-      a {
-        color: white;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-
-        span {
-          padding-left: 3px;
-        }
-      }
-    }
+    font-size: 1.3rem;
   }
 `;
 
 const TopNav = () => {
+  const [theme, setTheme] = useRecoilState(themeAtom);
+
   return (
     <StyledNav>
       <ul>
-        <li>
-          <NavLink to="/">
-            <AiFillHome />
-            <span>Home</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/awards">
-            <BsAwardFill />
-            <span>Awards</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/news">
-            <BiNews />
-            <span>News</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/people">
-            <BsFillPeopleFill />
-            <span>People</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/upcoming">
-            <MdUpcoming />
-            <span>Upcoming</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/about">
-            <AiFillInfoCircle />
-            <span>About</span>
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/contact">
-            <IoIosContact />
-            <span>Contact</span>
-          </NavLink>
-        </li>
+        <NavItem to={"/"} title={"About"} />
+        <NavItem to={"/projects"} title={"Projects"} />
+        <NavItem to={"/contact"} title={"Contact"} />
       </ul>
+
+      <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+        {theme === "dark" ? <BiMoon /> : <BiSun />}
+      </button>
     </StyledNav>
   );
 };

@@ -1,5 +1,64 @@
+import { useState } from "react";
+import styled from "styled-components";
+
+const StyledContact = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 5rem;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    background: var(--clear);
+    border-radius: 10px;
+  }
+
+  input,
+  textarea {
+    width: 40vw;
+    border-radius: 10px;
+  }
+`;
+
 const Contact = () => {
-  return <div>Contact</div>;
+  const [status, setStatus] = useState("Submit");
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setStatus("Sending...");
+    const { name, email, message } = e.target.elements;
+    let details = {
+      name: name.value,
+      email: email.value,
+      message: message.value,
+    };
+    let response = await fetch("http://localhost:3001/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(details),
+    });
+    setStatus("Submit");
+    let result = await response.json();
+    alert(result.status);
+  };
+  return (
+    <StyledContact>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="name">Name:</label>
+        <input type="text" id="name" required />
+
+        <label htmlFor="email">Email:</label>
+        <input type="email" id="email" required />
+
+        <label htmlFor="message">Message:</label>
+        <textarea id="message" rows={6} required />
+
+        <button type="submit">{status}</button>
+      </form>
+    </StyledContact>
+  );
 };
 
 export default Contact;
