@@ -3,9 +3,9 @@ import styled from "styled-components";
 interface StyleTypes {
   outline: boolean;
 }
-const ButtonStyle = styled.div<StyleTypes>`
+const StyledButton = styled.button<StyleTypes>`
   background-color: ${({ outline, theme }) => (outline ? "transparent" : theme.clear)};
-  border: 2px solid ${({ theme }) => theme.clear};
+  border: 2px solid ${({ theme }) => theme.textPrimary};
   color: ${({ theme }) => theme.textPrimary};
   padding: 0.5rem;
   font-size: 1.3rem;
@@ -25,13 +25,14 @@ interface Types {
   text: string;
   onClick: any;
   outline: boolean;
+  type: "button" | "submit";
 }
 
-const Button = ({ text, onClick, outline }: Types) => {
+const Button = ({ text, onClick, outline, type }: Types) => {
   return (
-    <ButtonStyle outline={outline} onClick={onClick}>
+    <StyledButton outline={outline} onClick={onClick} type={type}>
       {text}
-    </ButtonStyle>
+    </StyledButton>
   );
 };
 

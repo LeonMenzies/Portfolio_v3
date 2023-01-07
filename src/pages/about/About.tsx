@@ -125,8 +125,18 @@ const About = () => {
       />
 
       <div className="about-footer">
-        <Button text={"Contact"} onClick={() => navigate("/Contact")} outline={false} />
-        <Button text={"Projects"} onClick={() => navigate("/Projects")} outline={true} />
+        <Button
+          text={"Contact"}
+          onClick={() => navigate("/Contact")}
+          outline={false}
+          type={"button"}
+        />
+        <Button
+          text={"Projects"}
+          onClick={() => navigate("/Projects")}
+          outline={true}
+          type={"button"}
+        />
       </div>
     </StyledAbout>
   );

@@ -1,5 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
+import TextField from "components/TextField";
+import Button from "components/Button";
 
 const StyledContact = styled.div`
   display: flex;
@@ -43,19 +45,42 @@ const Contact = () => {
     let result = await response.json();
     alert(result.status);
   };
+
+  const [contactDetails, setContactDetails] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
   return (
     <StyledContact>
       <form onSubmit={handleSubmit}>
         <label htmlFor="name">Name:</label>
-        <input type="text" id="name" required />
+
+        <TextField
+          type={"text"}
+          onChange={(e: any) => setContactDetails(e.target.value)}
+          outline={true}
+          required={true}
+        />
 
         <label htmlFor="email">Email:</label>
-        <input type="email" id="email" required />
+        <TextField
+          type={"email"}
+          onChange={(e: any) => setContactDetails(e.target.value)}
+          outline={true}
+          required={true}
+        />
 
         <label htmlFor="message">Message:</label>
-        <textarea id="message" rows={6} required />
+        <TextField
+          type={"email"}
+          onChange={(e: any) => setContactDetails(e.target.value)}
+          outline={true}
+          required={true}
+        />
 
-        <button type="submit">{status}</button>
+        <Button text={"Submit"} onClick={null} outline={false} type={"submit"} />
       </form>
     </StyledContact>
   );
