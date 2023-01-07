@@ -1,5 +1,13 @@
+import ProjectDisplay from "pages/projects/ProjectDisplay";
+
 const Projects = () => {
-  return <div>Projects</div>;
+  return (
+    <div>
+      <ProjectDisplay />
+      <ProjectDisplay />
+      <ProjectDisplay />
+    </div>
+  );
 };
 
 export default Projects;
