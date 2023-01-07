@@ -20,7 +20,7 @@ const StyledAccessPage = styled.div`
     font-size: 1.5rem;
   }
 
-  .not-found-content {
+  .access-content {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -38,7 +38,8 @@ const AccessPage = () => {
   const [access, setAccess] = useRecoilState(accessAtom);
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
     const myBitArray = sjcl.hash.sha256.hash(accessToken);
     const shaVal = sjcl.codec.hex.fromBits(myBitArray);
 
@@ -55,7 +56,7 @@ const AccessPage = () => {
 
   return (
     <StyledAccessPage>
-      <form className="not-found-content" onSubmit={handleSubmit}>
+      <form className="access-content" onSubmit={handleSubmit}>
         <div className="access-text">Enter Access Token</div>
         <TextField
           type={"password"}

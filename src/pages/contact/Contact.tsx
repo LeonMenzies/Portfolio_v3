@@ -2,11 +2,28 @@ import { useState } from "react";
 import styled from "styled-components";
 import TextField from "components/TextField";
 import Button from "components/Button";
+import TextArea from "components/TextArea";
 
 const StyledContact = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 5rem;
+
+  .contact-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 5rem;
+    padding: 2rem;
+    border-radius: 10px;
+    background: ${({ theme }) => theme.clear};
+    color: ${({ theme }) => theme.textPrimary};
+
+    label {
+      width: 100%;
+    }
+  }
 
   form {
     display: flex;
@@ -25,37 +42,33 @@ const StyledContact = styled.div`
 
 const Contact = () => {
   const [status, setStatus] = useState("Submit");
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    setStatus("Sending...");
-    const { name, email, message } = e.target.elements;
-    let details = {
-      name: name.value,
-      email: email.value,
-      message: message.value,
-    };
-    let response = await fetch("http://localhost:3001/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(details),
-    });
-    setStatus("Submit");
-    let result = await response.json();
-    alert(result.status);
-  };
-
   const [contactDetails, setContactDetails] = useState({
     name: "",
     email: "",
     message: "",
   });
 
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setStatus("Sending...");
+    console.log(contactDetails);
+
+    let response = await fetch("http://localhost:3001/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(contactDetails),
+    });
+    setStatus("Submit");
+    let result = await response.json();
+    alert(result.status);
+  };
+
   return (
     <StyledContact>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name:</label>
+      <form className="contact-content" onSubmit={handleSubmit}>
+        <label htmlFor="name">Name</label>
 
         <TextField
           type={"text"}
@@ -64,7 +77,7 @@ const Contact = () => {
           required={true}
         />
 
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="email">Email</label>
         <TextField
           type={"email"}
           onChange={(e: any) => setContactDetails(e.target.value)}
@@ -72,15 +85,14 @@ const Contact = () => {
           required={true}
         />
 
-        <label htmlFor="message">Message:</label>
-        <TextField
-          type={"email"}
+        <label htmlFor="message">Message</label>
+        <TextArea
           onChange={(e: any) => setContactDetails(e.target.value)}
           outline={true}
           required={true}
         />
 
-        <Button text={"Submit"} onClick={null} outline={false} type={"submit"} />
+        <Button text={status} onClick={null} outline={false} type={"submit"} />
       </form>
     </StyledContact>
   );
