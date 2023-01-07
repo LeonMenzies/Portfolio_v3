@@ -13,22 +13,25 @@ import Projects from "pages/projects/Projects";
 import TopNav from "components/TopNav";
 import NotFound from "pages/helpers/NotFound";
 import AccessPage from "pages/helpers/AccessPage";
-import { Children } from "react";
 
 const App = () => {
+  const themeValue = useRecoilValue(themeAtom);
+  const accessValue = useRecoilValue(accessAtom);
+
   return (
-    <ThemeProvider theme={theme(useRecoilValue(themeAtom))}>
+    <ThemeProvider theme={theme(themeValue)}>
       <GlobalStyles />
       <BrowserRouter>
         <TopNav />
         <Routes>
-          <Route path="access-page" element={<AccessPage />} />
+          <Route
+            element={<ProtectedRoute isAllowed={!accessValue.accessAllowed} redirectPath={"/"} />}
+          >
+            <Route path="access-page" element={<AccessPage />} />
+          </Route>
           <Route
             element={
-              <ProtectedRoute
-                isAllowed={useRecoilValue(accessAtom)}
-                redirectPath={"/access-page"}
-              />
+              <ProtectedRoute isAllowed={accessValue.accessAllowed} redirectPath={"/access-page"} />
             }
           >
             <Route index element={<About />} />

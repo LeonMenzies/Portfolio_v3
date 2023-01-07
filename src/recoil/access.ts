@@ -5,6 +5,9 @@ const { persistAtom } = recoilPersist();
 
 export const accessAtom = atom({
   key: "access",
-  default: true,
+  default: {
+    accessAllowed: false,
+    accessTokens: ["1212", "winnah", "password"],
+  },
   effects_UNSTABLE: [persistAtom],
 });

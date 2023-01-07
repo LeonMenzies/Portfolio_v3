@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import NavItem from "components/Navitem";
 
-import { BiMoon, BiSun } from "react-icons/bi";
+import { BiMoon, BiSun, BiLockAlt } from "react-icons/bi";
 import { themeAtom } from "recoil/theme";
 import { useRecoilState } from "recoil";
+import { accessAtom } from "recoil/access";
 
 const StyledNav = styled.nav`
   background: ${({ theme }) => theme.clear};
@@ -22,27 +23,41 @@ const StyledNav = styled.nav`
     }
   }
 
-  button {
-    border-radius: 50px;
-    height: 2rem;
-    width: 2rem;
-    background-color: transparent;
-    font-size: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: ${({ theme }) => theme.textPrimary};
+  .icon-buttons {
     position: absolute;
-    right: 1rem;
+    right: 0.5rem;
+    display: flex;
 
-    &:hover {
-      cursor: pointer;
+    button {
+      border-radius: 50px;
+      height: 2rem;
+      width: 2rem;
+      background-color: transparent;
+      font-size: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: ${({ theme }) => theme.textPrimary};
+      margin: 0 0.2rem;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 `;
 
 const TopNav = () => {
   const [theme, setTheme] = useRecoilState(themeAtom);
+  const [access, setAccess] = useRecoilState(accessAtom);
+
+  const handleLock = () => {
+    setAccess((e: any) => {
+      let tmp = { ...e };
+      tmp.accessAllowed = false;
+      return tmp;
+    });
+  };
 
   return (
     <StyledNav>
@@ -52,9 +67,12 @@ const TopNav = () => {
         <NavItem to={"/contact"} title={"Contact"} />
       </ul>
 
-      <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-        {theme === "dark" ? <BiMoon /> : <BiSun />}
-      </button>
+      <div className="icon-buttons">
+        {access.accessAllowed && <button onClick={handleLock}>{<BiLockAlt />}</button>}
+        <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+          {theme === "dark" ? <BiMoon /> : <BiSun />}
+        </button>
+      </div>
     </StyledNav>
   );
 };
