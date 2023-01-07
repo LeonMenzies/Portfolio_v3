@@ -29,8 +29,8 @@ const WorkComponent = ({ title, location, details }: Types) => {
       <div className="title">{title}</div>
       <div className="location">{location}</div>
       <ul>
-        {details.map((val) => (
-          <li>{val}</li>
+        {details.map((val, index) => (
+          <li key={index}>{val}</li>
         ))}
       </ul>
       <div onClick={() => setOpen(!open)}>

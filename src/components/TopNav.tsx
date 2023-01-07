@@ -7,6 +7,9 @@ import { useRecoilState } from "recoil";
 
 const StyledNav = styled.nav`
   background: ${({ theme }) => theme.clear};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   ul {
     margin: 0;
@@ -14,6 +17,27 @@ const StyledNav = styled.nav`
     display: flex;
     justify-content: center;
     font-size: 1.3rem;
+    a {
+      color: ${({ theme }) => theme.textPrimary};
+    }
+  }
+
+  button {
+    border-radius: 50px;
+    height: 2rem;
+    width: 2rem;
+    background-color: transparent;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: ${({ theme }) => theme.textPrimary};
+    position: absolute;
+    right: 1rem;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 `;
 

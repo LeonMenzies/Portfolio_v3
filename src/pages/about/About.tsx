@@ -1,9 +1,11 @@
 import styled from "styled-components";
-
 import Button from "components/Button";
+import { AiFillLinkedin, AiFillGithub, AiFillMail } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
+
+import IconButton from "components/IconButton";
 import SkillCarousel from "components/SkillCarousel";
 import ProfilePhoto from "assets/images/profile-photo.jpg";
-
 import WorkComponent from "components/WorkComponent";
 
 const StyledAbout = styled.div`
@@ -25,6 +27,16 @@ const StyledAbout = styled.div`
       .titleName {
         font-size: 6rem;
       }
+
+      .about-socials{
+        display: flex;
+
+      }
+
+      p{
+        background: ${({ theme }) => theme.clear};
+        padding: 1rem;
+      }
     }
   }
 
@@ -36,6 +48,8 @@ const StyledAbout = styled.div`
 `;
 
 const About = () => {
+  const navigate = useNavigate();
+
   return (
     <StyledAbout>
       <div className="about-header">
@@ -43,9 +57,14 @@ const About = () => {
 
         <div className="about-info">
           <div className={"titleName"}>Leon</div>
+          <div className="about-socials">
+            <IconButton icon={<AiFillLinkedin />} onClick={null} outline={false} />
+            <IconButton icon={<AiFillGithub />} onClick={null} outline={false} />
+            <IconButton icon={<AiFillMail />} onClick={null} outline={false} />
+          </div>
           <p>
             Hardworking, responsible, and goal-orientated university student at Victoria University
-            of Wellington studying for a Bachelor’s in computer science with a variety of experience
+            of Wellington studying for a Bachelor's in computer science with a variety of experience
             from years of working, international travel, and education. FILL WITH MORE WRITING
           </p>
         </div>
@@ -106,8 +125,8 @@ const About = () => {
       />
 
       <div className="about-footer">
-        <Button btnText={"Contact"} btnLink={"./Contact"} outline={false} />
-        <Button btnText={"Projects"} btnLink={"./Projects"} outline={true} />
+        <Button text={"Contact"} onClick={() => navigate("/Contact")} outline={false} />
+        <Button text={"Projects"} onClick={() => navigate("/Projects")} outline={true} />
       </div>
     </StyledAbout>
   );

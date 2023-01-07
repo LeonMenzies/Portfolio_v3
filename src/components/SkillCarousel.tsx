@@ -60,8 +60,8 @@ const SkillCarousel = () => {
   return (
     <StyledCarousel>
       <Carousel height={100} width={20000} yOrigin={42} yRadius={48} autoPlay={true}>
-        {iconArray.map((item) => (
-          <div>{item}</div>
+        {iconArray.map((item, index) => (
+          <div key={index}>{item}</div>
         ))}
       </Carousel>
       <div className={"carousel-cover"} />
