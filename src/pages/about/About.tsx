@@ -58,9 +58,21 @@ const About = () => {
         <div className="about-info">
           <div className={"titleName"}>Leon</div>
           <div className="about-socials">
-            <IconButton icon={<AiFillLinkedin />} onClick={null} outline={false} />
-            <IconButton icon={<AiFillGithub />} onClick={null} outline={false} />
-            <IconButton icon={<AiFillMail />} onClick={null} outline={false} />
+            <IconButton
+              icon={<AiFillLinkedin />}
+              onClick={() => window.open("https://www.linkedin.com/in/leonmenzies/", "_blank")}
+              outline={false}
+            />
+            <IconButton
+              icon={<AiFillGithub />}
+              onClick={() => window.open("https://github.com/LeonMenzies", "_blank")}
+              outline={false}
+            />
+            <IconButton
+              icon={<AiFillMail />}
+              onClick={() => navigate("/contact")}
+              outline={false}
+            />
           </div>
           <p>
             Hardworking, responsible, and goal-orientated university student at Victoria University
