@@ -16,6 +16,11 @@ const StyledAbout = styled.div`
     margin-left: 10vw;
     width: 100%;
   }
+  .centered-items{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
   .about-header {
     display: flex;
@@ -27,10 +32,8 @@ const StyledAbout = styled.div`
       .titleName {
         font-size: 6rem;
       }
-
       .about-socials{
         display: flex;
-
       }
 
       p{
@@ -81,74 +84,75 @@ const About = () => {
           </p>
         </div>
       </div>
-
       <SkillCarousel />
 
-      <WorkComponent
-        title={"Full Stack Developer"}
-        location={"New Zealand exchange, Wellington, New Zealand"}
-        details={[
-          "Full-stack development on a variety of applications across NZX's energy department",
-          "Using popular frameworks/libraries such as react, node, Material UI, etc to develop applications",
-          "Performing UAT, DR, and production deployments to keep applications up",
-          "Supporting applications in production as well as deploying new products to customers",
-        ]}
-      />
-
-      <WorkComponent
-        title={"Developer/Tester Intern"}
-        location={"New Zealand exchange, Wellington, New Zealand"}
-        details={[
-          "Full-stack development on a variety of applications across NZX’s energy department",
-          "Building APIs to suite client’s needs",
-          "Testing multiple systems for Energy IT with a broad range of experience from Integration testing, front-end system testing, and database testing",
-        ]}
-      />
-
-      <WorkComponent
-        title={"Educator"}
-        location={"Lululemon, Wellington, New Zealand"}
-        details={[
-          "Educating guests on the technical aspects of garments ranging from active and everyday wear to the advanced property of Lululemon's Hero elements",
-          "Managing allocation shifts for receiving new product.",
-          "Learning technologies for efficient product management including RFID and Xstore 17",
-        ]}
-      />
-
-      <WorkComponent
-        title={"Events Manager"}
-        location={"Sweet Street, Copenhagen, Denmark"}
-        details={[
-          "Helping Manage events for selling pancakes waffles and coffee around Copenhagen, Denmark.",
-          "Making coffee after doing a barista course, baking crepes and waffles for customers.",
-          "Performing various tasks like fixing broken scooters/bikes making excel sheets for orders etc",
-        ]}
-      />
-
-      <WorkComponent
-        title={"Ski Instructor"}
-        location={"Mount Seymour Resort, North Vancouver, Canada"}
-        details={[
-          "Coordinating meetings to assign ski groups to the appropriate levelled instructor.",
-          "Clearly and accurately instructed a variation of different levelled skiers both physically and verbally.",
-          "Provided a safe and fun learning environment through exceptional class handling and creative teaching methods.",
-          "Assisted with boot/equipment fitting, lobby greeting, and other tasks assigned by Manager/Supervisors.",
-        ]}
-      />
-
-      <div className="about-footer">
-        <Button
-          text={"Contact"}
-          onClick={() => navigate("/Contact")}
-          outline={false}
-          type={"button"}
+      <div className="centered-items">
+        <WorkComponent
+          title={"Full Stack Developer"}
+          location={"New Zealand exchange, Wellington, New Zealand"}
+          details={[
+            "Full-stack development on a variety of applications across NZX's energy department",
+            "Using popular frameworks/libraries such as react, node, Material UI, etc to develop applications",
+            "Performing UAT, DR, and production deployments to keep applications up",
+            "Supporting applications in production as well as deploying new products to customers",
+          ]}
         />
-        <Button
-          text={"Projects"}
-          onClick={() => navigate("/Projects")}
-          outline={true}
-          type={"button"}
+
+        <WorkComponent
+          title={"Developer/Tester Intern"}
+          location={"New Zealand exchange, Wellington, New Zealand"}
+          details={[
+            "Full-stack development on a variety of applications across NZX’s energy department",
+            "Building APIs to suite client’s needs",
+            "Testing multiple systems for Energy IT with a broad range of experience from Integration testing, front-end system testing, and database testing",
+          ]}
         />
+
+        <WorkComponent
+          title={"Educator"}
+          location={"Lululemon, Wellington, New Zealand"}
+          details={[
+            "Educating guests on the technical aspects of garments ranging from active and everyday wear to the advanced property of Lululemon's Hero elements",
+            "Managing allocation shifts for receiving new product.",
+            "Learning technologies for efficient product management including RFID and Xstore 17",
+          ]}
+        />
+
+        <WorkComponent
+          title={"Events Manager"}
+          location={"Sweet Street, Copenhagen, Denmark"}
+          details={[
+            "Helping Manage events for selling pancakes waffles and coffee around Copenhagen, Denmark.",
+            "Making coffee after doing a barista course, baking crepes and waffles for customers.",
+            "Performing various tasks like fixing broken scooters/bikes making excel sheets for orders etc",
+          ]}
+        />
+
+        <WorkComponent
+          title={"Ski Instructor"}
+          location={"Mount Seymour Resort, North Vancouver, Canada"}
+          details={[
+            "Coordinating meetings to assign ski groups to the appropriate levelled instructor.",
+            "Clearly and accurately instructed a variation of different levelled skiers both physically and verbally.",
+            "Provided a safe and fun learning environment through exceptional class handling and creative teaching methods.",
+            "Assisted with boot/equipment fitting, lobby greeting, and other tasks assigned by Manager/Supervisors.",
+          ]}
+        />
+
+        <div className="about-footer">
+          <Button
+            text={"Contact"}
+            onClick={() => navigate("/Contact")}
+            outline={false}
+            type={"button"}
+          />
+          <Button
+            text={"Projects"}
+            onClick={() => navigate("/Projects")}
+            outline={true}
+            type={"button"}
+          />
+        </div>
       </div>
     </StyledAbout>
   );

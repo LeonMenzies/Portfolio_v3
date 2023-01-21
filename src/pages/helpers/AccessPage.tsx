@@ -63,8 +63,8 @@ const AccessPage = () => {
           onChange={(e: any) => setAccessToken(e.target.value)}
           outline={true}
           required={true}
+          id={"access-token"}
         />
-
         <Button text={"Submit"} onClick={null} outline={false} type={"submit"} />
       </form>
     </StyledAccessPage>

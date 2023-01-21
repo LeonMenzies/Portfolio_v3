@@ -5,17 +5,23 @@ interface StyleTypes {
 }
 const StyledTextField = styled.div<StyleTypes>`
   background-color: ${({ outline, theme }) => (outline ? "transparent" : theme.clear)};
-  border: 2px solid ${({ theme }) => theme.textPrimary};
   color: ${({ theme }) => theme.textPrimary};
   padding: 0.5rem;
-  border-radius: 3px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   margin: 0.2rem;
+  flex-direction: column;
+  width: 100%;
+
+  label {
+    font-size: 1.2rem;
+  }
 
   input {
-    background-color: transparent;
+    padding: 0.2rem;
+    width: 100%;
+    background-color: ${({ theme }) => theme.clearSeconday};
     border: none;
     font-size: 1.3rem;
     color: ${({ theme }) => theme.textPrimary};
@@ -24,16 +30,19 @@ const StyledTextField = styled.div<StyleTypes>`
 `;
 
 interface Types {
-  onChange: any;
+  onChange: (e: any) => void;
   outline: boolean;
   type: "text" | "password" | "email";
   required: boolean;
+  id: string;
+  title?: string;
 }
 
-const TextField = ({ onChange, outline, type, required }: Types) => {
+const TextField = ({ onChange, outline, type, required, id, title }: Types) => {
   return (
     <StyledTextField outline={outline}>
-      <input type={type} onChange={onChange} required />
+      {title && <label htmlFor={id}>{title}</label>}
+      <input id={id} type={type} onChange={onChange} required={required} />
     </StyledTextField>
   );
 };

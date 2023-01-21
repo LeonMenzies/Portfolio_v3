@@ -10,6 +10,8 @@ const StyledContact = styled.div`
   margin-top: 5rem;
 
   .contact-content {
+    width: 40vw;
+    min-width: 320px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -19,24 +21,6 @@ const StyledContact = styled.div`
     border-radius: 10px;
     background: ${({ theme }) => theme.clear};
     color: ${({ theme }) => theme.textPrimary};
-
-    label {
-      width: 100%;
-    }
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    padding: 2rem;
-    background: var(--clear);
-    border-radius: 10px;
-  }
-
-  input,
-  textarea {
-    width: 40vw;
-    border-radius: 10px;
   }
 `;
 
@@ -68,30 +52,29 @@ const Contact = () => {
   return (
     <StyledContact>
       <form className="contact-content" onSubmit={handleSubmit}>
-        <label htmlFor="name">Name</label>
-
         <TextField
           type={"text"}
           onChange={(e: any) => setContactDetails(e.target.value)}
           outline={true}
           required={true}
+          id={"name"}
+          title={"Name"}
         />
-
-        <label htmlFor="email">Email</label>
         <TextField
           type={"email"}
           onChange={(e: any) => setContactDetails(e.target.value)}
           outline={true}
           required={true}
+          id={"email"}
+          title={"Email"}
         />
-
-        <label htmlFor="message">Message</label>
         <TextArea
           onChange={(e: any) => setContactDetails(e.target.value)}
           outline={true}
           required={true}
+          id={"message"}
+          title={"Message"}
         />
-
         <Button text={status} onClick={null} outline={false} type={"submit"} />
       </form>
     </StyledContact>

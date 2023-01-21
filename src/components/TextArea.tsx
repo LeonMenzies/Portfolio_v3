@@ -5,22 +5,29 @@ interface StyleTypes {
 }
 const StyledTextArea = styled.div<StyleTypes>`
   background-color: ${({ outline, theme }) => (outline ? "transparent" : theme.clear)};
-  border: 2px solid ${({ theme }) => theme.textPrimary};
   color: ${({ theme }) => theme.textPrimary};
   padding: 0.5rem;
-  border-radius: 3px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   margin: 0.2rem;
+  flex-direction: column;
+  width: 100%;
+
+  label {
+    font-size: 1.2rem;
+  }
 
   textarea {
-    background-color: transparent;
+    padding: 0.2rem;
+    padding: 0.2rem;
+    width: 100%;
+    background-color: ${({ theme }) => theme.clearSeconday};
     border: none;
-    resize: vertical;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: ${({ theme }) => theme.textPrimary};
     outline-width: 0;
+    resize: vertical;
   }
 `;
 
@@ -28,12 +35,15 @@ interface Types {
   onChange: any;
   outline: boolean;
   required: boolean;
+  id: string;
+  title: string;
 }
 
-const TextArea = ({ onChange, outline, required }: Types) => {
+const TextArea = ({ onChange, outline, required, id, title }: Types) => {
   return (
     <StyledTextArea outline={outline}>
-      <textarea onChange={onChange} rows={5} required={required} />
+      <label htmlFor={id}>{title}</label>
+      <textarea id={id} onChange={onChange} rows={5} required={required} />
     </StyledTextArea>
   );
 };

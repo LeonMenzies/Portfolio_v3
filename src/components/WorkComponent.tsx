@@ -10,6 +10,8 @@ const StyledSection = styled.div<StyleTypes>`
   margin: 1rem 10rem;
   padding: 1rem;
   background: ${({ theme }) => theme.clear};
+  width: 80vw;
+  min-width: 400px;
   .more-info {
     max-height: ${({ height }) => height};
     transition: 0.5s;

@@ -45,6 +45,12 @@ const StyledNav = styled.nav`
       }
     }
   }
+
+  @media only screen and (max-width: 600px) {
+    ul {
+      flex-direction: column;
+    }
+  }
 `;
 
 const TopNav = () => {
@@ -64,6 +70,7 @@ const TopNav = () => {
       <ul>
         <NavItem to={"/"} title={"About"} />
         <NavItem to={"/projects"} title={"Projects"} />
+        <NavItem to={"/downloads"} title={"Downloads"} />
         <NavItem to={"/contact"} title={"Contact"} />
       </ul>
 
