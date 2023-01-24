@@ -57,5 +57,8 @@
     "@types/styled-components": "^5.1.26",
     "gh-pages": "^5.0.0"
   },
+  "browser": {
+    "crypto": false
+  },
   "homepage": "https://github.com/LeonMenzies/Portfolio_v3"
 }
