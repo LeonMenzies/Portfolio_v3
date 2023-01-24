@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Button from "components/Button";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useRecoilState } from "recoil";
 import { accessAtom } from "recoil/access";
 import { useNavigate } from "react-router-dom";
@@ -60,12 +60,12 @@ const AccessPage = () => {
         <div className="access-text">Enter Access Token</div>
         <TextField
           type={"password"}
-          onChange={(e: any) => setAccessToken(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setAccessToken(e.target.value)}
           outline={true}
           required={true}
           id={"access-token"}
         />
-        <Button text={"Submit"} onClick={null} outline={false} type={"submit"} />
+        <Button text={"Submit"} outline={false} type={"submit"} />
       </form>
     </StyledAccessPage>
   );

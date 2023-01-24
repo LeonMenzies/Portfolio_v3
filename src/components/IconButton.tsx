@@ -23,8 +23,8 @@ const StyledIconButton = styled.div<StyleTypes>`
 `;
 
 interface Types {
-  icon: any;
-  onClick: any;
+  icon: JSX.Element;
+  onClick: React.MouseEventHandler<HTMLDivElement> | undefined;
   outline: boolean;
   disabled?: any;
 }

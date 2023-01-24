@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react";
 import styled from "styled-components";
 
 interface StyleTypes {
@@ -30,7 +31,7 @@ const StyledTextField = styled.div<StyleTypes>`
 `;
 
 interface Types {
-  onChange: (e: any) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   outline: boolean;
   type: "text" | "password" | "email";
   required: boolean;

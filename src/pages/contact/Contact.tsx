@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import TextField from "components/TextField";
 import Button from "components/Button";
@@ -75,7 +75,7 @@ const Contact = () => {
           id={"message"}
           title={"Message"}
         />
-        <Button text={status} onClick={null} outline={false} type={"submit"} />
+        <Button text={status} outline={false} type={"submit"} />
       </form>
     </StyledContact>
   );

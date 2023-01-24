@@ -76,7 +76,7 @@ const ProjectDisplay = ({ item }: Types) => {
             <div className="project-description">{item.description}</div>
             <div className="project-key-points">
               <ul>
-                {item.keyPoints.map((item: any, index: any) => (
+                {item.keyPoints.map((item: string, index: number) => (
                   <li key={index}>{item}</li>
                 ))}
               </ul>
@@ -114,7 +114,7 @@ const ProjectDisplay = ({ item }: Types) => {
             autoFocus={false}
           >
             {item.imageLinks.map((image: any, index: number) => (
-              <div>
+              <div key={index}>
                 <img alt={image.alt} src={image.link} />
               </div>
             ))}

@@ -7,11 +7,14 @@ const StyledComponents = styled.div`
     align-items: center;
     justify-content: space-around;
     flex-direction: row;
-    margin: 2rem;
-    padding: 2rem;
-    border-radius: 10px;
-    background: ${({ theme }) => theme.clear};
-    color: ${({ theme }) => theme.textPrimary};
+
+    table {
+      margin: 2rem;
+      padding: 2rem;
+      border-radius: 10px;
+      background: ${({ theme }) => theme.clear};
+      color: ${({ theme }) => theme.textPrimary};
+    }
 
     td,
     th {
@@ -36,13 +39,16 @@ const Downloads = () => {
               <th>Description</th>
               <th>Download</th>
             </tr>
-            <DownloadsItem name={"CV"} description={"My most up to date CV"} link={"link"} />
+            <DownloadsItem
+              name={"CV"}
+              description={"My most up to date CV"}
+              link={"assets/Resume_current.pdf"}
+            />
             <DownloadsItem
               name={"Transcript"}
               description={"My university transcript with my final grades and achievments"}
-              link={"link"}
+              link={"assets/Transcript.pdf"}
             />
-            <DownloadsItem name={"CV"} description={"My most up to date CV"} link={"link"} />
           </tbody>
         </table>
       </div>
