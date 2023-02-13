@@ -28,11 +28,11 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy" : "npm run build",
+    "deploy" : "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "predeploy" : "npm run build",
-    "deploy" : "gh-pages -d build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
@@ -60,5 +60,6 @@
   "browser": {
     "crypto": false
   },
-  "homepage": "https://github.com/LeonMenzies/Portfolio_v3"
+  "homepage": "http://LeonMenzies.github.io/Portfolio_v3"
 }
+
