@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/Portfolio_v3/static/css/main.8eb20739.css",
-    "main.js": "/Portfolio_v3/static/js/main.47630fb8.js",
-    "static/media/vancouver-background.jpg": "/Portfolio_v3/static/media/vancouver-background.a10c0c3948bce20e4486.jpg",
-    "static/media/profile-photo.jpg": "/Portfolio_v3/static/media/profile-photo.f264541b2893ad4cd8eb.jpg",
-    "index.html": "/Portfolio_v3/index.html",
-    "main.8eb20739.css.map": "/Portfolio_v3/static/css/main.8eb20739.css.map",
-    "main.47630fb8.js.map": "/Portfolio_v3/static/js/main.47630fb8.js.map"
+    "main.css": "/leonmenzies.com/static/css/main.8eb20739.css",
+    "main.js": "/leonmenzies.com/static/js/main.eac9c552.js",
+    "static/media/vancouver-background.jpg": "/leonmenzies.com/static/media/vancouver-background.a10c0c3948bce20e4486.jpg",
+    "static/media/profile-photo.jpg": "/leonmenzies.com/static/media/profile-photo.f264541b2893ad4cd8eb.jpg",
+    "index.html": "/leonmenzies.com/index.html",
+    "main.8eb20739.css.map": "/leonmenzies.com/static/css/main.8eb20739.css.map",
+    "main.eac9c552.js.map": "/leonmenzies.com/static/js/main.eac9c552.js.map"
   },
   "entrypoints": [
     "static/css/main.8eb20739.css",
-    "static/js/main.47630fb8.js"
+    "static/js/main.eac9c552.js"
   ]
 }
