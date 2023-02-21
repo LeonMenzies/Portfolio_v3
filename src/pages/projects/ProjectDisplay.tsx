@@ -35,6 +35,25 @@ const StyledProjectDisplay = styled.div<StyleTypes>`
       justify-content: space-between;
     }
 
+    .title-section {
+      display: flex;
+      justify-content: space-between;
+      .project-title {
+        padding: 0.2rem 0.5rem;
+        font-size: 1.5rem;
+        border-radius: 20px;
+        border: 2px solid ${({ theme }) => theme.textPrimary};
+      }
+
+      .wip {
+        padding: 0.2rem 0.5rem;
+        font-size: 1.5rem;
+        border-radius: 20px;
+        border: 2px solid ${({ theme }) => theme.darkRed};
+        color: ${({ theme }) => theme.darkRed};
+      }
+    }
+
     .project-description {
       overflow-wrap: break-word;
       inline-size: 30vw;
@@ -63,6 +82,7 @@ interface Types {
     complete: boolean;
     githubLink: string | undefined;
     websiteLink: string | undefined;
+    wip: boolean;
   };
 }
 
@@ -72,7 +92,10 @@ const ProjectDisplay = ({ item }: Types) => {
       <div className="project-display-content">
         <div className="project-about-section">
           <div>
-            <div className="project-title">{item.title}</div>
+            <div className="title-section">
+              <div className="project-title">{item.title}</div>
+              {item.wip && <div className="wip">WIP</div>}
+            </div>
             <div className="project-description">{item.description}</div>
             <div className="project-key-points">
               <ul>

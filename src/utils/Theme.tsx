@@ -9,6 +9,7 @@ export const theme = (mode: string) => {
         clear: "rgba(50, 50, 50, 0.8)",
         clearSeconday: "rgba(29, 29, 29, 0.723)",
         disabled: "#4c4c4c",
+        darkRed: "#700000",
       }
     : {
         background: "#6c799a",
@@ -19,5 +20,6 @@ export const theme = (mode: string) => {
         clear: "rgba(50, 50, 50, 0.8)",
         clearSeconday: "rgba(50, 50, 50, 0.8)",
         disabled: "#4c4c4c",
+        darkRed: "#700000",
       };
 };

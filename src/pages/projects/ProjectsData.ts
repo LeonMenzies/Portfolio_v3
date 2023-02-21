@@ -18,6 +18,7 @@ export const data = [
     websiteLink: undefined,
     flexDirection: "row",
     complete: false,
+    wip: true,
   },
   {
     title: "GymTime",
@@ -40,6 +41,7 @@ export const data = [
     ],
     flexDirection: "row-reverse",
     complete: false,
+    wip: true,
   },
   {
     title: "Scrum Dinger",
@@ -58,5 +60,6 @@ export const data = [
     ],
     flexDirection: "row",
     complete: true,
+    wip: true,
   },
 ];
