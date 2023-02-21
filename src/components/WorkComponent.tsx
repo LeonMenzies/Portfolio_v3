@@ -22,8 +22,9 @@ interface Types {
   title: string;
   location: string;
   details: string[];
+  moreInfo: string;
 }
-const WorkComponent = ({ title, location, details }: Types) => {
+const WorkComponent = ({ title, location, details, moreInfo }: Types) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -38,7 +39,7 @@ const WorkComponent = ({ title, location, details }: Types) => {
       <div onClick={() => setOpen(!open)}>
         Show More {open ? <AiFillCaretLeft /> : <AiFillCaretDown />}
       </div>
-      <div className="more-info">{open && <div>More information</div>}</div>
+      <div className="more-info">{open && <div>{moreInfo}</div>}</div>
     </StyledSection>
   );
 };

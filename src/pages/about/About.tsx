@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Button from "components/Button";
 import { AiFillLinkedin, AiFillGithub, AiFillMail } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { data } from "pages/about/AboutData";
 
 import IconButton from "components/IconButton";
 import SkillCarousel from "components/SkillCarousel";
@@ -93,66 +94,22 @@ const About = () => {
             science degree and has a variety of experience from years of working, international
             travel, and education
           </p>
-
-          <p>Email: leon.menzies@gmail.com</p>
         </div>
       </div>
       <SkillCarousel />
 
       <div className="centered-items">
-        <WorkComponent
-          title={"Full Stack Developer"}
-          location={"New Zealand exchange, Wellington, New Zealand"}
-          details={[
-            "Full-stack development on a variety of applications across NZX's energy department",
-            "Using popular frameworks/libraries such as react, node, Material UI, etc to develop applications",
-            "Performing UAT, DR, and production deployments to keep applications up",
-            "Supporting applications in production as well as deploying new products to customers",
-          ]}
-        />
-
-        <WorkComponent
-          title={"Developer/Tester Intern"}
-          location={"New Zealand exchange, Wellington, New Zealand"}
-          details={[
-            "Full-stack development on a variety of applications across NZX’s energy department",
-            "Building APIs to suite client’s needs",
-            "Testing multiple systems for Energy IT with a broad range of experience from Integration testing, front-end system testing, and database testing",
-          ]}
-        />
-
-        <WorkComponent
-          title={"Educator"}
-          location={"Lululemon, Wellington, New Zealand"}
-          details={[
-            "Educating guests on the technical aspects of garments ranging from active and everyday wear to the advanced property of Lululemon's Hero elements",
-            "Managing allocation shifts for receiving new product.",
-            "Learning technologies for efficient product management including RFID and Xstore 17",
-          ]}
-        />
-
-        <WorkComponent
-          title={"Events Manager"}
-          location={"Sweet Street, Copenhagen, Denmark"}
-          details={[
-            "Helping Manage events for selling pancakes waffles and coffee around Copenhagen, Denmark.",
-            "Making coffee after doing a barista course, baking crepes and waffles for customers.",
-            "Performing various tasks like fixing broken scooters/bikes making excel sheets for orders etc",
-          ]}
-        />
-
-        <WorkComponent
-          title={"Ski Instructor"}
-          location={"Mount Seymour Resort, North Vancouver, Canada"}
-          details={[
-            "Coordinating meetings to assign ski groups to the appropriate levelled instructor.",
-            "Clearly and accurately instructed a variation of different levelled skiers both physically and verbally.",
-            "Provided a safe and fun learning environment through exceptional class handling and creative teaching methods.",
-            "Assisted with boot/equipment fitting, lobby greeting, and other tasks assigned by Manager/Supervisors.",
-          ]}
-        />
-
         <div className="about-footer">
+          {data.map((item: any, index: number) => (
+            <WorkComponent
+              key={index}
+              title={item.tile}
+              location={item.location}
+              details={item.details}
+              moreInfo={item.moreInfo}
+            />
+          ))}
+
           <Button text={"Top"} onClick={topFunction} outline={false} type={"button"} />
         </div>
       </div>
