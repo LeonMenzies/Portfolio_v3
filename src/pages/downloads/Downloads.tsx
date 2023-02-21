@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import DownloadsItem from "pages/downloads/DownloadsItem";
 
+import resume from "assets/files/Resume_Current";
+import document from "assets/files/Documents";
+import transcript from "assets/files/Transcript";
+
 const StyledComponents = styled.div`
   .downloads-table {
     display: flex;
@@ -39,15 +43,16 @@ const Downloads = () => {
               <th>Description</th>
               <th>Download</th>
             </tr>
-            <DownloadsItem
-              name={"CV"}
-              description={"My most up to date CV"}
-              link={"assets/Resume_current.pdf"}
-            />
+            <DownloadsItem name={"CV"} description={"My most up to date CV"} link={resume} />
             <DownloadsItem
               name={"Transcript"}
               description={"My university transcript with my final grades and achievments"}
-              link={"assets/Transcript.pdf"}
+              link={transcript}
+            />
+            <DownloadsItem
+              name={"Graduation Certificate"}
+              description={"The Certificate I was awarded for completing my bacholar of science"}
+              link={document}
             />
           </tbody>
         </table>

@@ -5,7 +5,6 @@ import { BiMoon, BiSun, BiLockAlt } from "react-icons/bi";
 import { themeAtom } from "recoil/theme";
 import { useRecoilState } from "recoil";
 import { accessAtom } from "recoil/access";
-import { ChangeEvent } from "react";
 
 const StyledNav = styled.nav`
   background: ${({ theme }) => theme.clear};
