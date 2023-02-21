@@ -53,6 +53,11 @@ const StyledAbout = styled.div`
 const About = () => {
   const navigate = useNavigate();
 
+  function topFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  }
+
   return (
     <StyledAbout>
       <div className="about-header">
@@ -80,8 +85,16 @@ const About = () => {
           <p>
             Hardworking, responsible, and goal-orientated university student at Victoria University
             of Wellington studying for a Bachelor's in computer science with a variety of experience
-            from years of working, international travel, and education. FILL WITH MORE WRITING
+            from years of working, international travel, and education.
           </p>
+          <p>
+            Write a first person intro about Leon Menzies who is Hardworking, responsible, and
+            goal-orientated who graduated from Victoria University of Wellington with a computer
+            science degree and has a variety of experience from years of working, international
+            travel, and education
+          </p>
+
+          <p>Email: leon.menzies@gmail.com</p>
         </div>
       </div>
       <SkillCarousel />
@@ -140,18 +153,7 @@ const About = () => {
         />
 
         <div className="about-footer">
-          <Button
-            text={"Contact"}
-            onClick={() => navigate("/Contact")}
-            outline={false}
-            type={"button"}
-          />
-          <Button
-            text={"Projects"}
-            onClick={() => navigate("/Projects")}
-            outline={true}
-            type={"button"}
-          />
+          <Button text={"Top"} onClick={topFunction} outline={false} type={"button"} />
         </div>
       </div>
     </StyledAbout>

@@ -7,7 +7,6 @@ import { themeAtom } from "recoil/theme";
 import { accessAtom } from "recoil/access";
 
 import ProtectedRoute from "utils/ProtectedRoute";
-import Contact from "pages/contact/Contact";
 import About from "pages/about/About";
 import Downloads from "pages/downloads/Downloads";
 import Projects from "pages/projects/Projects";
@@ -38,7 +37,6 @@ const App = () => {
             Downloads
             <Route index element={<About />} />
             <Route path="projects" element={<Projects />} />
-            <Route path="contact" element={<Contact />} />
             <Route path="downloads" element={<Downloads />} />
             <Route path="*" element={<NotFound />} />
           </Route>

@@ -71,7 +71,6 @@ const TopNav = () => {
         <NavItem to={"/"} title={"About"} />
         <NavItem to={"/projects"} title={"Projects"} />
         <NavItem to={"/downloads"} title={"Downloads"} />
-        <NavItem to={"/contact"} title={"Contact"} />
       </ul>
 
       <div className="icon-buttons">
