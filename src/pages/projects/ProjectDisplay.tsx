@@ -38,19 +38,21 @@ const StyledProjectDisplay = styled.div<StyleTypes>`
     .title-section {
       display: flex;
       justify-content: space-between;
+
       .project-title {
         padding: 0.2rem 0.5rem;
         font-size: 1.5rem;
         border-radius: 20px;
-        border: 2px solid ${({ theme }) => theme.textPrimary};
+        border: 2px solid ${({ theme }) => theme.secondary};
+        color: ${({ theme }) => theme.secondary};
       }
 
       .wip {
         padding: 0.2rem 0.5rem;
         font-size: 1.5rem;
         border-radius: 20px;
-        border: 2px solid ${({ theme }) => theme.darkRed};
-        color: ${({ theme }) => theme.darkRed};
+        border: 2px solid white;
+        color: white;
       }
     }
 
@@ -67,6 +69,12 @@ const StyledProjectDisplay = styled.div<StyleTypes>`
       width: 40%;
       img {
         object-fit: cover;
+      }
+
+      .control-dots {
+        li {
+          background: ${({ theme }) => theme.secondary};
+        }
       }
     }
   }

@@ -11,12 +11,7 @@ import WorkComponent from "components/WorkComponent";
 
 const StyledAbout = styled.div`
   color: white;
-  
-  img {
-    max-width: 30vw;
-    margin-left: 10vw;
-    width: 100%;
-  }
+
   .centered-items{
     display: flex;
     flex-direction: column;
@@ -27,11 +22,20 @@ const StyledAbout = styled.div`
     display: flex;
     padding: 1rem;
 
+    img {
+      height: 500px;
+      width: 100%;
+      object-fit: cover;
+      margin-left: 0.5rem;
+    }
+
     .about-info{
       padding 0.5rem;
 
       .titleName {
         font-size: 6rem;
+        color: ${({ theme }) => theme.secondary};
+
       }
       .about-socials{
         display: flex;
@@ -84,32 +88,44 @@ const About = () => {
             />
           </div>
           <p>
-            Hardworking, responsible, and goal-orientated university student at Victoria University
-            of Wellington studying for a Bachelor's in computer science with a variety of experience
-            from years of working, international travel, and education.
-          </p>
-          <p>
-            Write a first person intro about Leon Menzies who is Hardworking, responsible, and
-            goal-orientated who graduated from Victoria University of Wellington with a computer
-            science degree and has a variety of experience from years of working, international
-            travel, and education
+            Hi there, my name is Leon Menzies, and I'm excited to share a little bit about myself. I
+            am a hardworking, responsible, and goal-oriented individual who graduated from Victoria
+            University of Wellington with a computer science degree. My passion for technology and
+            problem-solving has driven me to pursue a career in the tech industry, and I've gained a
+            variety of experience over the years through my work, international travel, and
+            education.
+            <br />
+            <br />
+            Over the years, I have gained a wealth of experience through a variety of professional
+            roles, international travel, and continued education. I believe that learning is a
+            lifelong process, and I'm always looking for ways to expand my knowledge and skillset.
+            <br />
+            <br />
+            My work ethic has always been a driving force in my life, and I take pride in my ability
+            to stay focused and productive even in the face of adversity. I'm a firm believer in
+            setting goals and working hard to achieve them, and I've applied this philosophy to both
+            my personal and professional life.
+            <br />
+            <br />
+            Overall, I'm a passionate and dedicated individual who is always looking for ways to
+            grow and improve. I'm excited to see what the future holds and to continue building upon
+            the experiences and knowledge I've gained thus far.
           </p>
         </div>
       </div>
       <SkillCarousel />
 
       <div className="centered-items">
+        {data.map((item: any, index: number) => (
+          <WorkComponent
+            key={index}
+            title={item.tile}
+            location={item.location}
+            details={item.details}
+            moreInfo={item.moreInfo}
+          />
+        ))}
         <div className="about-footer">
-          {data.map((item: any, index: number) => (
-            <WorkComponent
-              key={index}
-              title={item.tile}
-              location={item.location}
-              details={item.details}
-              moreInfo={item.moreInfo}
-            />
-          ))}
-
           <Button text={"Top"} onClick={topFunction} outline={false} type={"button"} />
         </div>
       </div>

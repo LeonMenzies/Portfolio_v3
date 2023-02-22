@@ -8,7 +8,7 @@ const StyledDownloadsItem = styled.tr`
 
     a {
       text-decoration: none;
-      color: white;
+      color: ${({ theme }) => theme.secondary};
     }
   }
 `;

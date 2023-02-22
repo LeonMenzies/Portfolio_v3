@@ -15,6 +15,11 @@ const StyledSection = styled.div<StyleTypes>`
   .more-info {
     max-height: ${({ height }) => height};
     transition: 0.5s;
+    padding-top: 1rem;
+  }
+
+  .show-more-title {
+    color: ${({ theme }) => theme.secondary};
   }
 `;
 
@@ -36,10 +41,14 @@ const WorkComponent = ({ title, location, details, moreInfo }: Types) => {
           <li key={index}>{val}</li>
         ))}
       </ul>
-      <div onClick={() => setOpen(!open)}>
+      <div onClick={() => setOpen(!open)} className="show-more-title">
         Show More {open ? <AiFillCaretLeft /> : <AiFillCaretDown />}
       </div>
-      <div className="more-info">{open && <div>{moreInfo}</div>}</div>
+      {open && (
+        <div className="more-info">
+          <div>{moreInfo}</div>
+        </div>
+      )}
     </StyledSection>
   );
 };
