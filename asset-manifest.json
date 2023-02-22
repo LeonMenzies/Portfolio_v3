@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.8eb20739.css",
-    "main.js": "/static/js/main.766d286b.js",
+    "main.js": "/static/js/main.56260045.js",
     "static/media/Document.pdf": "/static/media/Document.ec1343f9dc1b97daaeca.pdf",
     "static/media/Transcript.pdf": "/static/media/Transcript.8becb8712624f8e788cf.pdf",
     "static/media/vancouver-background.jpg": "/static/media/vancouver-background.a10c0c3948bce20e4486.jpg",
@@ -9,10 +9,10 @@
     "static/media/Resume_Current.pdf": "/static/media/Resume_Current.b9d3fc67be0586b1b8e5.pdf",
     "index.html": "/index.html",
     "main.8eb20739.css.map": "/static/css/main.8eb20739.css.map",
-    "main.766d286b.js.map": "/static/js/main.766d286b.js.map"
+    "main.56260045.js.map": "/static/js/main.56260045.js.map"
   },
   "entrypoints": [
     "static/css/main.8eb20739.css",
-    "static/js/main.766d286b.js"
+    "static/js/main.56260045.js"
   ]
 }
