@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import Button from "components/Button";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { accessAtom } from "recoil/access";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import TextField from "components/TextField";
 import sjcl from "sjcl";
 
@@ -36,11 +36,19 @@ const StyledAccessPage = styled.div`
 const AccessPage = () => {
   const [accessToken, setAccessToken] = useState("");
   const [access, setAccess] = useRecoilState(accessAtom);
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    const myBitArray = sjcl.hash.sha256.hash(accessToken);
+  useEffect(() => {
+    //Not very secure but needed for easy access via url
+    const key = searchParams.get("key");
+    if (key) {
+      accessPage(key);
+    }
+  }, [searchParams]);
+
+  const accessPage = (key: string) => {
+    const myBitArray = sjcl.hash.sha256.hash(key);
     const shaVal = sjcl.codec.hex.fromBits(myBitArray);
 
     if (access.accessTokens.includes(shaVal)) {
@@ -52,6 +60,11 @@ const AccessPage = () => {
 
       navigate("/");
     }
+  };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    accessPage(accessToken);
   };
 
   return (

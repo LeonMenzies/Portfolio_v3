@@ -38,18 +38,17 @@ const StyledProjectDisplay = styled.div<StyleTypes>`
     .title-section {
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      padding: 0.2rem 0;
 
       .project-title {
-        padding: 0.2rem 0.5rem;
-        font-size: 1.5rem;
-        border-radius: 20px;
-        border: 2px solid ${({ theme }) => theme.secondary};
+        font-size: 2rem;
         color: ${({ theme }) => theme.secondary};
       }
 
       .wip {
         padding: 0.2rem 0.5rem;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         border-radius: 20px;
         border: 2px solid white;
         color: white;
