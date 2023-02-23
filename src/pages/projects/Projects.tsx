@@ -1,5 +1,6 @@
 import ProjectDisplay from "pages/projects/ProjectDisplay";
 import { data } from "pages/projects/ProjectsData";
+import ProjectCodeDisplay from "./ProjectCodeDisplay";
 
 const Projects = () => {
   return (
