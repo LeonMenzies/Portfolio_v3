@@ -42,6 +42,7 @@ const AccessPage = () => {
   useEffect(() => {
     //Not very secure but needed for easy access via url
     const key = searchParams.get("key");
+
     if (key) {
       accessPage(key);
     }
