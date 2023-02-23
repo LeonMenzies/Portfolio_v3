@@ -20,30 +20,6 @@ const App = () => {
   const themeValue = useRecoilValue(themeAtom);
   const accessValue = useRecoilValue(accessAtom);
 
-  const [searchParams] = useSearchParams();
-  const [val, setVal] = useState<any>("");
-  const [access, setAccess] = useRecoilState(accessAtom);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    //Not very secure but needed for easy access via url
-    const key = searchParams.get("key");
-
-    setVal(key);
-    if (key) {
-      if (access.accessTokens.includes(sha256(key))) {
-        setAccess((e: any) => {
-          let tmp = { ...e };
-          tmp.accessAllowed = true;
-          return tmp;
-        });
-        navigate("/");
-      }
-    }
-  }, [searchParams]);
-
-  console.log(val);
-
   return (
     <ThemeProvider theme={theme(themeValue)}>
       <GlobalStyles />

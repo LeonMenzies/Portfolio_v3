@@ -5,7 +5,6 @@ import { useRecoilState } from "recoil";
 import { accessAtom } from "recoil/access";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import TextField from "components/TextField";
-import sjcl from "sjcl";
 import { sha256 } from "utils/Helpers";
 
 const StyledAccessPage = styled.div`
@@ -37,7 +36,17 @@ const StyledAccessPage = styled.div`
 const AccessPage = () => {
   const [accessToken, setAccessToken] = useState("");
   const [access, setAccess] = useRecoilState(accessAtom);
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    //Not very secure but needed for easy access via url
+    const key = searchParams.get("key");
+
+    if (key) {
+      accessPage(key);
+    }
+  }, [searchParams]);
 
   const accessPage = (key: string) => {
     if (access.accessTokens.includes(sha256(key))) {
@@ -46,6 +55,7 @@ const AccessPage = () => {
         tmp.accessAllowed = true;
         return tmp;
       });
+
       navigate("/");
     }
   };
