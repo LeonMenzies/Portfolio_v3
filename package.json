@@ -1,7 +1,8 @@
 {
-  "name": "real-estate",
+  "name": "portfolio",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://leonmenzies.com/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -19,6 +20,7 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
+    "react-syntax-highlighter": "^15.5.0",
     "recoil": "^0.7.6",
     "recoil-persist": "^4.2.0",
     "sjcl": "^1.0.8",
@@ -28,6 +30,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -52,6 +56,10 @@
   },
   "devDependencies": {
     "@types/sjcl": "^1.0.30",
-    "@types/styled-components": "^5.1.26"
+    "@types/styled-components": "^5.1.26",
+    "gh-pages": "^5.0.0"
+  },
+  "browser": {
+    "crypto": false
   }
 }

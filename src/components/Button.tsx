@@ -23,7 +23,7 @@ const StyledButton = styled.button<StyleTypes>`
 
 interface Types {
   text: string;
-  onClick: any;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   outline: boolean;
   type: "button" | "submit";
 }

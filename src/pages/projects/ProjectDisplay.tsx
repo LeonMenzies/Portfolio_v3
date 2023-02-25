@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import IconButton from "components/IconButton";
+import { AiFillGithub } from "react-icons/ai";
+import { BsGlobe } from "react-icons/bs";
 
 interface StyleTypes {
   flexDirection: string;
@@ -9,7 +12,6 @@ interface StyleTypes {
 const StyledProjectDisplay = styled.div<StyleTypes>`
   .project-display-content {
     display: flex;
-    align-items: center;
     justify-content: space-around;
     flex-direction: ${({ flexDirection }) => flexDirection};
     margin: 2rem;
@@ -22,7 +24,35 @@ const StyledProjectDisplay = styled.div<StyleTypes>`
       flex-direction: column;
     }
 
+    .project-icon-buttons {
+      display: flex;
+      flex-direction: row;
+    }
+
     .project-about-section {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .title-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.2rem 0;
+
+      .project-title {
+        font-size: 2rem;
+        color: ${({ theme }) => theme.secondary};
+      }
+
+      .wip {
+        padding: 0.2rem 0.5rem;
+        font-size: 1.2rem;
+        border-radius: 20px;
+        border: 2px solid white;
+        color: white;
+      }
     }
 
     .project-description {
@@ -39,39 +69,62 @@ const StyledProjectDisplay = styled.div<StyleTypes>`
       img {
         object-fit: cover;
       }
+
+      .control-dots {
+        li {
+          background: ${({ theme }) => theme.secondary};
+        }
+      }
     }
   }
 `;
 
 interface Types {
-  title: string;
-  description: string;
-  keyPoints: string[];
-  imageLinks: string[];
-  flexDirection: string;
-  complete: boolean;
+  item: {
+    title: string;
+    description: string;
+    keyPoints: Array<string>;
+    imageLinks: Array<string>;
+    flexDirection: string;
+    complete: boolean;
+    githubLink: string | undefined;
+    websiteLink: string | undefined;
+    wip: boolean;
+  };
 }
 
-const ProjectDisplay = ({
-  title,
-  description,
-  keyPoints,
-  imageLinks,
-  flexDirection,
-  complete,
-}: Types) => {
+const ProjectDisplay = ({ item }: Types) => {
   return (
-    <StyledProjectDisplay flexDirection={flexDirection}>
+    <StyledProjectDisplay flexDirection={item.flexDirection}>
       <div className="project-display-content">
         <div className="project-about-section">
-          <div className="project-title">{title}</div>
-          <div className="project-description">{description}</div>
-          <div className="project-key-points">
-            <ul>
-              {keyPoints.map((item: any, index: any) => (
-                <li key={index}>{item}</li>
-              ))}
-            </ul>
+          <div>
+            <div className="title-section">
+              <div className="project-title">{item.title}</div>
+              {item.wip && <div className="wip">WIP</div>}
+            </div>
+            <div className="project-description">{item.description}</div>
+            <div className="project-key-points">
+              <ul>
+                {item.keyPoints.map((item: string, index: number) => (
+                  <li key={index}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="project-icon-buttons">
+            <IconButton
+              icon={<AiFillGithub />}
+              onClick={() => window.open(item.githubLink, "_blank")}
+              outline={false}
+              disabled={item.githubLink === undefined ? true : false}
+            />
+            <IconButton
+              icon={<BsGlobe />}
+              onClick={() => window.open(item.websiteLink, "_blank")}
+              outline={false}
+              disabled={item.websiteLink === undefined ? true : false}
+            />
           </div>
         </div>
 
@@ -90,18 +143,11 @@ const ProjectDisplay = ({
             emulateTouch={true}
             autoFocus={false}
           >
-            <div>
-              <img
-                alt=""
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png?20220519031949"
-              />
-            </div>
-            <div>
-              <img
-                alt=""
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png?20220519031949"
-              />
-            </div>
+            {item.imageLinks.map((image: any, index: number) => (
+              <div key={index}>
+                <img alt={image.alt} src={image.link} />
+              </div>
+            ))}
           </Carousel>
         </div>
       </div>

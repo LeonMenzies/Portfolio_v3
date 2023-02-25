@@ -1,3 +1,4 @@
+import { ChangeEvent } from "react";
 import styled from "styled-components";
 
 interface StyleTypes {
@@ -32,7 +33,7 @@ const StyledTextArea = styled.div<StyleTypes>`
 `;
 
 interface Types {
-  onChange: any;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   outline: boolean;
   required: boolean;
   id: string;

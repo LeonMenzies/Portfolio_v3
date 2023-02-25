@@ -19,11 +19,12 @@ const StyledCarousel = styled.div`
   display: flex;
   justify-content: center;
   height: 200px;
+  color: ${({ theme }) => theme.secondary};
 
   .carousel-cover {
-    height: 200px;
+    height: 180px;
     width: 100%;
-    background-color: ${({ theme }) => theme.background};
+    background-color: ${({ theme }) => theme.primary};
     position: absolute;
     z-index: 85;
   }

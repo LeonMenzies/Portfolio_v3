@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import Button from "components/Button";
-import { useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { accessAtom } from "recoil/access";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import TextField from "components/TextField";
-import sjcl from "sjcl";
+import { sha256 } from "utils/Helpers";
 
 const StyledAccessPage = styled.div`
   display: flex;
@@ -36,14 +36,20 @@ const StyledAccessPage = styled.div`
 const AccessPage = () => {
   const [accessToken, setAccessToken] = useState("");
   const [access, setAccess] = useRecoilState(accessAtom);
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    const myBitArray = sjcl.hash.sha256.hash(accessToken);
-    const shaVal = sjcl.codec.hex.fromBits(myBitArray);
+  useEffect(() => {
+    //Not very secure but needed for easy access via url
+    const key = searchParams.get("key");
 
-    if (access.accessTokens.includes(shaVal)) {
+    if (key) {
+      accessPage(key);
+    }
+  }, [searchParams]);
+
+  const accessPage = (key: string) => {
+    if (access.accessTokens.includes(sha256(key))) {
       setAccess((e: any) => {
         let tmp = { ...e };
         tmp.accessAllowed = true;
@@ -54,18 +60,23 @@ const AccessPage = () => {
     }
   };
 
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    accessPage(accessToken);
+  };
+
   return (
     <StyledAccessPage>
       <form className="access-content" onSubmit={handleSubmit}>
         <div className="access-text">Enter Access Token</div>
         <TextField
           type={"password"}
-          onChange={(e: any) => setAccessToken(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setAccessToken(e.target.value)}
           outline={true}
           required={true}
           id={"access-token"}
         />
-        <Button text={"Submit"} onClick={null} outline={false} type={"submit"} />
+        <Button text={"Submit"} outline={false} type={"submit"} />
       </form>
     </StyledAccessPage>
   );

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import Button from "components/Button";
 import { AiFillLinkedin, AiFillGithub, AiFillMail } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { data } from "pages/about/AboutData";
 
 import IconButton from "components/IconButton";
 import SkillCarousel from "components/SkillCarousel";
@@ -10,12 +11,7 @@ import WorkComponent from "components/WorkComponent";
 
 const StyledAbout = styled.div`
   color: white;
-  
-  img {
-    max-width: 30vw;
-    margin-left: 10vw;
-    width: 100%;
-  }
+
   .centered-items{
     display: flex;
     flex-direction: column;
@@ -26,11 +22,20 @@ const StyledAbout = styled.div`
     display: flex;
     padding: 1rem;
 
+    img {
+      height: 500px;
+      width: 100%;
+      object-fit: cover;
+      margin-left: 0.5rem;
+    }
+
     .about-info{
       padding 0.5rem;
 
       .titleName {
         font-size: 6rem;
+        color: ${({ theme }) => theme.secondary};
+
       }
       .about-socials{
         display: flex;
@@ -52,6 +57,11 @@ const StyledAbout = styled.div`
 
 const About = () => {
   const navigate = useNavigate();
+
+  function topFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  }
 
   return (
     <StyledAbout>
@@ -78,80 +88,45 @@ const About = () => {
             />
           </div>
           <p>
-            Hardworking, responsible, and goal-orientated university student at Victoria University
-            of Wellington studying for a Bachelor's in computer science with a variety of experience
-            from years of working, international travel, and education. FILL WITH MORE WRITING
+            Hi there, my name is Leon Menzies, and I'm excited to share a little bit about myself. I
+            am a hardworking, responsible, and goal-oriented individual who graduated from Victoria
+            University of Wellington with a computer science degree. My passion for technology and
+            problem-solving has driven me to pursue a career in the tech industry, and I've gained a
+            variety of experience over the years through my work, international travel, and
+            education.
+            <br />
+            <br />
+            Over the years, I have gained a wealth of experience through a variety of professional
+            roles, international travel, and continued education. I believe that learning is a
+            lifelong process, and I'm always looking for ways to expand my knowledge and skillset.
+            <br />
+            <br />
+            My work ethic has always been a driving force in my life, and I take pride in my ability
+            to stay focused and productive even in the face of adversity. I'm a firm believer in
+            setting goals and working hard to achieve them, and I've applied this philosophy to both
+            my personal and professional life.
+            <br />
+            <br />
+            Overall, I'm a passionate and dedicated individual who is always looking for ways to
+            grow and improve. I'm excited to see what the future holds and to continue building upon
+            the experiences and knowledge I've gained thus far.
           </p>
         </div>
       </div>
       <SkillCarousel />
 
       <div className="centered-items">
-        <WorkComponent
-          title={"Full Stack Developer"}
-          location={"New Zealand exchange, Wellington, New Zealand"}
-          details={[
-            "Full-stack development on a variety of applications across NZX's energy department",
-            "Using popular frameworks/libraries such as react, node, Material UI, etc to develop applications",
-            "Performing UAT, DR, and production deployments to keep applications up",
-            "Supporting applications in production as well as deploying new products to customers",
-          ]}
-        />
-
-        <WorkComponent
-          title={"Developer/Tester Intern"}
-          location={"New Zealand exchange, Wellington, New Zealand"}
-          details={[
-            "Full-stack development on a variety of applications across NZX’s energy department",
-            "Building APIs to suite client’s needs",
-            "Testing multiple systems for Energy IT with a broad range of experience from Integration testing, front-end system testing, and database testing",
-          ]}
-        />
-
-        <WorkComponent
-          title={"Educator"}
-          location={"Lululemon, Wellington, New Zealand"}
-          details={[
-            "Educating guests on the technical aspects of garments ranging from active and everyday wear to the advanced property of Lululemon's Hero elements",
-            "Managing allocation shifts for receiving new product.",
-            "Learning technologies for efficient product management including RFID and Xstore 17",
-          ]}
-        />
-
-        <WorkComponent
-          title={"Events Manager"}
-          location={"Sweet Street, Copenhagen, Denmark"}
-          details={[
-            "Helping Manage events for selling pancakes waffles and coffee around Copenhagen, Denmark.",
-            "Making coffee after doing a barista course, baking crepes and waffles for customers.",
-            "Performing various tasks like fixing broken scooters/bikes making excel sheets for orders etc",
-          ]}
-        />
-
-        <WorkComponent
-          title={"Ski Instructor"}
-          location={"Mount Seymour Resort, North Vancouver, Canada"}
-          details={[
-            "Coordinating meetings to assign ski groups to the appropriate levelled instructor.",
-            "Clearly and accurately instructed a variation of different levelled skiers both physically and verbally.",
-            "Provided a safe and fun learning environment through exceptional class handling and creative teaching methods.",
-            "Assisted with boot/equipment fitting, lobby greeting, and other tasks assigned by Manager/Supervisors.",
-          ]}
-        />
-
+        {data.map((item: any, index: number) => (
+          <WorkComponent
+            key={index}
+            title={item.tile}
+            location={item.location}
+            details={item.details}
+            moreInfo={item.moreInfo}
+          />
+        ))}
         <div className="about-footer">
-          <Button
-            text={"Contact"}
-            onClick={() => navigate("/Contact")}
-            outline={false}
-            type={"button"}
-          />
-          <Button
-            text={"Projects"}
-            onClick={() => navigate("/Projects")}
-            outline={true}
-            type={"button"}
-          />
+          <Button text={"Top"} onClick={topFunction} outline={false} type={"button"} />
         </div>
       </div>
     </StyledAbout>

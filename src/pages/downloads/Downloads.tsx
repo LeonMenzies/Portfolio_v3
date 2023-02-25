@@ -1,17 +1,24 @@
 import styled from "styled-components";
 import DownloadsItem from "pages/downloads/DownloadsItem";
 
+import resume from "assets/files/Resume_Current.pdf";
+import document from "assets/files/Document.pdf";
+import transcript from "assets/files/Transcript.pdf";
+
 const StyledComponents = styled.div`
   .downloads-table {
     display: flex;
     align-items: center;
     justify-content: space-around;
     flex-direction: row;
-    margin: 2rem;
-    padding: 2rem;
-    border-radius: 10px;
-    background: ${({ theme }) => theme.clear};
-    color: ${({ theme }) => theme.textPrimary};
+
+    table {
+      margin: 2rem;
+      padding: 2rem;
+      border-radius: 10px;
+      background: ${({ theme }) => theme.clear};
+      color: ${({ theme }) => theme.textPrimary};
+    }
 
     td,
     th {
@@ -36,13 +43,17 @@ const Downloads = () => {
               <th>Description</th>
               <th>Download</th>
             </tr>
-            <DownloadsItem name={"CV"} description={"My most up to date CV"} link={"link"} />
+            <DownloadsItem name={"CV"} description={"My most up to date CV"} link={resume} />
             <DownloadsItem
               name={"Transcript"}
               description={"My university transcript with my final grades and achievments"}
-              link={"link"}
+              link={transcript}
             />
-            <DownloadsItem name={"CV"} description={"My most up to date CV"} link={"link"} />
+            <DownloadsItem
+              name={"Graduation Certificate"}
+              description={"The Certificate I was awarded for completing my bacholar of science"}
+              link={document}
+            />
           </tbody>
         </table>
       </div>
