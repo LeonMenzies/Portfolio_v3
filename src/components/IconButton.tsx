@@ -3,13 +3,14 @@ import styled from "styled-components";
 interface StyleTypes {
   outline: boolean;
   disabled: boolean;
+  fontSize: string;
 }
 const StyledIconButton = styled.div<StyleTypes>`
   background-color: ${({ outline, theme }) => (outline ? "transparent" : theme.clear)};
   border: 2px solid ${({ theme }) => theme.textPrimary};
   color: ${({ disabled, theme }) => (disabled ? theme.disabled : theme.textPrimary)};
   padding: 0.5rem;
-  font-size: 1.7rem;
+  font-size: ${({ fontSize }) => fontSize};
   border-radius: 50px;
   display: flex;
   align-items: center;
@@ -17,7 +18,7 @@ const StyledIconButton = styled.div<StyleTypes>`
   margin: 0.2rem;
 
   &:hover {
-    background-color: ${({ outline, theme }) => (outline ? theme.clear : "transparent")};
+    background-color: ${({ theme }) => theme.secondary};
     cursor: pointer;
   }
 `;
@@ -27,11 +28,13 @@ interface Types {
   onClick: React.MouseEventHandler<HTMLDivElement> | undefined;
   outline: boolean;
   disabled?: any;
+  fontSize?: string;
 }
 
-const IconButton = ({ icon, onClick, outline, disabled }: Types) => {
+const IconButton = ({ icon, onClick, outline, disabled, fontSize = "1.7rem" }: Types) => {
   return (
     <StyledIconButton
+      fontSize={fontSize}
       outline={outline}
       disabled={disabled}
       onClick={disabled ? undefined : onClick}

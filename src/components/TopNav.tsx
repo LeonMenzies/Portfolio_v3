@@ -1,8 +1,7 @@
 import styled from "styled-components";
 import NavItem from "components/Navitem";
-
 import { BiMoon, BiSun, BiLockAlt } from "react-icons/bi";
-import { themeAtom } from "recoil/theme";
+import { themeAtom, lightTheme, darkTheme } from "recoil/theme";
 import { useRecoilState } from "recoil";
 import { accessAtom } from "recoil/access";
 
@@ -75,8 +74,8 @@ const TopNav = () => {
 
       <div className="icon-buttons">
         {access.accessAllowed && <button onClick={handleLock}>{<BiLockAlt />}</button>}
-        <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
-          {theme === "dark" ? <BiMoon /> : <BiSun />}
+        <button onClick={() => setTheme(theme.mode === "dark" ? lightTheme : darkTheme)}>
+          {theme.mode === "dark" ? <BiMoon /> : <BiSun />}
         </button>
       </div>
     </StyledNav>

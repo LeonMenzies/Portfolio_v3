@@ -1,11 +1,9 @@
 import GlobalStyles from "utils/GlobalStyles";
 import { BrowserRouter, Routes, Route, useSearchParams, useNavigate } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
-import { theme } from "utils/Theme";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { themeAtom } from "recoil/theme";
 import { accessAtom } from "recoil/access";
-
 import ProtectedRoute from "utils/ProtectedRoute";
 import About from "pages/about/About";
 import Downloads from "pages/downloads/Downloads";
@@ -21,7 +19,7 @@ const App = () => {
   const accessValue = useRecoilValue(accessAtom);
 
   return (
-    <ThemeProvider theme={theme(themeValue)}>
+    <ThemeProvider theme={themeValue}>
       <GlobalStyles />
       <TopNav />
       <Routes>

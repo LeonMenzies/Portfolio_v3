@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { AiOutlineDownload } from "react-icons/ai";
+import IconButton from "components/IconButton";
 
 const StyledDownloadsItem = styled.tr`
   .centred-cell {
@@ -26,7 +27,12 @@ const DownloadsItem = ({ name, description, link }: Types) => {
       <td>{description}</td>
       <td className={"centred-cell"}>
         <a href={link} download>
-          <AiOutlineDownload size={20} />
+          <IconButton
+            icon={<AiOutlineDownload />}
+            onClick={undefined}
+            outline={true}
+            fontSize={"1rem"}
+          />
         </a>
       </td>
     </StyledDownloadsItem>

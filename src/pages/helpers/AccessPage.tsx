@@ -27,7 +27,6 @@ const StyledAccessPage = styled.div`
     flex-direction: column;
     margin: 5rem;
     padding: 2rem;
-    border-radius: 10px;
     background: ${({ theme }) => theme.clear};
     color: ${({ theme }) => theme.textPrimary};
   }

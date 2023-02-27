@@ -17,10 +17,13 @@
     "react-carousel3": "^1.0.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
+    "react-modal": "^3.16.1",
     "react-responsive-carousel": "^3.2.23",
+    "react-responsive-modal": "^6.4.1",
     "react-router-dom": "^6.4.3",
     "react-scripts": "5.0.1",
     "react-syntax-highlighter": "^15.5.0",
+    "react-vertical-timeline-component": "^3.6.0",
     "recoil": "^0.7.6",
     "recoil-persist": "^4.2.0",
     "sjcl": "^1.0.8",
@@ -55,6 +58,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-vertical-timeline-component": "^3.3.3",
     "@types/sjcl": "^1.0.30",
     "@types/styled-components": "^5.1.26",
     "gh-pages": "^5.0.0"

@@ -9,14 +9,13 @@ const StyledButton = styled.button<StyleTypes>`
   color: ${({ theme }) => theme.textPrimary};
   padding: 0.5rem;
   font-size: 1.3rem;
-  border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0.2rem;
 
   &:hover {
-    background-color: ${({ outline, theme }) => (outline ? theme.clear : "transparent")};
+    background-color: ${({ theme }) => theme.secondary};
     cursor: pointer;
   }
 `;
