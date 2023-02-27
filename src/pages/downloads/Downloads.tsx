@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import DownloadsItem from "pages/downloads/DownloadsItem";
-
 import resume from "assets/files/Resume_Current.pdf";
 import document from "assets/files/Document.pdf";
 import transcript from "assets/files/Transcript.pdf";
@@ -15,7 +14,6 @@ const StyledComponents = styled.div`
     table {
       margin: 2rem;
       padding: 2rem;
-      border-radius: 10px;
       background: ${({ theme }) => theme.clear};
       color: ${({ theme }) => theme.textPrimary};
     }

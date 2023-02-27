@@ -3,11 +3,14 @@ import Button from "components/Button";
 import { AiFillLinkedin, AiFillGithub, AiFillMail } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { data } from "pages/about/AboutData";
-
 import IconButton from "components/IconButton";
 import SkillCarousel from "components/SkillCarousel";
 import ProfilePhoto from "assets/images/profile-photo.jpg";
-import WorkComponent from "components/WorkComponent";
+import VerticalTimelineitem from "./VerticalTimelineitem";
+import { VerticalTimeline } from "react-vertical-timeline-component";
+import "react-vertical-timeline-component/style.min.css";
+import { themeAtom } from "recoil/theme";
+import { useRecoilValue } from "recoil";
 
 const StyledAbout = styled.div`
   color: white;
@@ -44,6 +47,8 @@ const StyledAbout = styled.div`
       p{
         background: ${({ theme }) => theme.clear};
         padding: 1rem;
+        color: ${({ theme }) => theme.textPrimary};
+
       }
     }
   }
@@ -57,6 +62,7 @@ const StyledAbout = styled.div`
 
 const About = () => {
   const navigate = useNavigate();
+  const theme = useRecoilValue(themeAtom);
 
   function topFunction() {
     document.body.scrollTop = 0; // For Safari
@@ -116,15 +122,11 @@ const About = () => {
       <SkillCarousel />
 
       <div className="centered-items">
-        {data.map((item: any, index: number) => (
-          <WorkComponent
-            key={index}
-            title={item.tile}
-            location={item.location}
-            details={item.details}
-            moreInfo={item.moreInfo}
-          />
-        ))}
+        <VerticalTimeline lineColor={theme.secondary}>
+          {data.map((item: any, index: number) => (
+            <VerticalTimelineitem key={index} item={item} />
+          ))}
+        </VerticalTimeline>
         <div className="about-footer">
           <Button text={"Top"} onClick={topFunction} outline={false} type={"button"} />
         </div>

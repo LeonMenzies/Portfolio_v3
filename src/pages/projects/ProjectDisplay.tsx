@@ -4,6 +4,11 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import IconButton from "components/IconButton";
 import { AiFillGithub } from "react-icons/ai";
 import { BsGlobe } from "react-icons/bs";
+import { FiCode } from "react-icons/fi";
+import { useState } from "react";
+import "react-responsive-modal/styles.css";
+import { Modal } from "react-responsive-modal";
+import ProjectCodeDisplay from "./ProjectCodeDisplay";
 
 interface StyleTypes {
   flexDirection: string;
@@ -16,7 +21,6 @@ const StyledProjectDisplay = styled.div<StyleTypes>`
     flex-direction: ${({ flexDirection }) => flexDirection};
     margin: 2rem;
     padding: 2rem;
-    border-radius: 10px;
     background: ${({ theme }) => theme.clear};
     color: ${({ theme }) => theme.textPrimary};
 
@@ -94,6 +98,7 @@ interface Types {
 }
 
 const ProjectDisplay = ({ item }: Types) => {
+  const [showCode, setShowCode] = useState(false);
   return (
     <StyledProjectDisplay flexDirection={item.flexDirection}>
       <div className="project-display-content">
@@ -125,6 +130,12 @@ const ProjectDisplay = ({ item }: Types) => {
               outline={false}
               disabled={item.websiteLink === undefined ? true : false}
             />
+            <IconButton
+              icon={<FiCode />}
+              onClick={() => setShowCode(true)}
+              outline={false}
+              disabled={false}
+            />
           </div>
         </div>
 
@@ -151,6 +162,9 @@ const ProjectDisplay = ({ item }: Types) => {
           </Carousel>
         </div>
       </div>
+      <Modal open={showCode} onClose={() => setShowCode(false)} center>
+        <ProjectCodeDisplay code={"const codeString = new Date()"} />
+      </Modal>
     </StyledProjectDisplay>
   );
 };

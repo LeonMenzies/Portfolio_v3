@@ -2,6 +2,7 @@ export const data = [
   {
     title: "Full Stack Developer",
     location: "New Zealand exchange, Wellington, New Zealand",
+    date: "November 2022 - March 2023",
     details: [
       "Full-stack development on a variety of applications across NZX's energy department",
       "Using popular frameworks/libraries such as react, node, Material UI, etc to develop applications",
@@ -14,6 +15,8 @@ export const data = [
   {
     title: "Developer/Tester Intern",
     location: "New Zealand exchange, Wellington, New Zealand",
+    date: "November 2021 - November 2022",
+
     details: [
       "Full-stack development on a variety of applications across NZX’s energy department",
       "Building APIs to suite client’s needs",
@@ -25,6 +28,7 @@ export const data = [
   {
     title: "Educator",
     location: "Lululemon, Wellington, New Zealand",
+    date: "October 2020 - January 2022",
     details: [
       "Educating guests on the technical aspects of garments ranging from active and everyday wear to the advanced property of Lululemon's Hero elements",
       "Managing allocation shifts for receiving new product.",
@@ -36,6 +40,7 @@ export const data = [
   {
     title: "Events Manager",
     location: "Sweet Street, Copenhagen, Denmark",
+    date: "October 2019 - January 2020",
     details: [
       "Helping Manage events for selling pancakes waffles and coffee around Copenhagen, Denmark.",
       "Making coffee after doing a barista course, baking crepes and waffles for customers.",
@@ -47,6 +52,7 @@ export const data = [
   {
     title: "Ski Instructor",
     location: "Mount Seymour Resort, North Vancouver, Canada",
+    date: "December 2017 - April 2019",
     details: [
       "Coordinating meetings to assign ski groups to the appropriate levelled instructor.",
       "Clearly and accurately instructed a variation of different levelled skiers both physically and verbally.",
