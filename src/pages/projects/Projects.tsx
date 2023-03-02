@@ -1,13 +1,9 @@
-import ProjectDisplay from "pages/projects/ProjectDisplay";
-import { data } from "pages/projects/ProjectsData";
-import ProjectCodeDisplay from "./ProjectCodeDisplay";
+import ScrumDinger from "pages/projects/projects_data/scrumdinger/ScrumDinger";
 
 const Projects = () => {
   return (
     <div>
-      {data.map((item: any, index: number) => (
-        <ProjectDisplay key={index} item={item} />
-      ))}
+      <ScrumDinger />
     </div>
   );
 };

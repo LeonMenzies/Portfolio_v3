@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { IoLogoPython, IoLogoHtml5, IoLogoCss3, IoLogoJavascript } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 import {
   SiReact,
   SiJava,
@@ -12,14 +13,16 @@ import {
   SiAndroidstudio,
   SiGithub,
   SiStackoverflow,
+  SiBootstrap,
 } from "react-icons/si";
 import { Carousel } from "react-carousel3";
 
 const StyledCarousel = styled.div`
   display: flex;
   justify-content: center;
-  height: 200px;
+  height: 185px;
   color: ${({ theme }) => theme.secondary};
+  background-color: ${({ theme }) => theme.primary};
 
   .carousel-cover {
     height: 180px;
@@ -28,12 +31,18 @@ const StyledCarousel = styled.div`
     position: absolute;
     z-index: 85;
   }
+
+  &:hover {
+    background-color: ${({ theme }) => theme.secondary};
+    cursor: pointer;
+  }
 `;
 
-var iconArray = [
+let iconArray = [
   <IoLogoPython size={50} />,
   <IoLogoHtml5 size={50} />,
   <IoLogoCss3 size={50} />,
+  <SiBootstrap size={50} />,
   <IoLogoJavascript size={50} />,
   <SiReact size={50} />,
   <SiJava size={50} />,
@@ -58,8 +67,10 @@ var iconArray = [
 ];
 
 const SkillCarousel = () => {
+  const navigate = useNavigate();
+
   return (
-    <StyledCarousel>
+    <StyledCarousel onClick={() => navigate("/skills")}>
       <Carousel height={100} width={20000} yOrigin={42} yRadius={48} autoPlay={true}>
         {iconArray.map((item, index) => (
           <div key={index}>{item}</div>

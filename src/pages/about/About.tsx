@@ -104,7 +104,7 @@ const About = () => {
             <br />
             Over the years, I have gained a wealth of experience through a variety of professional
             roles, international travel, and continued education. I believe that learning is a
-            lifelong process, and I'm always looking for ways to expand my knowledge and skillset.
+            lifelong process, and I'm always looking for ways to expand my knowledge and skill set.
             <br />
             <br />
             My work ethic has always been a driving force in my life, and I take pride in my ability

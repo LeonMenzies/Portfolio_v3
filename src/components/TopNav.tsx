@@ -68,6 +68,7 @@ const TopNav = () => {
     <StyledNav>
       <ul>
         <NavItem to={"/"} title={"About"} />
+        <NavItem to={"/skills"} title={"Skills"} />
         <NavItem to={"/projects"} title={"Projects"} />
         <NavItem to={"/downloads"} title={"Downloads"} />
       </ul>

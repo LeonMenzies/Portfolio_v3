@@ -84,34 +84,40 @@ const StyledProjectDisplay = styled.div<StyleTypes>`
 `;
 
 interface Types {
-  item: {
-    title: string;
-    description: string;
-    keyPoints: Array<string>;
-    imageLinks: Array<string>;
-    flexDirection: string;
-    complete: boolean;
-    githubLink: string | undefined;
-    websiteLink: string | undefined;
-    wip: boolean;
-  };
+  title: string;
+  description: string;
+  keyPoints: Array<string>;
+  images: Array<any>;
+  flexDirection: string;
+  githubLink: string | undefined;
+  websiteLink: string | undefined;
+  wip: boolean;
 }
 
-const ProjectDisplay = ({ item }: Types) => {
+const ProjectDisplay = ({
+  title,
+  description,
+  keyPoints,
+  images,
+  flexDirection,
+  githubLink,
+  websiteLink,
+  wip,
+}: Types) => {
   const [showCode, setShowCode] = useState(false);
   return (
-    <StyledProjectDisplay flexDirection={item.flexDirection}>
+    <StyledProjectDisplay flexDirection={flexDirection}>
       <div className="project-display-content">
         <div className="project-about-section">
           <div>
             <div className="title-section">
-              <div className="project-title">{item.title}</div>
-              {item.wip && <div className="wip">WIP</div>}
+              <div className="project-title">{title}</div>
+              {wip && <div className="wip">WIP</div>}
             </div>
-            <div className="project-description">{item.description}</div>
+            <div className="project-description">{description}</div>
             <div className="project-key-points">
               <ul>
-                {item.keyPoints.map((item: string, index: number) => (
+                {keyPoints.map((item: string, index: number) => (
                   <li key={index}>{item}</li>
                 ))}
               </ul>
@@ -120,15 +126,15 @@ const ProjectDisplay = ({ item }: Types) => {
           <div className="project-icon-buttons">
             <IconButton
               icon={<AiFillGithub />}
-              onClick={() => window.open(item.githubLink, "_blank")}
+              onClick={() => window.open(githubLink, "_blank")}
               outline={false}
-              disabled={item.githubLink === undefined ? true : false}
+              disabled={githubLink === undefined ? true : false}
             />
             <IconButton
               icon={<BsGlobe />}
-              onClick={() => window.open(item.websiteLink, "_blank")}
+              onClick={() => window.open(websiteLink, "_blank")}
               outline={false}
-              disabled={item.websiteLink === undefined ? true : false}
+              disabled={websiteLink === undefined ? true : false}
             />
             <IconButton
               icon={<FiCode />}
@@ -154,9 +160,9 @@ const ProjectDisplay = ({ item }: Types) => {
             emulateTouch={true}
             autoFocus={false}
           >
-            {item.imageLinks.map((image: any, index: number) => (
+            {images.map((item: any, index: number) => (
               <div key={index}>
-                <img alt={image.alt} src={image.link} />
+                <img alt={item.alt} src={item.image} />
               </div>
             ))}
           </Carousel>
