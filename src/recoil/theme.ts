@@ -15,7 +15,7 @@ export const darkTheme = {
   mode: "dark",
   primary: "#3c3c3c",
   secondary: "#dc7248",
-  secondaryLight: "#dc7248a0",
+  secondaryLight: "#dc724883",
   textPrimary: "#ffffff",
   textSecondary: "#dc7248",
   clear: "rgba(50, 50, 50, 0.85)",

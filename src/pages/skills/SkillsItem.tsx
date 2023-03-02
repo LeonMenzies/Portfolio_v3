@@ -19,12 +19,28 @@ const StyledGridItem = styled.div`
     justify-content: center;
 
     .skills-icon {
-      color: ${({ theme }) => theme.secondaryLight};
-      size: 100px;
+      color: ${({ theme }) => theme.secondary};
+      transition: opacity 0.3s;
       position: absolute;
+      opacity: 0.5;
     }
     .skills-about {
       z-index: 10;
+      transition: opacity 0.3s;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+    .skills-content {
+      .skills-icon {
+        z-index: 1;
+        opacity: 1;
+      }
+      .skills-about {
+        z-index: 0;
+        opacity: 0.5;
+      }
     }
   }
 `;
