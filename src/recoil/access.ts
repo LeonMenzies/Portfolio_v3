@@ -8,11 +8,8 @@ export const accessAtom = atom({
   default: {
     accessAllowed: false,
     accessTokens: [
-      "cbfad02f9ed2a8d1e08d8f74f5303e9eb93637d47f82ab6f1c15871cf8dd0481",
-      "8f5173a89b0e27756f5dd114091c5c9afdda4d9d0f46130865c9108ad08f0c79",
+      "5950acec6e7bf6f55b899ef02dcaac5fec3a9967f2db2907313aa026d5c4f6dc",
       "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
-      "a1ad8efda9efe271ba3478d6374dfb3d0f152617b03e26f97f63487a7bef7f8c",
-      "eff1cbfb8cb7b8363dd1bcd4e17d49e799794eccd1b4d641af3bd895a68870fd",
     ],
   },
   effects_UNSTABLE: [persistAtom],
