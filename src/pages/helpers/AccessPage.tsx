@@ -48,7 +48,7 @@ const AccessPage = () => {
   }, [searchParams]);
 
   const accessPage = (key: string) => {
-    if (access.accessTokens.includes(sha256(key))) {
+    if (access.accessTokens.includes(sha256(key.toLowerCase()))) {
       setAccess((e: any) => {
         let tmp = { ...e };
         tmp.accessAllowed = true;
