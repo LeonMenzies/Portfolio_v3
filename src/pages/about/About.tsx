@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import Button from "components/Button";
 import { AiFillLinkedin, AiFillGithub, AiFillMail } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
 import { data } from "pages/about/AboutData";
 import IconButton from "components/IconButton";
 import SkillCarousel from "components/SkillCarousel";
@@ -64,7 +63,6 @@ const StyledAbout = styled.div`
 `;
 
 const About = () => {
-  const navigate = useNavigate();
   const theme = useRecoilValue(themeAtom);
 
   function topFunction() {
