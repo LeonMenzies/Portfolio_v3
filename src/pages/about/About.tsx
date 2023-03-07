@@ -25,9 +25,12 @@ const StyledAbout = styled.div`
     display: flex;
     padding: 1rem;
 
+    @media only screen and (max-width: 600px) {
+      flex-direction: column;
+    }
+
     img {
       height: 500px;
-      width: 100%;
       object-fit: cover;
       margin-left: 0.5rem;
     }
@@ -89,7 +92,10 @@ const About = () => {
             />
             <IconButton
               icon={<AiFillMail />}
-              onClick={() => navigate("/contact")}
+              onClick={(e) => {
+                window.location.href = "mailto:leon.menzies@hotmail.com";
+                e.preventDefault();
+              }}
               outline={false}
             />
           </div>

@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Button from "components/Button";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { accessAtom } from "recoil/access";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import TextField from "components/TextField";
@@ -30,13 +30,38 @@ const StyledAccessPage = styled.div`
     background: ${({ theme }) => theme.clear};
     color: ${({ theme }) => theme.textPrimary};
   }
+
+  .invalid {
+    animation: shake 0.2s ease-in-out 0s 2;
+  }
+
+  @keyframes shake {
+    0% {
+      margin-left: 0rem;
+    }
+    25% {
+      margin-left: 0.5rem;
+    }
+    75% {
+      margin-left: -0.5rem;
+    }
+    100% {
+      margin-left: 0rem;
+    }
+  }
 `;
 
 const AccessPage = () => {
   const [accessToken, setAccessToken] = useState("");
-  const [access, setAccess] = useRecoilState(accessAtom);
   const [searchParams] = useSearchParams();
+  const setAccess = useSetRecoilState(accessAtom);
   const navigate = useNavigate();
+
+  const accessList = [
+    "5950acec6e7bf6f55b899ef02dcaac5fec3a9967f2db2907313aa026d5c4f6dc",
+    "aafefc15fa5e89eefbec80ae10254d9c9924798fd13ef1392b8833252f2a17a6",
+    "19a285d268f83d9cad706082e49b3a4492c3291bb0f340554cb7ff1a1bb87b54",
+  ];
 
   useEffect(() => {
     //Not very secure but needed for easy access via url
@@ -48,14 +73,14 @@ const AccessPage = () => {
   }, [searchParams]);
 
   const accessPage = (key: string) => {
-    if (access.accessTokens.includes(sha256(key.toLowerCase()))) {
-      setAccess((e: any) => {
-        let tmp = { ...e };
-        tmp.accessAllowed = true;
-        return tmp;
-      });
-
+    if (accessList.includes(sha256(key.toLowerCase()))) {
+      setAccess(true);
       navigate("/");
+    } else {
+      document.getElementById("submit-button-id")!.classList.add("invalid");
+      setTimeout(() => {
+        document.getElementById("submit-button-id")!.classList.remove("invalid");
+      }, 200);
     }
   };
 
@@ -75,7 +100,7 @@ const AccessPage = () => {
           required={true}
           id={"access-token"}
         />
-        <Button text={"Submit"} outline={false} type={"submit"} />
+        <Button text={"Submit"} outline={false} type={"submit"} id={"submit-button-id"} />
       </form>
     </StyledAccessPage>
   );

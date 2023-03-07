@@ -14,6 +14,8 @@ import {
   SiGithub,
   SiStackoverflow,
   SiBootstrap,
+  SiCplusplus,
+  SiC,
 } from "react-icons/si";
 import { Carousel } from "react-carousel3";
 
@@ -64,6 +66,8 @@ let iconArray = [
   <SiAndroidstudio size={50} />,
   <SiGithub size={50} />,
   <SiStackoverflow size={50} />,
+  <SiCplusplus size={50} />,
+  <SiC size={50} />,
 ];
 
 const SkillCarousel = () => {

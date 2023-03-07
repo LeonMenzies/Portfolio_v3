@@ -18,7 +18,7 @@ const StyledIconButton = styled.div<StyleTypes>`
   margin: 0.2rem;
 
   &:hover {
-    background-color: ${({ theme }) => theme.secondary};
+    background-color: ${({ disabled, theme }) => (disabled ? "" : theme.secondary)};
     cursor: pointer;
   }
 `;

@@ -15,6 +15,9 @@ import {
   SiGithub,
   SiStackoverflow,
   SiBootstrap,
+  SiSwift,
+  SiCplusplus,
+  SiC,
 } from "react-icons/si";
 
 const StyledAboutSkills = styled.div`
@@ -26,30 +29,19 @@ const StyledAboutSkills = styled.div`
 
 let iconArray = [
   <IoLogoPython size={200} />,
+  <SiJava size={200} />,
+  <IoLogoJavascript size={200} />,
+  <SiTypescript size={200} />,
+  <SiReact size={200} />,
+  <SiRuby size={200} />,
+  <SiRubyonrails size={200} />,
+  <SiSwift size={200} />,
+  <SiCplusplus size={200} />,
+  <SiC size={200} />,
   <IoLogoHtml5 size={200} />,
   <IoLogoCss3 size={200} />,
-  <SiJava size={200} />,
-  <SiBootstrap size={200} />,
-  <IoLogoJavascript size={200} />,
   <SiReact size={200} />,
-  <SiRubyonrails size={200} />,
-  <SiRuby size={200} />,
-  <SiPostgresql size={200} />,
-  <SiXcode size={200} />,
-  <SiTypescript size={200} />,
-  <SiFirebase size={200} />,
   <SiAndroidstudio size={200} />,
-  <SiGithub size={200} />,
-  <SiStackoverflow size={200} />,
-  <SiRubyonrails size={200} />,
-  <SiRuby size={200} />,
-  <SiPostgresql size={200} />,
-  <SiXcode size={200} />,
-  <SiTypescript size={200} />,
-  <SiFirebase size={200} />,
-  <SiAndroidstudio size={200} />,
-  <SiGithub size={200} />,
-  <SiStackoverflow size={200} />,
 ];
 
 const AboutSkills = () => {
