@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Button from "components/Button";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { accessAtom } from "recoil/access";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import TextField from "components/TextField";
@@ -34,9 +34,14 @@ const StyledAccessPage = styled.div`
 
 const AccessPage = () => {
   const [accessToken, setAccessToken] = useState("");
-  const [access, setAccess] = useRecoilState(accessAtom);
   const [searchParams] = useSearchParams();
+  const setAccess = useSetRecoilState(accessAtom);
   const navigate = useNavigate();
+
+  const accessList = [
+    "5950acec6e7bf6f55b899ef02dcaac5fec3a9967f2db2907313aa026d5c4f6dc",
+    "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+  ];
 
   useEffect(() => {
     //Not very secure but needed for easy access via url
@@ -48,13 +53,8 @@ const AccessPage = () => {
   }, [searchParams]);
 
   const accessPage = (key: string) => {
-    if (access.accessTokens.includes(sha256(key.toLowerCase()))) {
-      setAccess((e: any) => {
-        let tmp = { ...e };
-        tmp.accessAllowed = true;
-        return tmp;
-      });
-
+    if (accessList.includes(sha256(key.toLowerCase()))) {
+      setAccess(true);
       navigate("/");
     }
   };
