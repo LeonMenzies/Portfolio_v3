@@ -56,14 +56,6 @@ const TopNav = () => {
   const [theme, setTheme] = useRecoilState(themeAtom);
   const [access, setAccess] = useRecoilState(accessAtom);
 
-  const handleLock = () => {
-    setAccess((e: any) => {
-      let tmp = { ...e };
-      tmp.accessAllowed = false;
-      return tmp;
-    });
-  };
-
   return (
     <StyledNav>
       <ul>
@@ -74,7 +66,7 @@ const TopNav = () => {
       </ul>
 
       <div className="icon-buttons">
-        {access.accessAllowed && <button onClick={handleLock}>{<BiLockAlt />}</button>}
+        {access && <button onClick={() => setAccess(false)}>{<BiLockAlt />}</button>}
         <button onClick={() => setTheme(theme.mode === "dark" ? lightTheme : darkTheme)}>
           {theme.mode === "dark" ? <BiMoon /> : <BiSun />}
         </button>

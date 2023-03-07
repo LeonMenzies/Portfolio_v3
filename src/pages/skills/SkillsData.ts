@@ -41,7 +41,8 @@ export const data = [
   },
   {
     skill: "C++",
-    about: "",
+    about:
+      "I used c++ for one of my university papers. I found the basic concepts easy enough to understand from the get go as well as the object orientated nature of the language",
   },
   {
     skill: "C",

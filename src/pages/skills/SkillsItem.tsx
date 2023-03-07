@@ -9,6 +9,7 @@ const StyledGridItem = styled.div`
   .skills-title {
     font-size: 1.5rem;
     color: ${({ theme }) => theme.secondary};
+    padding: 0.2rem;
   }
 
   .skills-content {

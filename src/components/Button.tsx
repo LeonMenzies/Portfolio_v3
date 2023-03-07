@@ -25,11 +25,12 @@ interface Types {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   outline: boolean;
   type: "button" | "submit";
+  id?: string;
 }
 
-const Button = ({ text, onClick, outline, type }: Types) => {
+const Button = ({ text, onClick, outline, type, id }: Types) => {
   return (
-    <StyledButton outline={outline} onClick={onClick} type={type}>
+    <StyledButton outline={outline} onClick={onClick} type={type} id={id}>
       {text}
     </StyledButton>
   );

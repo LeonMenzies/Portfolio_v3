@@ -1,7 +1,7 @@
 export const data = [
   {
     title: "Full Stack Developer",
-    location: "New Zealand exchange, Wellington, New Zealand",
+    location: "New Zealand Exchange, Wellington, New Zealand",
     date: "November 2022 - March 2023",
     details: [
       "Full-stack development on a variety of applications across NZX's energy department",
@@ -14,7 +14,7 @@ export const data = [
   },
   {
     title: "Developer/Tester Intern",
-    location: "New Zealand exchange, Wellington, New Zealand",
+    location: "New Zealand Exchange, Wellington, New Zealand",
     date: "November 2021 - November 2022",
 
     details: [
