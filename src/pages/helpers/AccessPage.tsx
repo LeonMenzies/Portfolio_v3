@@ -59,7 +59,8 @@ const AccessPage = () => {
 
   const accessList = [
     "5950acec6e7bf6f55b899ef02dcaac5fec3a9967f2db2907313aa026d5c4f6dc",
-    "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8",
+    "aafefc15fa5e89eefbec80ae10254d9c9924798fd13ef1392b8833252f2a17a6",
+    "19a285d268f83d9cad706082e49b3a4492c3291bb0f340554cb7ff1a1bb87b54",
   ];
 
   useEffect(() => {
