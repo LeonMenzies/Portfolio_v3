@@ -30,6 +30,25 @@ const StyledAccessPage = styled.div`
     background: ${({ theme }) => theme.clear};
     color: ${({ theme }) => theme.textPrimary};
   }
+
+  .invalid {
+    animation: shake 0.2s ease-in-out 0s 2;
+  }
+
+  @keyframes shake {
+    0% {
+      margin-left: 0rem;
+    }
+    25% {
+      margin-left: 0.5rem;
+    }
+    75% {
+      margin-left: -0.5rem;
+    }
+    100% {
+      margin-left: 0rem;
+    }
+  }
 `;
 
 const AccessPage = () => {
@@ -56,6 +75,11 @@ const AccessPage = () => {
     if (accessList.includes(sha256(key.toLowerCase()))) {
       setAccess(true);
       navigate("/");
+    } else {
+      document.getElementById("submit-button-id")!.classList.add("invalid");
+      setTimeout(() => {
+        document.getElementById("submit-button-id")!.classList.remove("invalid");
+      }, 200);
     }
   };
 
@@ -75,7 +99,7 @@ const AccessPage = () => {
           required={true}
           id={"access-token"}
         />
-        <Button text={"Submit"} outline={false} type={"submit"} />
+        <Button text={"Submit"} outline={false} type={"submit"} id={"submit-button-id"} />
       </form>
     </StyledAccessPage>
   );
