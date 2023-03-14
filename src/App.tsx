@@ -1,5 +1,5 @@
 import GlobalStyles from "utils/GlobalStyles";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useSearchParams } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { useRecoilValue } from "recoil";
 import { themeAtom } from "recoil/theme";
@@ -12,10 +12,22 @@ import Projects from "pages/projects/Projects";
 import TopNav from "components/TopNav";
 import NotFound from "pages/helpers/NotFound";
 import AccessPage from "pages/helpers/AccessPage";
+import { useEffect, useState } from "react";
 
 const App = () => {
   const themeValue = useRecoilValue(themeAtom);
   const access = useRecoilValue(accessAtom);
+  const [searchParams] = useSearchParams();
+  const [accessKey, setAccessKey] = useState<string>("");
+
+  useEffect(() => {
+    //Not very secure but needed for easy access via url
+    const key = searchParams.get("key");
+
+    if (key) {
+      setAccessKey(key);
+    }
+  }, [searchParams]);
 
   return (
     <ThemeProvider theme={themeValue}>
@@ -23,10 +35,9 @@ const App = () => {
       <TopNav />
       <Routes>
         <Route element={<ProtectedRoute isAllowed={!access} redirectPath={"/"} />}>
-          <Route path="access-page" element={<AccessPage />} />
+          <Route path="access-page" element={<AccessPage accessKey={accessKey} />} />
         </Route>
         <Route element={<ProtectedRoute isAllowed={access} redirectPath={"/access-page"} />}>
-          Downloads
           <Route index element={<About />} />
           <Route path="projects" element={<Projects />} />
           <Route path="downloads" element={<Downloads />} />

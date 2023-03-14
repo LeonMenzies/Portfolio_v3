@@ -51,9 +51,8 @@ const StyledAccessPage = styled.div`
   }
 `;
 
-const AccessPage = () => {
+const AccessPage = ({ accessKey }: any) => {
   const [accessToken, setAccessToken] = useState("");
-  const [searchParams] = useSearchParams();
   const setAccess = useSetRecoilState(accessAtom);
   const navigate = useNavigate();
 
@@ -64,18 +63,10 @@ const AccessPage = () => {
   ];
 
   useEffect(() => {
-    //Not very secure but needed for easy access via url
-    const key = searchParams.get("key");
-
-    if (key) {
-      accessPage(key);
-    }
-  }, [searchParams]);
+    accessPage(accessKey);
+  }, [accessKey]);
 
   const accessPage = (key: string) => {
-    console.log(sha256(key.toLowerCase()));
-    console.log(key);
-
     if (accessList.includes(sha256(key.toLowerCase()))) {
       setAccess(true);
       navigate("/");
