@@ -37,16 +37,17 @@ export const data = [
   {
     skill: "Swift",
     about:
-      "I decided I wanted to learn a new language and chose Swift as it would allow me to build ios app.",
+      "I decided I wanted to learn a new language and chose Swift as it would allow me to build ios app. Although the syntax is slightly different to languages such as Java the concepts are similar. I did find it slightly harder to pick up as it was learning it at the same time as I was learning to create fully functioning apps withe modes/views and backend functionality.",
   },
   {
     skill: "C++",
     about:
-      "I used c++ for one of my university papers. I found the basic concepts easy enough to understand from the get go as well as the object orientated nature of the language",
+      "I used c++ for one of my university papers. I found the basic concepts easy enough to understand from the get go as well as the object orientated nature of the language.",
   },
   {
     skill: "C",
-    about: "",
+    about:
+      "During my second year of university we used C for a Systems Programming paper that involved low level programming adn writing code for embedded systems. During teh course I learnt a lot about the programming functionality that is normally handled automatically in higher level languages such as Java. This involved learning how pointers work, memory allocation and manual garbage collection to name a few. This is a language I want to learn more about due to its complex nature that allows for programs to be precise and efficient across teh board.",
   },
   {
     skill: "HTML",
@@ -60,10 +61,12 @@ export const data = [
   },
   {
     skill: "React Native",
-    about: "",
+    about:
+      "During the last year of university I took a class called Software Development for Mobile Platforms which involved creating a mobile app using react native. Because I already had extensive knowledge of the react framework I was able to understand the structure very quickly as it follows very similar patterns. I was able to create a fulls scale mobile app with authentication, full CRUD database capabilities, multiple interactive views, state management and more in only a couple of weeks.",
   },
   {
     skill: "Android Studio",
-    about: "",
+    about:
+      "The second part of the mobile development course I did at university involved using Android Studios to create an app. Because the underlying language is Java it only took a few hours to understand the framework structure and then I was able to start developing.",
   },
 ];

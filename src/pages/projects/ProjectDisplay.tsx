@@ -6,10 +6,9 @@ import { AiFillGithub } from "react-icons/ai";
 import { BsGlobe } from "react-icons/bs";
 import { FiCode } from "react-icons/fi";
 import { Fragment, useState } from "react";
-import "react-responsive-modal/styles.css";
-import { Modal } from "react-responsive-modal";
 import ProjectCodeDisplay from "./projects-code-display/ProjectCodeDisplay";
 import Tooltip from "components/ToolTip";
+import Modal from "components/Modal";
 
 interface StyleTypes {
   flexDirection: string;
@@ -24,10 +23,6 @@ const StyledProjectDisplay = styled.div<StyleTypes>`
     padding: 2rem;
     background: ${({ theme }) => theme.clear};
     color: ${({ theme }) => theme.textPrimary};
-
-    @media only screen and (max-width: 900px) {
-      flex-direction: column;
-    }
 
     .project-icon-buttons {
       display: flex;
@@ -70,8 +65,14 @@ const StyledProjectDisplay = styled.div<StyleTypes>`
     }
 
     .image-display {
+      border-radius: 10px;
+      border: 2px solid white;
+      color: white;
       width: 40%;
+      padding: 0.5rem;
       img {
+        height: 400px;
+        width: auto;
         object-fit: cover;
       }
 
@@ -79,6 +80,14 @@ const StyledProjectDisplay = styled.div<StyleTypes>`
         li {
           background: ${({ theme }) => theme.secondary};
         }
+      }
+    }
+
+    @media only screen and (max-width: 900px) {
+      flex-direction: column;
+
+      .image-display {
+        width: 100%;
       }
     }
   }
@@ -173,7 +182,7 @@ const ProjectDisplay = ({
 
         <div className="image-display">
           <Carousel
-            showArrows={false}
+            showArrows={true}
             showStatus={false}
             showIndicators={true}
             infiniteLoop={true}
@@ -187,21 +196,13 @@ const ProjectDisplay = ({
             autoFocus={false}
           >
             {images.map((item: any, index: number) => (
-              <div key={index}>
-                <img alt={item.alt} src={item.image} />
-              </div>
+              <img alt={item.alt} src={item.link} key={index} />
             ))}
           </Carousel>
         </div>
       </div>
-      <Modal
-        classNames={{
-          modal: "customModal",
-        }}
-        open={showCode}
-        onClose={() => setShowCode(false)}
-        center
-      >
+
+      <Modal open={showCode} onClose={() => setShowCode(false)}>
         <ProjectCodeDisplay files={files} />
       </Modal>
     </StyledProjectDisplay>

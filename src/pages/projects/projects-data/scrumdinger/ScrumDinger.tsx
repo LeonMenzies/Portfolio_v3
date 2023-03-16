@@ -1,24 +1,33 @@
 import ProjectDisplay from "pages/projects/ProjectDisplay";
 
-import DetailView from "./detail-view.txt";
+import DetailView from "./code-files/detail-view.txt";
+import DailyScrum from "./code-files/daily-scrum.txt";
+import ScrumTimer from "./code-files/scrum-timer.txt";
 
+import DailyScrumImage from "./images/daily-scrums.png";
+import DetailViewImage from "./images/detail-view.png";
 
 const ScrumDinger = () => {
   return (
     <ProjectDisplay
       title={"Scrum Dinger"}
       description={
-        "I created this app whilst following a tutorial made by apple. It covers a lot of the fundementals of swift and ios app building"
+        "I created this app whilst following a tutorial made by apple. It covers a lot of the fundamentals of swift and ios app building. My goal was to learn swift whilst also picking up and understanding of the xcode framework so I could eventually start creating my own apps that fit the ios style and take advantage of the inbuilt functionality of ios devices."
       }
-      keyPoints={["Built in swift", "Follows MVC modal", "Uses state to store data"]}
+      keyPoints={[
+        "Built in swift",
+        "Follows MVC modal",
+        "Uses state to store data",
+        "Uses a theme provider to allow for changing themes",
+      ]}
       images={[
         {
-          alt: "Main Display Image",
-          link: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png?20220519031949",
+          alt: "DailyScrumImage",
+          link: DailyScrumImage,
         },
         {
-          alt: "Second Display image",
-          link: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Placeholder_view_vector.svg/681px-Placeholder_view_vector.svg.png?20220519031949",
+          alt: "DetailViewImage",
+          link: DetailViewImage,
         },
       ]}
       flexDirection={"row"}
@@ -33,15 +42,15 @@ const ScrumDinger = () => {
           language: "swift",
         },
         {
-          name: "About Page",
-          id: "about_page",
-          link: "",
+          name: "Daily Scrum",
+          id: "daily_scrum",
+          link: DailyScrum,
           language: "swift",
         },
         {
-          name: "Settings Page",
-          id: "settings_page",
-          link: "",
+          name: "Scrum Timer",
+          id: "scrum_timer",
+          link: ScrumTimer,
           language: "swift",
         },
       ]}

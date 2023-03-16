@@ -11,6 +11,25 @@ interface Types {
 const StyledProjectCodeDisplay = styled.div`
   padding: 1rem;
   display: flex;
+
+  .file-selector {
+    width: 30%;
+  }
+
+  .code-view {
+    width: 70%;
+  }
+
+  @media only screen and (max-width: 900px) {
+    flex-direction: column;
+
+    .file-selector {
+      width: 100%;
+    }
+    .code-view {
+      width: 100%;
+    }
+  }
 `;
 
 const ProjectCodeDisplay = ({ files }: Types) => {
@@ -44,6 +63,7 @@ const ProjectCodeDisplay = ({ files }: Types) => {
           )
         )}
       </div>
+      <div className={"code-view"}></div>
       <SyntaxHighlighter language={openItem.language} style={docco}>
         {code}
       </SyntaxHighlighter>
