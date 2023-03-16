@@ -24,14 +24,17 @@ const StyledAbout = styled.div`
     display: flex;
     padding: 1rem;
 
-    @media only screen and (max-width: 600px) {
-      flex-direction: column;
-    }
-
     img {
       height: 500px;
       object-fit: cover;
       margin-left: 0.5rem;
+    }
+
+    @media only screen and (max-width: 800px) {
+      flex-direction: column;
+      img {
+        height: 100%;
+      }
     }
 
     .about-info{

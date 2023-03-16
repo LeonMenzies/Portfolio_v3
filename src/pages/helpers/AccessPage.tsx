@@ -3,7 +3,7 @@ import Button from "components/Button";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { accessAtom } from "recoil/access";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import TextField from "components/TextField";
 import { sha256 } from "utils/Helpers";
 
@@ -64,6 +64,7 @@ const AccessPage = ({ accessKey }: any) => {
 
   useEffect(() => {
     accessPage(accessKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessKey]);
 
   const accessPage = (key: string) => {

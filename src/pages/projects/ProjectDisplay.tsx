@@ -5,10 +5,11 @@ import IconButton from "components/IconButton";
 import { AiFillGithub } from "react-icons/ai";
 import { BsGlobe } from "react-icons/bs";
 import { FiCode } from "react-icons/fi";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
-import ProjectCodeDisplay from "./ProjectCodeDisplay";
+import ProjectCodeDisplay from "./projects-code-display/ProjectCodeDisplay";
+import Tooltip from "components/ToolTip";
 
 interface StyleTypes {
   flexDirection: string;
@@ -92,6 +93,7 @@ interface Types {
   githubLink: string | undefined;
   websiteLink: string | undefined;
   wip: boolean;
+  files: any;
 }
 
 const ProjectDisplay = ({
@@ -103,6 +105,7 @@ const ProjectDisplay = ({
   githubLink,
   websiteLink,
   wip,
+  files,
 }: Types) => {
   const [showCode, setShowCode] = useState(false);
   return (
@@ -112,7 +115,14 @@ const ProjectDisplay = ({
           <div>
             <div className="title-section">
               <div className="project-title">{title}</div>
-              {wip && <div className="wip">WIP</div>}
+              {wip && (
+                <Fragment>
+                  <div className="wip" id="project-wip">
+                    WIP
+                  </div>
+                  <Tooltip id={"project-wip"} text={"Work In Progress"} />
+                </Fragment>
+              )}
             </div>
             <div className="project-description">{description}</div>
             <div className="project-key-points">
@@ -129,19 +139,35 @@ const ProjectDisplay = ({
               onClick={() => window.open(githubLink, "_blank")}
               outline={false}
               disabled={githubLink === undefined ? true : false}
+              id="project-github"
             />
+            <Tooltip
+              id={"project-github"}
+              text={"View On GitHub"}
+              disabled={githubLink === undefined ? true : false}
+            />
+
             <IconButton
               icon={<BsGlobe />}
               onClick={() => window.open(websiteLink, "_blank")}
               outline={false}
               disabled={websiteLink === undefined ? true : false}
+              id="project-website"
             />
+            <Tooltip
+              id={"project-website"}
+              text={"View Live Code"}
+              disabled={websiteLink === undefined ? true : false}
+            />
+
             <IconButton
               icon={<FiCode />}
               onClick={() => setShowCode(true)}
               outline={false}
               disabled={false}
+              id="project-code"
             />
+            <Tooltip id={"project-code"} text={"View Code Snippets"} />
           </div>
         </div>
 
@@ -168,8 +194,15 @@ const ProjectDisplay = ({
           </Carousel>
         </div>
       </div>
-      <Modal open={showCode} onClose={() => setShowCode(false)} center>
-        <ProjectCodeDisplay code={"const codeString = new Date()"} />
+      <Modal
+        classNames={{
+          modal: "customModal",
+        }}
+        open={showCode}
+        onClose={() => setShowCode(false)}
+        center
+      >
+        <ProjectCodeDisplay files={files} />
       </Modal>
     </StyledProjectDisplay>
   );

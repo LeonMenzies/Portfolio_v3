@@ -10,6 +10,9 @@ const GlobalStyles = createGlobalStyle`
     background-attachment:scroll;
     background-size: cover;
     font-family: Open-Sans, Helvetica, Sans-Serif;
+
+   
+
   }
 `;
 

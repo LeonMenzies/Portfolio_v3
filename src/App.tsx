@@ -18,7 +18,7 @@ const App = () => {
   const themeValue = useRecoilValue(themeAtom);
   const access = useRecoilValue(accessAtom);
   const [searchParams] = useSearchParams();
-  const [accessKey, setAccessKey] = useState<string>("");
+  const [accessKey, setAccessKey] = useState("");
 
   useEffect(() => {
     //Not very secure but needed for easy access via url

@@ -29,15 +29,17 @@ interface Types {
   outline: boolean;
   disabled?: any;
   fontSize?: string;
+  id?: string;
 }
 
-const IconButton = ({ icon, onClick, outline, disabled, fontSize = "1.7rem" }: Types) => {
+const IconButton = ({ icon, onClick, outline, disabled, fontSize = "1.7rem", id }: Types) => {
   return (
     <StyledIconButton
       fontSize={fontSize}
       outline={outline}
       disabled={disabled}
       onClick={disabled ? undefined : onClick}
+      id={id}
     >
       {icon}
     </StyledIconButton>

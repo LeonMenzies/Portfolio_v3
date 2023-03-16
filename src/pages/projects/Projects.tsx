@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import ScrumDinger from "pages/projects/projects_data/scrumdinger/ScrumDinger";
+import ScrumDinger from "pages/projects/projects-data/scrumdinger/ScrumDinger";
 
 const StyledWIP = styled.div`
   padding: 1rem;

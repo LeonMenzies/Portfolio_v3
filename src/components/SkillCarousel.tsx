@@ -38,36 +38,42 @@ const StyledCarousel = styled.div`
     background-color: ${({ theme }) => theme.secondary};
     cursor: pointer;
   }
+
+  .skill-icon {
+    svg {
+      font-size: 5vw;
+    }
+  }
 `;
 
 let iconArray = [
-  <IoLogoPython size={50} />,
-  <IoLogoHtml5 size={50} />,
-  <IoLogoCss3 size={50} />,
-  <SiBootstrap size={50} />,
-  <IoLogoJavascript size={50} />,
-  <SiReact size={50} />,
-  <SiJava size={50} />,
-  <SiRubyonrails size={50} />,
-  <SiRuby size={50} />,
-  <SiPostgresql size={50} />,
-  <SiXcode size={50} />,
-  <SiTypescript size={50} />,
-  <SiFirebase size={50} />,
-  <SiAndroidstudio size={50} />,
-  <SiGithub size={50} />,
-  <SiStackoverflow size={50} />,
-  <SiRubyonrails size={50} />,
-  <SiRuby size={50} />,
-  <SiPostgresql size={50} />,
-  <SiXcode size={50} />,
-  <SiTypescript size={50} />,
-  <SiFirebase size={50} />,
-  <SiAndroidstudio size={50} />,
-  <SiGithub size={50} />,
-  <SiStackoverflow size={50} />,
-  <SiCplusplus size={50} />,
-  <SiC size={50} />,
+  <IoLogoPython />,
+  <IoLogoHtml5 />,
+  <IoLogoCss3 />,
+  <SiBootstrap />,
+  <IoLogoJavascript />,
+  <SiReact />,
+  <SiJava />,
+  <SiRubyonrails />,
+  <SiRuby />,
+  <SiPostgresql />,
+  <SiXcode />,
+  <SiTypescript />,
+  <SiFirebase />,
+  <SiAndroidstudio />,
+  <SiGithub />,
+  <SiStackoverflow />,
+  <SiRubyonrails />,
+  <SiRuby />,
+  <SiPostgresql />,
+  <SiXcode />,
+  <SiTypescript />,
+  <SiFirebase />,
+  <SiAndroidstudio />,
+  <SiGithub />,
+  <SiStackoverflow />,
+  <SiCplusplus />,
+  <SiC />,
 ];
 
 const SkillCarousel = () => {
@@ -77,7 +83,9 @@ const SkillCarousel = () => {
     <StyledCarousel onClick={() => navigate("/skills")}>
       <Carousel height={100} width={20000} yOrigin={42} yRadius={48} autoPlay={true}>
         {iconArray.map((item, index) => (
-          <div key={index}>{item}</div>
+          <div className={"skill-icon"} key={index}>
+            {item}
+          </div>
         ))}
       </Carousel>
       <div className={"carousel-cover"} />

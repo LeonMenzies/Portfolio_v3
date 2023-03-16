@@ -1,5 +1,8 @@
 import ProjectDisplay from "pages/projects/ProjectDisplay";
 
+import DetailView from "./detail-view.txt";
+
+
 const ScrumDinger = () => {
   return (
     <ProjectDisplay
@@ -22,6 +25,26 @@ const ScrumDinger = () => {
       githubLink={"https://github.com/LeonMenzies/ScrumDinger"}
       websiteLink={undefined}
       wip={true}
+      files={[
+        {
+          name: "Detail View",
+          id: "detail_view",
+          link: DetailView,
+          language: "swift",
+        },
+        {
+          name: "About Page",
+          id: "about_page",
+          link: "",
+          language: "swift",
+        },
+        {
+          name: "Settings Page",
+          id: "settings_page",
+          link: "",
+          language: "swift",
+        },
+      ]}
     />
   );
 };
