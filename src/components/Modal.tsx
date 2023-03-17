@@ -12,6 +12,9 @@ const Modal = ({ open, onClose, children }: any) => {
       isOpen={open}
       onRequestClose={onClose}
       style={{
+        overlay: {
+          zIndex: "2",
+        },
         content: {
           backgroundColor: theme.primary,
         },

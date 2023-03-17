@@ -70,6 +70,7 @@ const StyledProjectDisplay = styled.div<StyleTypes>`
       color: white;
       width: 40%;
       padding: 0.5rem;
+
       img {
         height: 400px;
         width: auto;
@@ -119,6 +120,9 @@ const ProjectDisplay = ({
   const [showCode, setShowCode] = useState(false);
   return (
     <StyledProjectDisplay flexDirection={flexDirection}>
+      <Modal open={showCode} onClose={() => setShowCode(false)}>
+        <ProjectCodeDisplay files={files} />
+      </Modal>
       <div className="project-display-content">
         <div className="project-about-section">
           <div>
@@ -201,10 +205,6 @@ const ProjectDisplay = ({
           </Carousel>
         </div>
       </div>
-
-      <Modal open={showCode} onClose={() => setShowCode(false)}>
-        <ProjectCodeDisplay files={files} />
-      </Modal>
     </StyledProjectDisplay>
   );
 };

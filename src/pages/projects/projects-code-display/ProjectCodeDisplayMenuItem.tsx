@@ -7,12 +7,22 @@ const StyledProjectCodeDisplayMenuItem = styled.div`
   padding: 0.2rem 0.5rem;
   font-size: 0.8rem;
   border-radius: 20px;
-  border: 2px solid black;
+  border: 2px solid ${({ theme }) => theme.textPrimary};
   margin: 0.2rem;
+  color: ${({ theme }) => theme.textPrimary};
+
+  svg {
+    padding: 0.2rem;
+    color: ${({ theme }) => theme.secondary};
+  }
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};
     cursor: pointer;
+
+    svg {
+      color: ${({ theme }) => theme.textPrimary};
+    }
   }
 `;
 
