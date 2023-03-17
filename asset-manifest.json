@@ -1,18 +1,23 @@
 {
   "files": {
-    "main.css": "/static/css/main.1135ed73.css",
-    "main.js": "/static/js/main.60f90c83.js",
+    "main.css": "/static/css/main.35597a87.css",
+    "main.js": "/static/js/main.3453fbdc.js",
     "static/media/Document.pdf": "/static/media/Document.ec1343f9dc1b97daaeca.pdf",
     "static/media/Transcript.pdf": "/static/media/Transcript.8becb8712624f8e788cf.pdf",
     "static/media/vancouver-background.jpg": "/static/media/vancouver-background.a10c0c3948bce20e4486.jpg",
     "static/media/profile-photo.jpg": "/static/media/profile-photo.f264541b2893ad4cd8eb.jpg",
+    "static/media/detail-view.png": "/static/media/detail-view.efec042785eb0dcfd655.png",
+    "static/media/daily-scrums.png": "/static/media/daily-scrums.622e1dcb7449f9f1ac82.png",
     "static/media/Resume_Current.pdf": "/static/media/Resume_Current.b9d3fc67be0586b1b8e5.pdf",
+    "static/media/scrum-timer.txt": "/static/media/scrum-timer.f2cc3718c37e6bfb7973.txt",
+    "static/media/detail-view.txt": "/static/media/detail-view.63aeb38ab68da543bae7.txt",
+    "static/media/daily-scrum.txt": "/static/media/daily-scrum.4f246f6ccfa4f9984da4.txt",
     "index.html": "/index.html",
-    "main.1135ed73.css.map": "/static/css/main.1135ed73.css.map",
-    "main.60f90c83.js.map": "/static/js/main.60f90c83.js.map"
+    "main.35597a87.css.map": "/static/css/main.35597a87.css.map",
+    "main.3453fbdc.js.map": "/static/js/main.3453fbdc.js.map"
   },
   "entrypoints": [
-    "static/css/main.1135ed73.css",
-    "static/js/main.60f90c83.js"
+    "static/css/main.35597a87.css",
+    "static/js/main.3453fbdc.js"
   ]
 }
