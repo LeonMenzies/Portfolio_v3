@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-access-key */
 import GlobalStyles from "utils/GlobalStyles";
 import { Routes, Route, useSearchParams } from "react-router-dom";
 import { ThemeProvider } from "styled-components";

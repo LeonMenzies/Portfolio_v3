@@ -5,7 +5,7 @@ import { useSetRecoilState } from "recoil";
 import { accessAtom } from "recoil/access";
 import { useNavigate } from "react-router-dom";
 import TextField from "components/TextField";
-import { sha256 } from "utils/Helpers";
+import { sha256 } from "js-sha256";
 
 const StyledAccessPage = styled.div`
   display: flex;
