@@ -22,7 +22,7 @@ const App = () => {
   const [accessKey, setAccessKey] = useState("");
 
   useEffect(() => {
-    //Not very secure but needed for easy access via url
+    //Needed for easy access via url
     const key = searchParams.get("key");
 
     if (key) {

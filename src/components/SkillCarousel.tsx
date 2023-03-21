@@ -42,6 +42,10 @@ const StyledCarousel = styled.div`
   .skill-icon {
     svg {
       font-size: 5vw;
+
+      @media screen and (min-width: 1400px) {
+        font-size: 70px;
+      }
     }
   }
 `;

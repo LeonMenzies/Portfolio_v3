@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import IconButton from "components/IconButton";
-import { AiFillGithub } from "react-icons/ai";
+import { AiFillGithub, AiFillFile } from "react-icons/ai";
 import { BsGlobe } from "react-icons/bs";
 import { FiCode } from "react-icons/fi";
 import { Fragment, useState } from "react";
@@ -72,9 +72,9 @@ const StyledProjectDisplay = styled.div<StyleTypes>`
       padding: 0.5rem;
 
       img {
-        height: 400px;
-        width: auto;
-        object-fit: cover;
+        max-width: 100%;
+        max-height: 400px;
+        object-fit: contain;
       }
 
       .control-dots {
@@ -102,6 +102,7 @@ interface Types {
   flexDirection: string;
   githubLink: string | undefined;
   websiteLink: string | undefined;
+  pdfLink: string | undefined;
   wip: boolean;
   files: any;
 }
@@ -114,6 +115,7 @@ const ProjectDisplay = ({
   flexDirection,
   githubLink,
   websiteLink,
+  pdfLink,
   wip,
   files,
 }: Types) => {
@@ -167,11 +169,31 @@ const ProjectDisplay = ({
               disabled={websiteLink === undefined ? true : false}
               id="project-website"
             />
+
             <Tooltip
               id={"project-website"}
               text={"View Live Code"}
               disabled={websiteLink === undefined ? true : false}
             />
+
+            <IconButton
+              icon={<AiFillFile />}
+              onClick={() => window.open(pdfLink, "_blank")}
+              outline={false}
+              disabled={pdfLink === undefined ? true : false}
+              id="pdf-link"
+            />
+
+            <Tooltip
+              id={"pdf-link"}
+              text={"View PDF"}
+              disabled={pdfLink === undefined ? true : false}
+            />
+
+            {/* <a href={samplePDF1} target="_blank" 
+                    rel="noreferrer">
+                    Open First PDF
+                </a> */}
 
             <IconButton
               icon={<FiCode />}

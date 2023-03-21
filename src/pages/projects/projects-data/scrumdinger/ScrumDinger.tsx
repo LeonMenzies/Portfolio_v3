@@ -30,9 +30,10 @@ const ScrumDinger = () => {
           link: DetailViewImage,
         },
       ]}
-      flexDirection={"row"}
+      flexDirection={"row-reverse"}
       githubLink={"https://github.com/LeonMenzies/ScrumDinger"}
       websiteLink={undefined}
+      pdfLink={undefined}
       wip={true}
       files={[
         {
