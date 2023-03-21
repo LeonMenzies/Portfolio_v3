@@ -1,0 +1,1434 @@
+
+
+    import torch
+    import torchvision
+    import torch.nn as nn
+    import matplotlib.pyplot as plt
+    import numpy as np
+    import copy
+
+    from torchsummary import summary
+    from torch.utils.data import DataLoader, SubsetRandomSampler
+    from torchvision.transforms import transforms
+    from sklearn.model_selection import KFold
+
+Step 0: Import data
+
+    transformer = transforms.Compose([
+        transforms.ToTensor(),
+    ])
+
+    #Load images
+    image_data = torchvision.datasets.ImageFolder('../traindata', transform=transformer)
+
+    #Set the classes
+    class_dict = {
+        0 : "cherry",
+        1 : "strawberry",
+        2 : "tomato"
+    }
+
+    classes = ('cherry', 'strawberry', 'tomato')
+
+Step 1: Conduct EDA
+
+Manually exploring data ✓
+
+    #Show data size
+    print(f"Train size: {len(image_data)}")
+
+    Train size: 8277
+
+    #Show data loader information
+    image_data
+
+    Dataset ImageFolder
+        Number of datapoints: 8277
+        Root location: ../traindata
+        StandardTransform
+    Transform: Compose(
+                   ToTensor()
+               )
+
+    #extract all the images as numpy arrays
+    img = []
+    widths = []
+    heights = []
+
+    for image, labels in iter(image_data):
+        i = image.numpy()
+        
+        img.append(i)
+
+        widths.append(len(i[1]))
+        heights.append(len(i[2]))
+
+    #Plot the image sizes to check they are all the same
+    fig, ax = plt.subplots(1, 2, figsize=(15, 4))
+
+    ax[0].hist(widths)
+    ax[0].title.set_text("Width")
+    ax[1].hist(heights)
+    ax[1].title.set_text("Height")
+
+    plt.hist(widths)
+    plt.hist(heights)
+    plt.show
+
+    <function matplotlib.pyplot.show(close=None, block=None)>
+
+[]
+
+    #Load data again but now apply transformations to normalise the data through findings
+
+    img_size = 64
+    batch_size = 64
+
+
+    transformer = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.RandomRotation(30), #Add some random augmentation to increase samples for the learning model
+        transforms.RandomResizedCrop(224),
+        transforms.RandomHorizontalFlip(),
+        transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5]),
+        transforms.Resize((img_size, img_size))
+    ])
+
+    image_data = torchvision.datasets.ImageFolder('../traindata', transform=transformer)
+
+
+    #Calculate split size
+    dataSetSize = int(len(image_data))
+    trainSize = int(0.8 * dataSetSize)
+    testSize = int(dataSetSize - trainSize)
+
+    #Split into 80/20
+    trainData, testData = torch.utils.data.random_split(image_data, [trainSize, testSize])
+
+    #Load in data
+    train_loader = DataLoader(
+        trainData, 
+        batch_size=batch_size, shuffle=True
+    )
+
+    #Load in data
+    test_loader = DataLoader(
+        testData, 
+        batch_size=batch_size, shuffle=True
+    )
+
+    #Load in data for val
+    val_loader = DataLoader(
+        image_data, 
+        batch_size=batch_size, shuffle=True
+    )
+
+    print("Orginal len:", len(image_data))
+    print("Train len:", len(train_loader.dataset))
+    print("Test len:", len(test_loader.dataset))
+
+    Orginal len: 8277
+    Train len: 6621
+    Test len: 1656
+
+    #find a random image
+    for data in train_loader:
+        break
+
+    #Split the label from the data
+    x, y = data[0][0], data[1][0]
+
+    #Plot the image and then each color channel as an image
+    fig, ax = plt.subplots(1, 4, figsize=(15, 10))
+
+    ax[0].imshow(np.transpose(x, (1, 2, 0)))
+    ax[1].imshow(x[0].view(img_size, img_size))
+    ax[2].imshow(x[1].view(img_size, img_size))
+    ax[3].imshow(x[2].view(img_size, img_size))
+
+    fig.suptitle(class_dict[y.item()], fontsize=20)
+    plt.show()
+
+    /opt/homebrew/lib/python3.9/site-packages/torchvision/transforms/functional.py:1603: UserWarning: The default value of the antialias parameter of all the resizing transforms (Resize(), RandomResizedCrop(), etc.) will change from None to True in v0.17, in order to be consistent across the PIL and Tensor backends. To suppress this warning, directly pass antialias=True (recommended, future default), antialias=None (current default, which means False for Tensors and True for PIL), or antialias=False (only works on Tensors - PIL will still use antialiasing). This also applies if you are using the inference transforms from the models weights: update the call to weights.transforms(antialias=True).
+      warnings.warn(
+    Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+
+[]
+
+    img_dist = []
+
+    #Put each image in a list
+    for image, labels in iter(train_loader.dataset):
+            
+        img_dist.append(image.numpy())
+
+    #Plot each pixle value on a histogram
+    plt.hist(np.array(img_dist).ravel(), bins=50, density=True)
+
+    plt.xlabel("pixel values")
+    plt.ylabel("relative frequency")
+    plt.title("distribution of pixels")
+
+    Text(0.5, 1.0, 'distribution of pixels')
+
+[]
+
+    red = []
+    green = []
+    blue = []
+
+    #store each rgb value seperatly
+    for val in img: 
+        red.append(np.average(val[0]))    
+        green.append(np.average(val[1]))
+        blue.append(np.average(val[2]))
+
+    #plot the rgb values on a histogram
+    plt.figure(figsize=(15, 10))
+
+    plt.hist(red, bins=50, fc=(1, 0, 0, 0.5))
+    plt.hist(green,  bins=50, fc=(0, 1, 0, 0.5))
+    plt.hist(blue, bins=50, fc=(0, 0, 1, 0.5))
+    plt.ylabel('frequency')
+    plt.xlabel('value')
+
+    Text(0.5, 0, 'value')
+
+[]
+
+    plt.figure(figsize=(15, 10))
+
+    # functions to show an image
+    def imshow(img):
+        img = img / 2 + 0.5     # unnormalize
+        npimg = img.numpy()
+        plt.imshow(np.transpose(npimg, (1, 2, 0)))
+        plt.show()
+
+
+    # get some random training images
+    dataiter = iter(train_loader)
+    images, labels = dataiter.next()
+
+    # show images
+    imshow(torchvision.utils.make_grid(images))
+    # print labels
+
+    print(' '.join('%5s' % classes[labels[j]] for j in range(batch_size)))
+
+[]
+
+    strawberry cherry tomato tomato tomato strawberry strawberry tomato tomato tomato tomato cherry cherry tomato strawberry cherry strawberry tomato tomato cherry tomato tomato cherry cherry cherry cherry cherry strawberry tomato strawberry strawberry strawberry tomato tomato cherry strawberry tomato tomato strawberry cherry cherry strawberry tomato cherry cherry tomato cherry cherry tomato cherry strawberry cherry cherry tomato tomato cherry strawberry cherry cherry tomato tomato tomato strawberry cherry
+
+Step 2: Apply pre-processing
+
+Removed images that do not represent the desired class very well ✓
+
+Data augomentation ✓
+
+Normalise ✓
+
+    transforms.RandomRotation(30),
+    transforms.RandomResizedCrop(224),
+    transforms.RandomHorizontalFlip(),
+    transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5]),
+    transforms.Resize((img_size, img_size))
+
+Step 3: Baseline model
+
+    #A simple pytorch MLP model
+    import torch.nn.functional as F
+
+    class MLP(nn.Module):
+        def __init__(self):
+            super(MLP, self).__init__()
+            
+            self.layers = nn.Sequential(
+                nn.Linear(img_size * img_size * 3, 100),
+                nn.ReLU(),
+                nn.Linear(100, 3)
+            )
+            
+        def forward(self, x):
+            x = x.view(x.size(0), -1)
+            x = self.layers(x)
+            return x
+
+    mlp = MLP()
+
+    #Create a loss function and optimizer for the mlp model
+    loss_func = nn.CrossEntropyLoss()
+    opt = torch.optim.SGD(mlp.parameters(), lr=0.001)
+
+    losses = []
+
+    for epoch in range(5):
+
+        running_loss = 0.0
+        for i, data in enumerate(train_loader, 0):
+            
+            #Extract the images from the labels
+            inputs, labels = data
+
+            #Zero the parameter gradients
+            opt.zero_grad()
+
+            #Forward pass
+            outputs = mlp(inputs)
+            #Calculate loss
+            loss = loss_func(outputs, labels)
+            #Save each loss
+            losses.append(loss.detach().numpy())
+            loss.backward()
+            #Step the optimiser
+            opt.step()
+
+
+    print('Finished Training')
+
+    Finished Training
+
+    #Show a summary of the model
+    summary(model=mlp, input_size=(3, img_size, img_size), batch_size=batch_size) 
+
+    ----------------------------------------------------------------
+            Layer (type)               Output Shape         Param #
+    ================================================================
+                Linear-1                  [64, 100]       1,228,900
+                  ReLU-2                  [64, 100]               0
+                Linear-3                    [64, 3]             303
+    ================================================================
+    Total params: 1,229,203
+    Trainable params: 1,229,203
+    Non-trainable params: 0
+    ----------------------------------------------------------------
+    Input size (MB): 3.00
+    Forward/backward pass size (MB): 0.10
+    Params size (MB): 4.69
+    Estimated Total Size (MB): 7.79
+    ----------------------------------------------------------------
+
+    correct = 0
+    total = 0
+
+
+    with torch.no_grad():
+        for data in test_loader:
+            images, labels = data
+            #Find an images label by putting it through the model
+            outputs = mlp(images)
+
+            #The class with the highest value is what we choose as prediction
+            _, predicted = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
+
+    print('Accuracy of the network on the test images: %d %%' % (
+        100 * correct / total))
+
+    Accuracy of the network on the test images: 48 %
+
+    #Plot teh losses against the steps
+
+    plt.figure(figsize=(15, 10))
+
+    plt.plot(losses)
+    plt.title("MLP")
+    plt.xlabel('epochs')
+    plt.ylabel('Loss')
+    plt.show()
+
+[]
+
+Step 4: CNN model
+
+    import torch.nn.functional as F
+
+    class CNN(nn.Module):
+        def __init__(self):
+            super(CNN, self).__init__()
+            self.conv1 = nn.Conv2d(3, 6, 5)
+            self.pool = nn.MaxPool2d(2, 2)
+            self.conv2 = nn.Conv2d(6, 16, 5)
+            
+            self.fc1 = nn.Linear(2704, 80)
+            self.fc2 = nn.Linear(80, 3)
+
+        def forward(self, x):
+            x = self.pool(F.relu(self.conv1(x)))
+            x = self.pool(F.relu(self.conv2(x)))
+            x = torch.flatten(x, 1)
+
+            x = F.relu(self.fc1(x))
+            x = self.fc2(x)
+            return x
+
+
+    cnn = CNN()
+
+    summary(model=cnn, input_size=(3, img_size, img_size), batch_size=batch_size) 
+
+    ----------------------------------------------------------------
+            Layer (type)               Output Shape         Param #
+    ================================================================
+                Conv2d-1            [64, 6, 60, 60]             456
+             MaxPool2d-2            [64, 6, 30, 30]               0
+                Conv2d-3           [64, 16, 26, 26]           2,416
+             MaxPool2d-4           [64, 16, 13, 13]               0
+                Linear-5                   [64, 80]         216,400
+                Linear-6                    [64, 3]             243
+    ================================================================
+    Total params: 219,515
+    Trainable params: 219,515
+    Non-trainable params: 0
+    ----------------------------------------------------------------
+    Input size (MB): 3.00
+    Forward/backward pass size (MB): 19.83
+    Params size (MB): 0.84
+    Estimated Total Size (MB): 23.66
+    ----------------------------------------------------------------
+
+    #Create a loss function and optimizer for the cnn model
+    loss_func = nn.CrossEntropyLoss()
+    opt = torch.optim.Adam(cnn.parameters(), lr=0.001)
+
+    losses = []
+
+    best_outputs = None
+
+    for epoch in range(10):  # loop over the dataset multiple times
+
+        running_loss = 0.0
+        for i, data in enumerate(train_loader, 0):
+            # get the inputs; data is a list of [inputs, labels]
+            inputs, labels = data
+
+            # zero the parameter gradients
+            opt.zero_grad()
+
+            # forward + backward + optimize
+            outputs = cnn(inputs)
+
+            if len(outputs) == batch_size:
+                best_outputs = outputs
+
+            loss = loss_func(outputs, labels)
+            losses.append(loss.detach().numpy())
+            loss.backward()
+            opt.step()
+
+
+
+    print('Finished Training')
+
+    Finished Training
+
+    #Save training model
+    PATH = './cnn.pth'
+    torch.save(cnn.state_dict(), PATH)
+
+    #For testing
+
+    dataiter = iter(test_loader)
+    images, labels = dataiter.next()
+
+    # print images
+    imshow(torchvision.utils.make_grid(images))
+    print('GroundTruth: ', ' '.join('%5s' % classes[labels[j]] for j in range(batch_size)))
+
+[]
+
+    GroundTruth:  tomato strawberry tomato tomato cherry strawberry strawberry tomato tomato strawberry tomato cherry strawberry tomato strawberry cherry strawberry strawberry cherry tomato strawberry strawberry cherry tomato cherry tomato cherry tomato cherry cherry cherry strawberry strawberry strawberry tomato tomato cherry tomato cherry cherry strawberry strawberry strawberry tomato cherry strawberry strawberry cherry tomato tomato strawberry cherry tomato tomato cherry cherry cherry tomato cherry cherry cherry strawberry cherry tomato
+
+
+    _, predicted = torch.max(best_outputs, 1)
+
+    print('Predicted: ', ' '.join('%5s' % classes[predicted[j]]for j in range(batch_size)))
+
+    Predicted:  strawberry strawberry strawberry strawberry tomato tomato cherry strawberry strawberry strawberry tomato strawberry tomato strawberry strawberry tomato tomato cherry cherry tomato tomato strawberry strawberry strawberry tomato tomato tomato strawberry cherry tomato strawberry strawberry strawberry cherry cherry strawberry cherry cherry strawberry cherry cherry cherry strawberry strawberry cherry strawberry tomato cherry cherry tomato tomato strawberry tomato tomato cherry cherry tomato strawberry strawberry strawberry strawberry strawberry cherry tomato
+
+    correct = 0
+    total = 0
+
+    with torch.no_grad():
+        for data in test_loader:
+            images, labels = data
+            # calculate outputs by running images through the network
+            outputs = cnn(images)
+            # the class with the highest energy is what we choose as prediction
+            _, predicted = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
+
+    print('Accuracy of the network on the test images: %d %%' % (
+        100 * correct / total))
+
+    Accuracy of the network on the test images: 75 %
+
+    plt.figure(figsize=(15, 10))
+
+    plt.plot(losses)
+    plt.title("CNN")
+    plt.xlabel('epochs')
+    plt.ylabel('Loss')
+    plt.show()
+
+[]
+
+Step 5: Tune CNN
+
+1.  Use cross validation
+2.  Investigate loss function
+3.  Investigate optimisation techniques
+4.  Get more data
+5.  Batch sizes
+
+class Tuned_CNN(nn.Module): def init(self): super(Tuned_CNN,
+self).__init__()
+
+        self.conv1 = nn.Conv2d(3, 6, 5)
+        self.conv3 = nn.Conv2d(6, 6, 5)
+        self.conv2 = nn.Conv2d(6, 16, 5)
+
+        self.bn1 = nn.BatchNorm2d(100, affine=False)
+
+        self.pool = nn.MaxPool2d(2, 2)
+
+        self.avg_pool = nn.AvgPool2d(3) #Max pooling instead
+
+        #add batch normalisation
+        #drop out layers
+        #learning rate scheduling
+        
+        
+        self.fc1 = nn.Linear(256, 120)
+        self.fc2 = nn.Linear(120, 84)
+        self.fc3 = nn.Linear(84, 3)
+
+    def forward(self, x):
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv3(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+
+
+        x = torch.flatten(x, 1) 
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
+        return x
+
+tuned_cnn = Tuned_CNN()
+
+    #Testing different cnn stacks
+
+    class Tuned_CNN(nn.Module):
+        def __init__(self):
+            super(Tuned_CNN, self).__init__()
+
+            self.conv1 = nn.Conv2d(3, 6, 5)
+            self.conv2 = nn.Conv2d(6, 16, 5)
+            self.conv3 = nn.Conv2d(6, 6, 5)
+
+            self.bn1 = nn.BatchNorm2d(6, affine=False)
+            self.bn2 = nn.BatchNorm2d(6, affine=False)
+
+            self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2)
+            self.dropout = nn.Dropout(p=0.5, inplace=False)
+
+            self.relu = nn.ReLU(inplace=True)
+        
+            self.fc1 = nn.Linear(144, 120)
+            self.fc2 = nn.Linear(120, 84)
+            self.fc3 = nn.Linear(84, 3)
+
+        def forward(self, x):
+
+            x = self.maxpool(F.relu(self.conv1(x)))
+            x = self.bn1(x)
+            x = self.maxpool(F.relu(self.conv3(x)))
+            x = self.bn2(x)
+            x = self.maxpool(F.relu(self.conv2(x)))
+            x = self.dropout(x)
+            
+            x = torch.flatten(x, 1) 
+            x = F.relu(self.fc1(x))
+            x = F.relu(self.fc2(x))
+            x = self.fc3(x)
+            return x
+
+    tuned_cnn = Tuned_CNN()
+
+    summary(model=Tuned_CNN(), input_size=(3, img_size, img_size), batch_size=batch_size) 
+
+    ----------------------------------------------------------------
+            Layer (type)               Output Shape         Param #
+    ================================================================
+                Conv2d-1            [64, 6, 60, 60]             456
+             MaxPool2d-2            [64, 6, 29, 29]               0
+           BatchNorm2d-3            [64, 6, 29, 29]               0
+                Conv2d-4            [64, 6, 25, 25]             906
+             MaxPool2d-5            [64, 6, 12, 12]               0
+           BatchNorm2d-6            [64, 6, 12, 12]               0
+                Conv2d-7             [64, 16, 8, 8]           2,416
+             MaxPool2d-8             [64, 16, 3, 3]               0
+               Dropout-9             [64, 16, 3, 3]               0
+               Linear-10                  [64, 120]          17,400
+               Linear-11                   [64, 84]          10,164
+               Linear-12                    [64, 3]             255
+    ================================================================
+    Total params: 31,597
+    Trainable params: 31,597
+    Non-trainable params: 0
+    ----------------------------------------------------------------
+    Input size (MB): 3.00
+    Forward/backward pass size (MB): 18.89
+    Params size (MB): 0.12
+    Estimated Total Size (MB): 22.01
+    ----------------------------------------------------------------
+
+    #Optimizer and loss function
+    loss_func = nn.CrossEntropyLoss()
+    opt = torch.optim.Adam(tuned_cnn.parameters(), lr=0.001)
+
+    #Split into kfolds for parameter tuning
+    splits=KFold(n_splits=10,shuffle=True,random_state=1)
+
+    for fold, (train_idx,val_idx) in enumerate(splits.split(np.arange(len(val_loader.dataset)))):
+
+        print('Fold {}'.format(fold + 1))
+
+
+        #Extract test and train data
+        train_sampler = SubsetRandomSampler(train_idx)
+        test_sampler = SubsetRandomSampler(val_idx)
+        
+        train_loader = DataLoader(val_loader.dataset, batch_size=batch_size, sampler=train_sampler)
+        test_loader = DataLoader(val_loader.dataset, batch_size=batch_size, sampler=test_sampler)
+
+        
+        #Train model
+        for epoch in range(20):
+
+            train_correct = 0
+
+            running_loss = 0.0
+            for i, data in enumerate(train_loader, 0):
+                # get the inputs; data is a list of [inputs, labels]
+                inputs, labels = data
+
+                # zero the parameter gradients
+                opt.zero_grad()
+
+                # forward + backward + optimize
+                outputs = tuned_cnn(inputs)
+
+                scores, predictions = torch.max(outputs.data, 1)
+                train_correct += (predictions == labels).sum().item()
+
+
+                loss = loss_func(outputs, labels)
+                losses.append(loss.detach().numpy())
+                loss.backward()
+                opt.step()
+            
+            train_acc = train_correct / len(train_loader.sampler) * 100
+            print("Epoch:{}/{} AVG Training Acc {:.2f}".format(epoch + 1, 10, train_acc))
+
+        
+        #Test model
+        for data in test_loader:
+            images, labels = data
+            # calculate outputs by running images through the network
+            outputs = tuned_cnn(images)
+            # the class with the highest energy is what we choose as prediction
+            _, predicted = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
+
+        print('Accuracy of the network on the test images: %d %%' % (100 * correct / total))
+
+    Fold 1
+    Epoch:1/10 AVG Training Acc 50.60
+    Epoch:2/10 AVG Training Acc 62.20
+    Epoch:3/10 AVG Training Acc 67.36
+    Epoch:4/10 AVG Training Acc 68.88
+    Epoch:5/10 AVG Training Acc 70.16
+    Epoch:6/10 AVG Training Acc 71.66
+    Epoch:7/10 AVG Training Acc 73.93
+    Epoch:8/10 AVG Training Acc 72.48
+    Epoch:9/10 AVG Training Acc 74.29
+    Epoch:10/10 AVG Training Acc 73.45
+    Epoch:11/10 AVG Training Acc 74.35
+    Epoch:12/10 AVG Training Acc 73.82
+    Epoch:13/10 AVG Training Acc 74.65
+    Epoch:14/10 AVG Training Acc 75.10
+    Epoch:15/10 AVG Training Acc 76.04
+    Epoch:16/10 AVG Training Acc 75.04
+    Epoch:17/10 AVG Training Acc 75.47
+    Epoch:18/10 AVG Training Acc 76.24
+    Epoch:19/10 AVG Training Acc 75.16
+    Epoch:20/10 AVG Training Acc 76.35
+    Accuracy of the network on the test images: 75 %
+    Fold 2
+    Epoch:1/10 AVG Training Acc 76.86
+    Epoch:2/10 AVG Training Acc 75.97
+    Epoch:3/10 AVG Training Acc 76.04
+    Epoch:4/10 AVG Training Acc 76.59
+    Epoch:5/10 AVG Training Acc 76.87
+    Epoch:6/10 AVG Training Acc 76.43
+    Epoch:7/10 AVG Training Acc 77.10
+    Epoch:8/10 AVG Training Acc 76.91
+    Epoch:9/10 AVG Training Acc 77.54
+    Epoch:10/10 AVG Training Acc 76.71
+    Epoch:11/10 AVG Training Acc 77.46
+    Epoch:12/10 AVG Training Acc 76.88
+    Epoch:13/10 AVG Training Acc 78.06
+    Epoch:14/10 AVG Training Acc 77.78
+    Epoch:15/10 AVG Training Acc 77.73
+    Epoch:16/10 AVG Training Acc 78.47
+    Epoch:17/10 AVG Training Acc 78.06
+    Epoch:18/10 AVG Training Acc 77.88
+    Epoch:19/10 AVG Training Acc 77.93
+    Epoch:20/10 AVG Training Acc 76.98
+    Accuracy of the network on the test images: 76 %
+    Fold 3
+    Epoch:1/10 AVG Training Acc 78.23
+    Epoch:2/10 AVG Training Acc 78.36
+    Epoch:3/10 AVG Training Acc 78.60
+    Epoch:4/10 AVG Training Acc 78.44
+    Epoch:5/10 AVG Training Acc 78.87
+    Epoch:6/10 AVG Training Acc 77.94
+    Epoch:7/10 AVG Training Acc 78.52
+    Epoch:8/10 AVG Training Acc 78.76
+    Epoch:9/10 AVG Training Acc 78.88
+    Epoch:10/10 AVG Training Acc 78.88
+    Epoch:11/10 AVG Training Acc 78.95
+    Epoch:12/10 AVG Training Acc 78.64
+    Epoch:13/10 AVG Training Acc 78.55
+    Epoch:14/10 AVG Training Acc 79.15
+    Epoch:15/10 AVG Training Acc 79.47
+    Epoch:16/10 AVG Training Acc 78.76
+    Epoch:17/10 AVG Training Acc 79.92
+    Epoch:18/10 AVG Training Acc 79.85
+    Epoch:19/10 AVG Training Acc 79.50
+    Epoch:20/10 AVG Training Acc 78.88
+    Accuracy of the network on the test images: 76 %
+    Fold 4
+    Epoch:1/10 AVG Training Acc 79.27
+    Epoch:2/10 AVG Training Acc 79.14
+    Epoch:3/10 AVG Training Acc 78.98
+    Epoch:4/10 AVG Training Acc 79.35
+    Epoch:5/10 AVG Training Acc 78.36
+    Epoch:6/10 AVG Training Acc 79.33
+    Epoch:7/10 AVG Training Acc 79.53
+    Epoch:8/10 AVG Training Acc 79.74
+    Epoch:9/10 AVG Training Acc 78.75
+    Epoch:10/10 AVG Training Acc 79.35
+    Epoch:11/10 AVG Training Acc 79.15
+    Epoch:12/10 AVG Training Acc 80.32
+    Epoch:13/10 AVG Training Acc 79.33
+    Epoch:14/10 AVG Training Acc 80.48
+    Epoch:15/10 AVG Training Acc 80.32
+    Epoch:16/10 AVG Training Acc 78.53
+    Epoch:17/10 AVG Training Acc 79.78
+    Epoch:18/10 AVG Training Acc 79.82
+    Epoch:19/10 AVG Training Acc 79.54
+    Epoch:20/10 AVG Training Acc 79.12
+    Accuracy of the network on the test images: 76 %
+    Fold 5
+    Epoch:1/10 AVG Training Acc 79.69
+    Epoch:2/10 AVG Training Acc 80.28
+    Epoch:3/10 AVG Training Acc 79.49
+    Epoch:4/10 AVG Training Acc 78.96
+    Epoch:5/10 AVG Training Acc 79.86
+    Epoch:6/10 AVG Training Acc 80.45
+    Epoch:7/10 AVG Training Acc 79.68
+    Epoch:8/10 AVG Training Acc 80.47
+    Epoch:9/10 AVG Training Acc 80.39
+    Epoch:10/10 AVG Training Acc 79.50
+    Epoch:11/10 AVG Training Acc 80.55
+    Epoch:12/10 AVG Training Acc 80.90
+    Epoch:13/10 AVG Training Acc 80.48
+    Epoch:14/10 AVG Training Acc 80.74
+    Epoch:15/10 AVG Training Acc 79.82
+    Epoch:16/10 AVG Training Acc 80.45
+    Epoch:17/10 AVG Training Acc 80.29
+    Epoch:18/10 AVG Training Acc 81.07
+    Epoch:19/10 AVG Training Acc 79.66
+    Epoch:20/10 AVG Training Acc 79.96
+    Accuracy of the network on the test images: 77 %
+    Fold 6
+    Epoch:1/10 AVG Training Acc 80.27
+    Epoch:2/10 AVG Training Acc 79.39
+    Epoch:3/10 AVG Training Acc 80.19
+    Epoch:4/10 AVG Training Acc 80.13
+    Epoch:5/10 AVG Training Acc 79.97
+    Epoch:6/10 AVG Training Acc 81.23
+    Epoch:7/10 AVG Training Acc 79.35
+    Epoch:8/10 AVG Training Acc 79.78
+    Epoch:9/10 AVG Training Acc 80.74
+    Epoch:10/10 AVG Training Acc 80.74
+    Epoch:11/10 AVG Training Acc 80.21
+    Epoch:12/10 AVG Training Acc 80.78
+    Epoch:13/10 AVG Training Acc 79.86
+    Epoch:14/10 AVG Training Acc 80.43
+    Epoch:15/10 AVG Training Acc 80.95
+    Epoch:16/10 AVG Training Acc 80.27
+    Epoch:17/10 AVG Training Acc 80.44
+    Epoch:18/10 AVG Training Acc 80.87
+    Epoch:19/10 AVG Training Acc 80.14
+    Epoch:20/10 AVG Training Acc 81.57
+    Accuracy of the network on the test images: 77 %
+    Fold 7
+    Epoch:1/10 AVG Training Acc 80.87
+    Epoch:2/10 AVG Training Acc 81.04
+    Epoch:3/10 AVG Training Acc 81.07
+    Epoch:4/10 AVG Training Acc 80.91
+    Epoch:5/10 AVG Training Acc 80.75
+    Epoch:6/10 AVG Training Acc 80.87
+    Epoch:7/10 AVG Training Acc 81.11
+    Epoch:8/10 AVG Training Acc 80.43
+    Epoch:9/10 AVG Training Acc 81.41
+    Epoch:10/10 AVG Training Acc 81.27
+    Epoch:11/10 AVG Training Acc 80.86
+    Epoch:12/10 AVG Training Acc 80.41
+    Epoch:13/10 AVG Training Acc 81.26
+    Epoch:14/10 AVG Training Acc 81.30
+    Epoch:15/10 AVG Training Acc 81.02
+    Epoch:16/10 AVG Training Acc 80.49
+    Epoch:17/10 AVG Training Acc 80.74
+    Epoch:18/10 AVG Training Acc 81.23
+    Epoch:19/10 AVG Training Acc 80.63
+    Epoch:20/10 AVG Training Acc 80.27
+    Accuracy of the network on the test images: 77 %
+    Fold 8
+    Epoch:1/10 AVG Training Acc 80.93
+    Epoch:2/10 AVG Training Acc 80.07
+    Epoch:3/10 AVG Training Acc 80.86
+    Epoch:4/10 AVG Training Acc 81.19
+    Epoch:5/10 AVG Training Acc 80.46
+    Epoch:6/10 AVG Training Acc 81.41
+    Epoch:7/10 AVG Training Acc 81.29
+    Epoch:8/10 AVG Training Acc 80.52
+    Epoch:9/10 AVG Training Acc 80.55
+    Epoch:10/10 AVG Training Acc 80.71
+    Epoch:11/10 AVG Training Acc 80.74
+    Epoch:12/10 AVG Training Acc 80.83
+    Epoch:13/10 AVG Training Acc 81.41
+    Epoch:14/10 AVG Training Acc 81.30
+    Epoch:15/10 AVG Training Acc 80.79
+    Epoch:16/10 AVG Training Acc 81.56
+    Epoch:17/10 AVG Training Acc 80.94
+    Epoch:18/10 AVG Training Acc 80.77
+    Epoch:19/10 AVG Training Acc 80.87
+    Epoch:20/10 AVG Training Acc 80.89
+    Accuracy of the network on the test images: 78 %
+    Fold 9
+    Epoch:1/10 AVG Training Acc 81.03
+    Epoch:2/10 AVG Training Acc 82.19
+    Epoch:3/10 AVG Training Acc 81.32
+    Epoch:4/10 AVG Training Acc 81.11
+    Epoch:5/10 AVG Training Acc 80.75
+    Epoch:6/10 AVG Training Acc 81.33
+    Epoch:7/10 AVG Training Acc 82.01
+    Epoch:8/10 AVG Training Acc 81.62
+    Epoch:9/10 AVG Training Acc 81.57
+    Epoch:10/10 AVG Training Acc 81.64
+    Epoch:11/10 AVG Training Acc 81.28
+    Epoch:12/10 AVG Training Acc 80.66
+    Epoch:13/10 AVG Training Acc 81.22
+    Epoch:14/10 AVG Training Acc 82.03
+    Epoch:15/10 AVG Training Acc 80.81
+    Epoch:16/10 AVG Training Acc 80.66
+    Epoch:17/10 AVG Training Acc 81.68
+    Epoch:18/10 AVG Training Acc 80.94
+    Epoch:19/10 AVG Training Acc 80.71
+    Epoch:20/10 AVG Training Acc 81.58
+    Accuracy of the network on the test images: 78 %
+    Fold 10
+    Epoch:1/10 AVG Training Acc 81.42
+    Epoch:2/10 AVG Training Acc 81.81
+    Epoch:3/10 AVG Training Acc 81.03
+    Epoch:4/10 AVG Training Acc 81.72
+    Epoch:5/10 AVG Training Acc 81.74
+    Epoch:6/10 AVG Training Acc 81.93
+    Epoch:7/10 AVG Training Acc 81.38
+    Epoch:8/10 AVG Training Acc 81.70
+    Epoch:9/10 AVG Training Acc 81.80
+    Epoch:10/10 AVG Training Acc 81.21
+    Epoch:11/10 AVG Training Acc 81.54
+    Epoch:12/10 AVG Training Acc 81.17
+    Epoch:13/10 AVG Training Acc 81.40
+    Epoch:14/10 AVG Training Acc 81.48
+    Epoch:15/10 AVG Training Acc 81.57
+    Epoch:16/10 AVG Training Acc 81.97
+    Epoch:17/10 AVG Training Acc 81.62
+    Epoch:18/10 AVG Training Acc 80.90
+    Epoch:19/10 AVG Training Acc 81.65
+    Epoch:20/10 AVG Training Acc 81.70
+    Accuracy of the network on the test images: 78 %
+
+    epoch_outputs = {}
+    results = []
+
+
+    def train_model(loss_function, optimizer, model, epochs):
+
+        for epoch in range(epochs):  # loop over the dataset multiple times
+            train_correct = 0
+
+            for i, data in enumerate(train_loader, 0):
+                # get the inputs
+                inputs, labels = data
+
+                # zero the parameter gradients
+                optimizer.zero_grad()
+
+                # forward
+                outputs = model(inputs)
+                
+                #Get predictions
+                scores, predictions = torch.max(outputs.data, 1)
+                train_correct += (predictions == labels).sum().item()
+
+                #Calculate loss and do backwards propagation
+                loss = loss_function(outputs, labels)
+                losses.append(loss.detach().numpy())
+                loss.backward()
+                optimizer.step()
+
+            train_acc = train_correct / len(train_loader.sampler) * 100
+            results.append(train_acc)
+            print("Training Acc {:.2f}".format(train_acc))
+            
+        print('Finished Training')
+        return check_acc(model)
+
+    def check_acc(model):
+        correct = 0
+        total = 0
+
+        with torch.no_grad():
+            for data in test_loader:
+                images, labels = data
+                # calculate outputs by running images through the network
+                outputs = model(images)
+                # the class with the highest energy is what we choose as prediction
+                _, predicted = torch.max(outputs.data, 1)
+                total += labels.size(0)
+                correct += (predicted == labels).sum().item()
+
+        return (100 * correct / total)
+
+    #Try a few different batch sizes
+
+    batch_sizes = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
+
+    batch_size_score = {}
+
+    for b_size in batch_sizes:
+
+        train_loader = DataLoader(
+            trainData, 
+            batch_size=b_size, shuffle=True
+        )
+
+        test_loader = DataLoader(
+            testData, 
+            batch_size=b_size, shuffle=True
+        )
+
+        score = train_model(loss_func, opt, copy.deepcopy(tuned_cnn), 10)
+
+        batch_size_score[b_size] = score
+
+        print("Completed batch: {} Score: {:.2f}%".format(b_size, score))
+
+        
+        
+
+    Training Acc 37.50
+    Training Acc 37.82
+    Training Acc 37.79
+    Training Acc 38.18
+    Training Acc 38.14
+    Training Acc 39.24
+    Training Acc 38.30
+    Training Acc 39.39
+    Training Acc 38.88
+    Training Acc 38.30
+    Finished Training
+    Completed batch: 1 Score: 39.49%
+    Training Acc 57.03
+    Training Acc 57.82
+    Training Acc 57.48
+    Training Acc 57.05
+    Training Acc 56.79
+    Training Acc 56.85
+    Training Acc 57.45
+    Training Acc 56.73
+    Training Acc 57.44
+    Training Acc 57.09
+    Finished Training
+    Completed batch: 2 Score: 58.15%
+    Training Acc 68.03
+    Training Acc 68.93
+    Training Acc 67.80
+    Training Acc 68.71
+    Training Acc 68.06
+    Training Acc 68.49
+    Training Acc 67.36
+    Training Acc 68.13
+    Training Acc 68.33
+    Training Acc 69.10
+    Finished Training
+    Completed batch: 4 Score: 66.43%
+    Training Acc 73.84
+    Training Acc 74.84
+    Training Acc 74.72
+    Training Acc 75.00
+    Training Acc 75.05
+    Training Acc 75.22
+    Training Acc 73.99
+    Training Acc 74.23
+    Training Acc 74.57
+    Training Acc 74.41
+    Finished Training
+    Completed batch: 8 Score: 75.00%
+    Training Acc 77.57
+    Training Acc 78.01
+    Training Acc 78.57
+    Training Acc 78.73
+    Training Acc 79.10
+    Training Acc 78.40
+    Training Acc 78.76
+    Training Acc 78.87
+    Training Acc 77.92
+    Training Acc 78.24
+    Finished Training
+    Completed batch: 16 Score: 78.38%
+    Training Acc 80.31
+    Training Acc 80.23
+    Training Acc 79.61
+    Training Acc 79.40
+    Training Acc 79.52
+    Training Acc 80.11
+    Training Acc 80.38
+    Training Acc 79.41
+    Training Acc 80.62
+    Training Acc 79.99
+    Finished Training
+    Completed batch: 32 Score: 79.89%
+    Training Acc 80.32
+    Training Acc 80.85
+    Training Acc 81.18
+    Training Acc 80.74
+    Training Acc 81.00
+    Training Acc 81.32
+    Training Acc 80.98
+    Training Acc 81.21
+    Training Acc 80.53
+    Training Acc 81.27
+    Finished Training
+    Completed batch: 64 Score: 80.74%
+    Training Acc 81.79
+    Training Acc 81.60
+    Training Acc 80.82
+    Training Acc 81.30
+    Training Acc 81.20
+    Training Acc 81.38
+    Training Acc 81.50
+    Training Acc 80.79
+    Training Acc 81.59
+    Training Acc 81.71
+    Finished Training
+    Completed batch: 128 Score: 81.28%
+    Training Acc 81.44
+    Training Acc 81.91
+    Training Acc 81.59
+    Training Acc 82.01
+    Training Acc 81.92
+    Training Acc 81.00
+    Training Acc 81.53
+    Training Acc 81.59
+    Training Acc 81.76
+    Training Acc 81.56
+    Finished Training
+    Completed batch: 256 Score: 81.34%
+    Training Acc 81.44
+    Training Acc 81.36
+    Training Acc 81.48
+    Training Acc 81.86
+    Training Acc 81.56
+    Training Acc 81.65
+    Training Acc 81.94
+    Training Acc 81.72
+    Training Acc 81.79
+    Training Acc 82.36
+    Finished Training
+    Completed batch: 512 Score: 81.94%
+
+    plt.figure(figsize=(15, 10))
+
+    plt.plot(batch_size_score.keys(), batch_size_score.values())
+    plt.xticks(rotation=90)
+    plt.title("Batch Sizes")
+    plt.xlabel("Batch")
+    plt.ylabel("Accuracy %")
+    plt.xticks(batch_sizes, rotation='horizontal')
+
+
+    plt.show()
+
+[]
+
+    #Select the best batch size
+    train_loader = DataLoader(
+        trainData, 
+        batch_size=64, shuffle=True
+    )
+
+    test_loader = DataLoader(
+        testData, 
+        batch_size=64, shuffle=True
+    )
+
+    #Create lists for all the different loss fucntions and optimisers we want to test
+    loss_functions = [nn.CrossEntropyLoss(), nn.NLLLoss(), nn.MultiMarginLoss()]
+    opt_functions = [torch.optim.Adam(tuned_cnn.parameters(), lr=0.001), torch.optim.SGD(tuned_cnn.parameters(), lr=0.01, momentum=0.9), torch.optim.RMSprop(tuned_cnn.parameters(), lr=0.001), torch.optim.AdamW(tuned_cnn.parameters(), lr=0.001), torch.optim.Adamax(tuned_cnn.parameters(), lr=0.001)]
+
+    output_vals = {}
+
+
+    for loss_fun in loss_functions:
+        for opt_fun in opt_functions:
+            output_vals[type(loss_fun).__name__ + "/" + type(opt_fun).__name__] = train_model(loss_fun, opt_fun, copy.deepcopy(tuned_cnn), 10)
+            print(type(loss_fun).__name__ + "/" + type(opt_fun).__name__)
+           
+
+    Training Acc 81.05
+    Training Acc 80.97
+    Training Acc 80.56
+    Training Acc 80.94
+    Training Acc 80.62
+    Training Acc 80.77
+    Training Acc 80.91
+    Training Acc 80.92
+    Training Acc 80.91
+    Training Acc 80.62
+    Finished Training
+    CrossEntropyLoss/Adam
+    Training Acc 80.71
+    Training Acc 80.92
+    Training Acc 81.44
+    Training Acc 80.40
+    Training Acc 81.41
+    Training Acc 82.16
+    Training Acc 80.95
+    Training Acc 80.71
+    Training Acc 80.85
+    Training Acc 80.37
+    Finished Training
+    CrossEntropyLoss/SGD
+    Training Acc 80.98
+    Training Acc 81.30
+    Training Acc 81.08
+    Training Acc 81.29
+    Training Acc 81.11
+    Training Acc 81.08
+    Training Acc 80.59
+    Training Acc 80.65
+    Training Acc 81.33
+    Training Acc 80.53
+    Finished Training
+    CrossEntropyLoss/RMSprop
+    Training Acc 81.11
+    Training Acc 80.85
+    Training Acc 80.85
+    Training Acc 80.97
+    Training Acc 80.56
+    Training Acc 81.27
+    Training Acc 81.29
+    Training Acc 81.11
+    Training Acc 80.98
+    Training Acc 81.05
+    Finished Training
+    CrossEntropyLoss/AdamW
+    Training Acc 80.43
+    Training Acc 81.05
+    Training Acc 81.24
+    Training Acc 81.85
+    Training Acc 80.82
+    Training Acc 80.49
+    Training Acc 80.52
+    Training Acc 81.32
+    Training Acc 80.59
+    Training Acc 81.01
+    Finished Training
+    CrossEntropyLoss/Adamax
+    Training Acc 80.92
+    Training Acc 80.80
+    Training Acc 81.26
+    Training Acc 81.29
+    Training Acc 80.71
+    Training Acc 80.26
+    Training Acc 81.05
+    Training Acc 80.12
+    Training Acc 80.97
+    Training Acc 80.65
+    Finished Training
+    NLLLoss/Adam
+    Training Acc 81.29
+    Training Acc 81.17
+    Training Acc 81.48
+    Training Acc 81.05
+    Training Acc 81.36
+    Training Acc 81.76
+    Training Acc 81.36
+    Training Acc 80.74
+    Training Acc 81.26
+    Training Acc 80.52
+    Finished Training
+    NLLLoss/SGD
+    Training Acc 81.12
+    Training Acc 81.05
+    Training Acc 81.11
+    Training Acc 80.91
+    Training Acc 81.54
+    Training Acc 81.09
+    Training Acc 81.57
+    Training Acc 80.89
+    Training Acc 81.45
+    Training Acc 80.62
+    Finished Training
+    NLLLoss/RMSprop
+    Training Acc 81.15
+    Training Acc 81.12
+    Training Acc 81.97
+    Training Acc 81.12
+    Training Acc 80.92
+    Training Acc 80.50
+    Training Acc 80.44
+    Training Acc 80.56
+    Training Acc 80.98
+    Training Acc 80.77
+    Finished Training
+    NLLLoss/AdamW
+    Training Acc 81.51
+    Training Acc 80.50
+    Training Acc 80.91
+    Training Acc 80.91
+    Training Acc 80.68
+    Training Acc 81.76
+    Training Acc 81.23
+    Training Acc 81.11
+    Training Acc 81.47
+    Training Acc 80.67
+    Finished Training
+    NLLLoss/Adamax
+    Training Acc 80.82
+    Training Acc 81.09
+    Training Acc 81.39
+    Training Acc 80.82
+    Training Acc 81.11
+    Training Acc 81.29
+    Training Acc 81.91
+    Training Acc 81.14
+    Training Acc 81.24
+    Training Acc 81.97
+    Finished Training
+    MultiMarginLoss/Adam
+    Training Acc 80.89
+    Training Acc 81.29
+    Training Acc 81.24
+    Training Acc 81.18
+    Training Acc 80.67
+    Training Acc 80.68
+    Training Acc 81.38
+    Training Acc 81.05
+    Training Acc 80.97
+    Training Acc 81.29
+    Finished Training
+    MultiMarginLoss/SGD
+    Training Acc 81.41
+    Training Acc 80.31
+    Training Acc 81.08
+    Training Acc 80.82
+    Training Acc 80.34
+    Training Acc 81.20
+    Training Acc 81.18
+    Training Acc 81.12
+    Training Acc 80.37
+    Training Acc 81.45
+    Finished Training
+    MultiMarginLoss/RMSprop
+    Training Acc 80.98
+    Training Acc 80.44
+    Training Acc 80.88
+    Training Acc 81.01
+    Training Acc 81.41
+    Training Acc 80.46
+    Training Acc 80.21
+    Training Acc 81.15
+    Training Acc 80.95
+    Training Acc 80.56
+    Finished Training
+    MultiMarginLoss/AdamW
+    Training Acc 80.52
+    Training Acc 80.85
+    Training Acc 79.97
+    Training Acc 81.14
+    Training Acc 80.68
+    Training Acc 80.73
+    Training Acc 80.97
+    Training Acc 81.50
+    Training Acc 80.67
+    Training Acc 81.66
+    Finished Training
+    MultiMarginLoss/Adamax
+
+    plt.plot(output_vals.keys(), output_vals.values())
+    plt.xticks(rotation=90)
+    plt.title("Testing optimizers and loss functions")
+    plt.xlabel("Accuracy")
+
+
+    plt.show()
+
+[]
+
+    #Train the final model using the found epochs, optimier and loss function
+
+    results = []
+
+    val_loader = DataLoader(
+        image_data, 
+        batch_size=64, shuffle=True
+    )
+
+    train_model(nn.CrossEntropyLoss(), torch.optim.Adamax(tuned_cnn.parameters(), lr=0.001), tuned_cnn, 100)
+
+    Training Acc 81.86
+    Training Acc 82.07
+    Training Acc 82.53
+    Training Acc 81.95
+    Training Acc 82.95
+    Training Acc 82.96
+    Training Acc 82.15
+    Training Acc 82.51
+    Training Acc 82.27
+    Training Acc 82.99
+    Training Acc 82.27
+    Training Acc 83.45
+    Training Acc 83.04
+    Training Acc 82.40
+    Training Acc 82.71
+    Training Acc 82.87
+    Training Acc 82.46
+    Training Acc 82.80
+    Training Acc 82.95
+    Training Acc 82.87
+    Training Acc 82.66
+    Training Acc 82.51
+    Training Acc 82.69
+    Training Acc 82.27
+    Training Acc 82.56
+    Training Acc 82.69
+    Training Acc 82.53
+    Training Acc 82.36
+    Training Acc 82.80
+    Training Acc 82.45
+    Training Acc 82.42
+    Training Acc 82.59
+    Training Acc 82.57
+    Training Acc 83.61
+    Training Acc 82.87
+    Training Acc 83.14
+    Training Acc 83.34
+    Training Acc 82.54
+    Training Acc 82.87
+    Training Acc 82.98
+    Training Acc 83.05
+    Training Acc 83.87
+    Training Acc 82.84
+    Training Acc 83.69
+    Training Acc 83.02
+    Training Acc 83.46
+    Training Acc 83.14
+    Training Acc 82.63
+    Training Acc 83.04
+    Training Acc 83.11
+    Training Acc 83.05
+    Training Acc 82.15
+    Training Acc 82.77
+    Training Acc 83.14
+    Training Acc 82.81
+    Training Acc 82.84
+    Training Acc 83.11
+    Training Acc 83.20
+    Training Acc 82.63
+    Training Acc 83.64
+    Training Acc 83.01
+    Training Acc 82.86
+    Training Acc 82.93
+    Training Acc 83.24
+    Training Acc 83.08
+    Training Acc 83.39
+    Training Acc 82.54
+    Training Acc 83.11
+    Training Acc 82.37
+    Training Acc 83.02
+    Training Acc 83.43
+    Training Acc 83.49
+    Training Acc 82.78
+    Training Acc 82.93
+    Training Acc 83.07
+    Training Acc 83.11
+    Training Acc 82.90
+    Training Acc 83.20
+    Training Acc 83.43
+    Training Acc 83.52
+    Training Acc 83.05
+    Training Acc 83.01
+    Training Acc 83.01
+    Training Acc 82.53
+    Training Acc 83.43
+    Training Acc 83.22
+    Training Acc 82.98
+    Training Acc 83.33
+    Training Acc 83.08
+    Training Acc 83.42
+    Training Acc 83.07
+    Training Acc 82.31
+    Training Acc 83.16
+    Training Acc 83.13
+    Training Acc 83.85
+    Training Acc 82.80
+    Training Acc 83.78
+    Training Acc 83.57
+    Training Acc 83.39
+    Training Acc 83.45
+    Finished Training
+
+    83.8768115942029
+
+    #Plot the epochs to 
+
+    plt.plot(range(len(results)), results)
+
+    plt.title("Epochs vs accuracy")
+    plt.ylabel("Accuracy %")
+    plt.xlabel("Epochs")
+
+
+    plt.show()
+
+[]
+
+    #Save training model
+    PATH = './model.pth'
+    torch.save(tuned_cnn.state_dict(), PATH)
+
+Step 6: Report
+
+See included pdf
