@@ -21,6 +21,7 @@ const Portfolio = () => {
         "Uses sha256 for token encryption",
         "Uses recoil persist to persist page access",
         "Mobile responsive",
+        "Inbuilt code viewer",
         "Takes advantage of external libraries for things such as:",
         "carousel",
         "react icons",
