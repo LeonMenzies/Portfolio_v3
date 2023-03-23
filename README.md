@@ -14,7 +14,3 @@ This is a personal portfolio website built with React, Typescript and Recoil. It
 > - react modal
 > - syntax highlighter
 > - and others
-
-
-Credits
-This project was created by Leon Menzies
