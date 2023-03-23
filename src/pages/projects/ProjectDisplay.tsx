@@ -66,15 +66,35 @@ const StyledProjectDisplay = styled.div<StyleTypes>`
 
     .image-display {
       border-radius: 10px;
-      border: 2px solid white;
       color: white;
       width: 40%;
       padding: 0.5rem;
+      background-color: ${({ theme }) => theme.textPrimary};
 
       img {
         max-width: 100%;
         max-height: 400px;
         object-fit: contain;
+      }
+
+      .carousel .slider-wrapper {
+        padding: 2rem 0;
+      }
+
+      .carousel-root {
+        height: 100%;
+      }
+
+      .carousel.carousel-slider {
+        height: 100%;
+      }
+
+      .carousel .control-next.control-arrow:before {
+        border-left: 8px solid ${({ theme }) => theme.secondary};
+      }
+
+      .carousel .control-prev.control-arrow:before {
+        border-right: 8px solid ${({ theme }) => theme.secondary};
       }
 
       .control-dots {
@@ -189,11 +209,6 @@ const ProjectDisplay = ({
               text={"View PDF"}
               disabled={pdfLink === undefined ? true : false}
             />
-
-            {/* <a href={samplePDF1} target="_blank" 
-                    rel="noreferrer">
-                    Open First PDF
-                </a> */}
 
             <IconButton
               icon={<FiCode />}
