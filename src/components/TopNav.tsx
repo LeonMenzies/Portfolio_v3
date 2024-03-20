@@ -1,78 +1,61 @@
 import styled from "styled-components";
 import NavItem from "components/Navitem";
-import { BiMoon, BiSun, BiLockAlt } from "react-icons/bi";
-import { themeAtom, lightTheme, darkTheme } from "recoil/theme";
+import { BiLockAlt } from "react-icons/bi";
 import { useRecoilState } from "recoil";
 import { accessAtom } from "recoil/access";
+import logo from "assets/images/logo.png";
 
-const StyledNav = styled.nav`
-  background: ${({ theme }) => theme.clear};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  ul {
-    margin: 0;
-    list-style-type: none;
-    display: flex;
-    justify-content: center;
-    font-size: 1.3rem;
-    a {
-      color: ${({ theme }) => theme.textPrimary};
-    }
-  }
-
-  .icon-buttons {
-    position: absolute;
-    right: 0.5rem;
-    display: flex;
-
-    button {
-      border-radius: 50px;
-      height: 2rem;
-      width: 2rem;
-      background-color: transparent;
-      font-size: 1rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: ${({ theme }) => theme.textPrimary};
-      margin: 0 0.2rem;
-
-      &:hover {
-        cursor: pointer;
-      }
-    }
-  }
-
-  @media only screen and (max-width: 600px) {
-    ul {
-      flex-direction: column;
-    }
-  }
-`;
-
-const TopNav = () => {
-  const [theme, setTheme] = useRecoilState(themeAtom);
+export const TopNav = () => {
   const [access, setAccess] = useRecoilState(accessAtom);
 
   return (
-    <StyledNav>
-      <ul>
-        <NavItem to={"/"} title={"About"} />
-        <NavItem to={"/skills"} title={"Skills"} />
-        <NavItem to={"/projects"} title={"Projects"} />
-        <NavItem to={"/downloads"} title={"Downloads"} />
-      </ul>
+    <StyledNav className="window-body">
+      <img src={logo} alt="logo" />
 
-      <div className="icon-buttons">
-        {access && <button onClick={() => setAccess(false)}>{<BiLockAlt />}</button>}
-        <button onClick={() => setTheme(theme.mode === "dark" ? lightTheme : darkTheme)}>
-          {theme.mode === "dark" ? <BiMoon /> : <BiSun />}
-        </button>
-      </div>
+      <menu role="tablist">
+        <li role="tab" aria-selected="true">
+          <NavItem to={"/"} title={"Dashboard"} />
+        </li>
+        <li role="tab" aria-selected="true">
+          <NavItem to={"/micro"} title={"Mirco"} />
+        </li>
+        <li role="tab" aria-selected="true">
+          <NavItem to={"/stocks"} title={"Stocks"} />
+        </li>
+        <li role="tab" aria-selected="true">
+          <NavItem to={"/settings"} title={"Settings"} />
+        </li>
+      </menu>
+      <div className="icon-buttons">{access && <button onClick={() => setAccess(false)}>{<BiLockAlt size="25px" color="black" />}</button>}</div>
     </StyledNav>
   );
 };
 
 export default TopNav;
+
+const StyledNav = styled.nav`
+  margin-bottom: 0px;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 10px;
+  margin-right: 10px;
+  align-items: flex-end;
+
+  menu {
+    height: 40px;
+  }
+
+  img {
+    max-width: 50px;
+    height: auto;
+    padding-bottom: 5px;
+  }
+
+  .icon-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    padding-bottom: 5px;
+  }
+`;
