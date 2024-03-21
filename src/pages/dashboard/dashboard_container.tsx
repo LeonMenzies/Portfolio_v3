@@ -1,9 +1,10 @@
 import styled from "styled-components";
+import GdpContainer from "tiles/gpd/gdp_container";
 
 export const DashboardContainer = () => {
   return (
     <StyledDashboardContainer>
-      <div>dashboard</div>
+      <GdpContainer />
     </StyledDashboardContainer>
   );
 };

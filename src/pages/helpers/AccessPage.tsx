@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Button from "components/Button";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { accessAtom } from "recoil/access";
 import { useNavigate } from "react-router-dom";
