@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import GdpContainer from "tiles/gpd/gdp_container";
 import TileContainer from "tiles/tile_container";
@@ -6,19 +7,25 @@ import TileContainer from "tiles/tile_container";
 export interface DashboardContainerProps {}
 
 export function DashboardContainer(props: DashboardContainerProps) {
+  const [modalStatus, setModalStatus] = useState(false);
+
   return (
     <StyledDashboardContainer>
-      <TileContainer title={"GDP"} component={<GdpContainer />} startColumn={1} startRow={1} endColumn={3} endRow={3}></TileContainer>
-      <TileContainer title={"PlaceHolder"} startColumn={3} startRow={1} endColumn={5} endRow={3} />
-      <TileContainer title={"PlaceHolder"} startColumn={5} startRow={1} endColumn={7} endRow={3} />
+      <TileContainer startColumn={1} endColumn={3} startRow={1} endRow={3} setModalStatus={setModalStatus} title={"GDP"} component={<GdpContainer modalOpen={modalStatus} />} />
+      <TileContainer startColumn={3} endColumn={5} startRow={1} endRow={3} setModalStatus={setModalStatus} title={"PlaceHolder"} component={<div />} />
+      <TileContainer startColumn={5} endColumn={7} startRow={1} endRow={3} setModalStatus={setModalStatus} title={"PlaceHolder"} component={<div />} />
 
-      <TileContainer title={"PlaceHolder"} startColumn={1} startRow={3} endColumn={3} endRow={5} />
-      <TileContainer title={"PlaceHolder"} startColumn={3} startRow={3} endColumn={5} endRow={5} />
-      <TileContainer title={"PlaceHolder"} startColumn={5} startRow={3} endColumn={7} endRow={5} />
+      <TileContainer startColumn={1} endColumn={2} startRow={3} endRow={4} setModalStatus={setModalStatus} title={"top_left"} component={<div />} />
+      <TileContainer startColumn={2} endColumn={3} startRow={3} endRow={4} setModalStatus={setModalStatus} title={"top_right"} component={<div />} />
+      <TileContainer startColumn={1} endColumn={2} startRow={4} endRow={5} setModalStatus={setModalStatus} title={"bottom_left"} component={<div />} />
+      <TileContainer startColumn={2} endColumn={3} startRow={4} endRow={5} setModalStatus={setModalStatus} title={"bottom_right"} component={<div />} />
 
-      <TileContainer title={"PlaceHolder"} startColumn={1} startRow={5} endColumn={3} endRow={7} />
-      <TileContainer title={"PlaceHolder"} startColumn={3} startRow={5} endColumn={5} endRow={7} />
-      <TileContainer title={"PlaceHolder"} startColumn={5} startRow={5} endColumn={7} endRow={7} />
+      <TileContainer startColumn={3} endColumn={5} startRow={3} endRow={5} setModalStatus={setModalStatus} title={"PlaceHolder"} component={<div />} />
+      <TileContainer startColumn={5} endColumn={7} startRow={3} endRow={5} setModalStatus={setModalStatus} title={"PlaceHolder"} component={<div />} />
+
+      <TileContainer startColumn={1} endColumn={3} startRow={5} endRow={7} setModalStatus={setModalStatus} title={"PlaceHolder"} component={<div />} />
+      <TileContainer startColumn={3} endColumn={5} startRow={5} endRow={7} setModalStatus={setModalStatus} title={"PlaceHolder"} component={<div />} />
+      <TileContainer startColumn={5} endColumn={7} startRow={5} endRow={7} setModalStatus={setModalStatus} title={"PlaceHolder"} component={<div />} />
     </StyledDashboardContainer>
   );
 }

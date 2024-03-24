@@ -1,24 +1,73 @@
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
+import useFetchApi from "hooks/useFetchApi";
+import { GDPResponseT } from "types/ApiTypes";
+import Loading from "components/display/loading";
+import { Line } from "react-chartjs-2";
+import "chartjs-adapter-moment";
 
-export interface GdpContainerProps {}
+export interface GdpContainerProps {
+  modalOpen: boolean;
+}
 
 export const GdpContainer = (props: GdpContainerProps) => {
-  const [data, setData] = useState(null);
+  const { modalOpen } = props;
+  const [gdpData, setGdpData] = useState<GDPResponseT>();
+  const [fetchGDPResponse, fetchGDPLoading, fetchGDP] = useFetchApi<GDPResponseT>(`/fred/gdp-tile-data`);
+  console.log(modalOpen);
 
   useEffect(() => {
-    const params = new URLSearchParams();
-    params.append("series_id", "GDPC1");
-    params.append("api_key", process.env.REACT_APP_FRED_API_KEY || "");
-    params.append("file_type", "json");
+    fetchGDP();
+  }, [fetchGDP]);
 
-    fetch(`/fred_api/fred/series/observations?${params}`)
-      .then((response) => response.json())
-      .then((data) => setData(data))
-      .catch((error) => console.error(error));
-  }, []);
+  useEffect(() => {
+    if (fetchGDPResponse.success && fetchGDPResponse.data) {
+      setGdpData(fetchGDPResponse.data);
+    }
+  }, [fetchGDPResponse]);
 
-  return <StyledGdpContainer></StyledGdpContainer>;
+  const SimpleLineChart = ({ data }: any) => {
+    const chartData = {
+      labels: data.observations.map((obs: any) => obs.date),
+      datasets: [
+        {
+          label: "GDP",
+          data: data.observations.map((obs: any) => parseFloat(obs.value)),
+          fill: false,
+          backgroundColor: "rgb(75, 192, 192)",
+          borderColor: "rgba(75, 192, 192, 0.2)",
+        },
+      ],
+    };
+    console.log(chartData);
+
+    const options: any = {
+      scales: {
+        x: {
+          type: "timeseries",
+          time: {
+            parser: "YYYY-MM-DD",
+            unit: "month",
+          },
+        },
+        y: {
+          beginAtZero: true,
+        },
+      },
+    };
+
+    return <Line data={chartData} options={options} />;
+  };
+
+  return !gdpData ? (
+    <div>Loading...</div>
+  ) : (
+    <StyledGdpContainer>
+      GDPC1
+      {/* <SimpleLineChart data={gdpData} /> */}
+      <Loading show={fetchGDPLoading} />
+    </StyledGdpContainer>
+  );
 };
 
 export default GdpContainer;

@@ -9,7 +9,7 @@ from flask import Flask, jsonify
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
 
-from controllers import applications_controller
+from controllers import fred_controller
 from controllers import auth_controller
 
 load_dotenv() 
@@ -31,7 +31,7 @@ with app.app_context():
     db.create_all()
 
 # Register the blueprints
-app.register_blueprint(applications_controller.bp)
+app.register_blueprint(fred_controller.bp)
 app.register_blueprint(auth_controller.bp)
 
 @app.errorhandler(ApiException)

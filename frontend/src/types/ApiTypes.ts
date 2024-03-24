@@ -31,3 +31,19 @@ export type ApplicationsResponseT = {
   status: string;
   email: string;
 };
+
+export type GDPResponseT = {
+  data: {
+    year_1: number;
+    month_3: number;
+    year_5: number;
+    average_percent: string;
+    current: string;
+    observations: {
+      date: string;
+      realtime_end: string;
+      realtime_start: string;
+      value: string;
+    }[];
+  };
+};

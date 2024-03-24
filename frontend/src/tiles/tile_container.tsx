@@ -1,34 +1,43 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import TileModal from "./tile_modal";
 
-export interface TileContainerProps {
+interface TileContainerProps {
   title: string;
   startColumn: number;
   startRow: number;
   endColumn: number;
   endRow: number;
-  component?: React.ReactNode; // Add this line
+  setModalStatus: (modalOpen: boolean) => void;
+  component: React.ReactNode;
 }
 interface StyledTileContainerProps {
-  startColumn: number;
-  startRow: number;
-  endColumn: number;
-  endRow: number;
+  gridColumn: string;
+  gridRow: string;
 }
 
 export const TileContainer = (props: TileContainerProps) => {
-  const { title, startColumn, startRow, endColumn, endRow, component } = props; // Destructure children from props
+  const { title, startColumn, startRow, endColumn, endRow, setModalStatus, component } = props; // Destructure children from props
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const gridColumn = `${startColumn} / ${endColumn}`;
+  const gridRow = `${startRow} / ${endRow}`;
+
+  useEffect(() => {
+    setModalStatus(modalOpen);
+  }, [modalOpen, setModalStatus]);
 
   return (
-    <StyledTileContainer startColumn={startColumn} startRow={startRow} endColumn={endColumn} endRow={endRow} className="window">
+    <StyledTileContainer gridColumn={gridColumn} gridRow={gridRow} className="window">
       <div className="title-bar">
         <div className="title-bar-text">{title}</div>
         <div className="title-bar-controls">
           <button aria-label="Minimize"></button>
-          <button aria-label="Maximize"></button>
-          <button aria-label="Close"></button>
+          <button aria-label="Maximize" onClick={() => setModalOpen(true)}></button>
         </div>
       </div>
       <div className="window-body">{component}</div>
+      <TileModal open={modalOpen} title={title} component={component} setModalOpen={setModalOpen} />
     </StyledTileContainer>
   );
 };
@@ -37,6 +46,11 @@ export default TileContainer;
 
 const StyledTileContainer = styled.div<StyledTileContainerProps>`
   height: 100%;
-  grid-column: ${(props) => props.startColumn} / ${(props) => props.endColumn};
-  grid-row: ${(props) => props.startRow} / ${(props) => props.endRow};
+  grid-column: ${(props) => props.gridColumn};
+  grid-row: ${(props) => props.gridRow};
+
+  .title-bar-controls {
+    display: flex;
+    gap: 4px;
+  }
 `;

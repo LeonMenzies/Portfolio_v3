@@ -7,7 +7,6 @@ import GlobalStyles from "utils/GlobalStyles";
 
 import LoginContainer from "pages/login/login_container";
 import DashboardContainer from "pages/dashboard/dashboard_container";
-import ApplicationContainer from "pages/application/application_container";
 import SignUpContainer from "pages/signup/signup_container";
 import BottomNavContainer from "components/nav/bottom_nav_container";
 
@@ -27,8 +26,9 @@ function App() {
           <Route path="signup" element={<SignUpContainer />} />
 
           <Route index element={renderElement(user.loggedIn, DashboardContainer, "/login")} />
-          <Route path="application" element={renderElement(user.loggedIn, ApplicationContainer, "/login")} />
-          <Route path="application/:id" element={renderElement(user.loggedIn, ApplicationContainer, "/login")} />
+          <Route path="stocks" element={renderElement(user.loggedIn, DashboardContainer, "/login")} />
+          <Route path="maco" element={renderElement(user.loggedIn, DashboardContainer, "/login")} />
+          <Route path="settings" element={renderElement(user.loggedIn, DashboardContainer, "/login")} />
         </Routes>
       </div>
       {user.loggedIn && <BottomNavContainer />}
