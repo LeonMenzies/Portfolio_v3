@@ -25,7 +25,6 @@ const StyledButton = styled.button`
   ${({ disabled }) =>
     disabled &&
     css`
-      background-color: #606060;
       cursor: not-allowed;
     `}
 `;

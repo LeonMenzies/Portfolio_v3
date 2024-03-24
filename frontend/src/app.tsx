@@ -9,6 +9,7 @@ import LoginContainer from "pages/login/login_container";
 import DashboardContainer from "pages/dashboard/dashboard_container";
 import ApplicationContainer from "pages/application/application_container";
 import SignUpContainer from "pages/signup/signup_container";
+import BottomNavContainer from "components/nav/bottom_nav_container";
 
 function App() {
   const user = useRecoilValue(userAtom);
@@ -20,15 +21,17 @@ function App() {
   return (
     <StyledApp>
       <GlobalStyles />
+      <div className="container">
+        <Routes>
+          <Route path="login" element={<LoginContainer />} />
+          <Route path="signup" element={<SignUpContainer />} />
 
-      <Routes>
-        <Route path="login" element={<LoginContainer />} />
-        <Route path="signup" element={<SignUpContainer />} />
-
-        <Route path="*" index element={renderElement(user.loggedIn, DashboardContainer, "/login")} />
-        <Route path="application" element={renderElement(user.loggedIn, ApplicationContainer, "/login")} />
-        <Route path="application/:id" element={renderElement(user.loggedIn, ApplicationContainer, "/login")} />
-      </Routes>
+          <Route index element={renderElement(user.loggedIn, DashboardContainer, "/login")} />
+          <Route path="application" element={renderElement(user.loggedIn, ApplicationContainer, "/login")} />
+          <Route path="application/:id" element={renderElement(user.loggedIn, ApplicationContainer, "/login")} />
+        </Routes>
+      </div>
+      <BottomNavContainer />
     </StyledApp>
   );
 }
@@ -38,9 +41,11 @@ export default App;
 const StyledApp = styled.div`
   display: flex;
   flex-direction: column;
+  height: 100vh;
 
   .container {
-    padding: 10px;
     width: 100%;
+    flex-grow: 1;
+    overflow: auto;
   }
 `;
