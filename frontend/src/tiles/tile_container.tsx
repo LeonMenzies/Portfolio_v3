@@ -36,7 +36,7 @@ export const TileContainer = (props: TileContainerProps) => {
           <button aria-label="Maximize" onClick={() => setModalOpen(true)}></button>
         </div>
       </div>
-      <div className="window-body">{component}</div>
+      {!modalOpen && <div className="window-body">{component}</div>}
       <TileModal open={modalOpen} title={title} component={component} setModalOpen={setModalOpen} />
     </StyledTileContainer>
   );
@@ -51,6 +51,10 @@ const StyledTileContainer = styled.div<StyledTileContainerProps>`
 
   .title-bar-controls {
     display: flex;
-    gap: 4px;
+    gap: 2px;
+  }
+
+  .window-body {
+    margin: 10px;
   }
 `;

@@ -52,12 +52,13 @@ const StyledBottomNavContainer = styled.div`
   background-color: #c0c0c0;
 
   img {
-    max-width: 30px;
+    max-width: 25px;
     height: auto;
     margin-right: 5px;
   }
 
   button {
+    margin-left: 5px;
     display: flex;
     align-items: center;
     justify-content: center;

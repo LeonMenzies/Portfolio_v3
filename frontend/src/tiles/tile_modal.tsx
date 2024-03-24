@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 interface TileModalProps {
   open: boolean;
@@ -7,11 +7,33 @@ interface TileModalProps {
   setModalOpen: (modalOpen: boolean) => void;
 }
 
+interface StyledTileModalProps {
+  open: boolean;
+}
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
+
 export const TileModal = (props: TileModalProps) => {
   const { open, title, component, setModalOpen } = props;
 
   return open ? (
-    <StyledTileModal>
+    <StyledTileModal open={open}>
       <div className="window">
         <div className="title-bar">
           <div className="title-bar-text">{title}</div>
@@ -28,7 +50,7 @@ export const TileModal = (props: TileModalProps) => {
 
 export default TileModal;
 
-const StyledTileModal = styled.div`
+const StyledTileModal = styled.div<StyledTileModalProps>`
   position: fixed;
   top: 0;
   left: 0;
@@ -40,6 +62,7 @@ const StyledTileModal = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: ${(props) => (props.open ? fadeIn : fadeOut)} 0.5s;
 
   .window {
     position: relative;
