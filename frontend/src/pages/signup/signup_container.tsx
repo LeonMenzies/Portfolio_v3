@@ -30,7 +30,7 @@ export function SignUpContainer(props: SignUpContainerProps) {
         lastName: postSignUpResponse.data.lastName,
         email: postSignUpResponse.data.email,
       });
-      navigate("/dashboard");
+      navigate("/");
     } else {
       setErrorMessage(postSignUpResponse.errorMessage);
     }

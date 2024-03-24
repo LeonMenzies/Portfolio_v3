@@ -28,7 +28,7 @@ export function LoginContainer(props: LoginContainerProps) {
         lastName: postLoginResponse.data.lastName,
         email: postLoginResponse.data.email,
       });
-      navigate("/dashboard");
+      navigate("/");
     } else {
       setErrorMessage(postLoginResponse.errorMessage);
     }

@@ -31,7 +31,7 @@ function App() {
           <Route path="application/:id" element={renderElement(user.loggedIn, ApplicationContainer, "/login")} />
         </Routes>
       </div>
-      <BottomNavContainer />
+      {user.loggedIn && <BottomNavContainer />}
     </StyledApp>
   );
 }
